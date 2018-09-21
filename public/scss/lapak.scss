@@ -1,0 +1,542 @@
+/* global configuration */
+$font-color: #777;
+$title-color: #222;
+$light-gray: #eee;
+$product-box-shadow: 0px 0px 0px 1px $light-gray;
+$primary: #E91E63;
+$secondary: #42A5F5;
+
+$product-title-fontsize: 0.700em;
+
+*,
+*:before,
+*:after {
+    margin: 0;
+    padding: 0;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+.product-options {
+    grid-area: sidebar;
+}
+
+.product-view-wrapper {
+    grid-area: content;
+    width: auto;
+    max-width: 80%;
+}
+
+.header {
+    grid-area: header;
+}
+
+.footer {
+    grid-area: footer;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    background-color: #efefef;
+    text-align: center;
+}
+
+.wrapper {
+    display: grid;
+    grid-template-columns: auto 10px 75% 0px auto;
+    grid-template-rows: auto;
+    grid-template-areas: "header header header header header""sidebar . content content content""footer footer footer footer footer";
+    // background-color: #fff;
+    // color: #444;
+    width: 100%;
+}
+
+.content-box {
+    // background-color: rgb(120, 70, 123);
+    // border: 5px solid rgb(88, 55, 112);
+    color: #000000;
+    // border-radius: 5px;
+    padding: 20px;
+    font: 150%/1.3 Lucida Grande, Lucida Sans Unicode, Lucida Sans, Geneva, Verdana, sans-serif;
+}
+
+.small-title {
+    color: #000000;
+    padding: 20px;
+    font: Lucida Grande, Lucida Sans Unicode, Lucida Sans, Geneva, Verdana, sans-serif;
+}
+
+/* 1. upper navigation bar style */
+
+.top-nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #d71149;
+}
+
+.content {
+    margin: 0 200px;
+    // display: inline-block;
+    /*body content should be set like this too*/
+}
+
+.content-promo {
+    margin: 0 200px;
+    display: inline-block;
+    align-content: center;
+    position: absolute;
+    left: 15%;
+    /*body content should be set like this too*/
+}
+
+.top-nav .search-container {
+    float: right;
+    margin-left: 40px;
+    margin-right: 82px;
+}
+
+.top-nav input[type=text] {
+    padding: 6px;
+    margin-top: 8px;
+    font-size: 17px;
+    border: none;
+    width: 8cm;
+}
+
+.top-nav .search-container button {
+    float: right;
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-right: 16px;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+}
+
+.top-nav .search-container button:hover {
+    background: #ccc;
+}
+
+.top-nav li,
+.suggestion-nav li {
+    float: left;
+    margin: 15px;
+}
+
+.top-nav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.login-btn,
+.register-btn {
+    margin-top: 9px;
+}
+
+/* 2. lower navigation bar style */
+
+.suggestion-nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #c30f42;
+}
+
+.suggestion-nav li a {
+    font-size: 15px;
+    display: block;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+
+/* 1. upper navigation bar style */
+
+.top-nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #d71149;
+}
+
+.content {
+    margin: 0 200px;
+    /*body content should be set like this too*/
+}
+
+.top-nav .search-container {
+    float: right;
+    margin-left: 40px;
+    margin-right: 82px;
+}
+
+.top-nav input[type=text] {
+    padding: 6px;
+    margin-top: 8px;
+    font-size: 17px;
+    border: none;
+    width: 8cm;
+}
+
+.top-nav .search-container button {
+    float: right;
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-right: 16px;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+}
+
+.top-nav .search-container button:hover {
+    background: #ccc;
+}
+
+.top-nav li,
+.suggestion-nav li {
+    float: left;
+    margin: 15px;
+}
+
+.top-nav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.login-btn,
+.register-btn {
+    margin-top: 9px;
+}
+
+/* 2. lower navigation bar style */
+
+.suggestion-nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #c30f42;
+}
+
+.suggestion-nav li a {
+    font-size: 15px;
+    display: block;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+
+
+/* 3. product grid and list styling */
+body {
+    color: $font-color;
+    font-family: 'Open Sans', Arial, sans-serif;
+}
+
+.product-grid {
+    width: 60em;
+    margin: 2rem auto;
+
+    &.product-grid--flexbox {
+        .product-grid__wrapper {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .product-grid__title {
+            height: auto;
+
+            &:after {
+                display: none;
+            }
+        }
+    }
+
+    &__wrapper {
+        margin-left: -1rem;
+        margin-right: -1rem;
+        //background: #000;
+    }
+
+    &__product-wrapper {
+        padding: 0.5rem;
+        float: left;
+        //width: 33.33333%;
+    }
+
+
+    &__product {
+        padding: 1rem;
+        width: 8.3em;
+        float: left;
+        position: relative;
+        cursor: pointer;
+        background: #fff;
+        //box-shadow: $product-box-shadow;
+        border-radius: 4px;
+
+        &:hover {
+            box-shadow: $product-box-shadow;
+            z-index: 50;
+
+            .product-grid__extend {
+                display: block;
+            }
+        }
+    }
+
+    &__product-no-hover {
+        padding: 1rem;
+        width: 8.3em;
+        float: left;
+        position: relative;
+        cursor: pointer;
+        background: #fff;
+        //box-shadow: $product-box-shadow;
+        border-radius: 4px;
+
+    }
+
+
+    // product image wrapper
+    &__img-wrapper {
+        width: 100%;
+        text-align: center;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        height: 100px;
+    }
+
+
+    // product image
+    &__img {
+        max-width: 100%;
+        height: auto;
+        max-height: 100%;
+    }
+
+    //	product title
+    &__title {
+        margin-top: .875rem;
+        display: block;
+        font-size: $product-title-fontsize;
+        color: $title-color;
+        height: 3em;
+        overflow: hidden;
+        position: relative;
+
+        &:after {
+            content: "";
+            display: block;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 2.4em;
+            height: 1.5em; // magic number
+            background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
+            //background: red;
+        }
+    }
+
+    &__price {
+        color: $primary;
+        font-weight: bold;
+        letter-spacing: .4px;
+        font-size: .850em;
+    }
+
+
+    // extend wrapper
+    &__extend-wrapper {
+        position: relative;
+    }
+
+    // extended elements
+    // show when hover .product-grid__product
+    &__extend {
+        display: none;
+        position: absolute;
+        padding: 0 1rem 1rem 1rem;
+        margin: .4375rem -1rem 0;
+        box-shadow: $product-box-shadow;
+        background: #fff;
+        border-radius: 0 0 4px 4px;
+
+        &:before {
+            content: "";
+            height: .875rem;
+            width: 100%;
+            position: absolute;
+            top: -.4375rem;
+            left: 0;
+            background: #fff;
+        }
+    }
+
+    // product description	
+    &__description {
+        font-size: .650em;
+        //margin-top: .875rem;
+        margin-top: .4375rem;
+        margin-bottom: 0;
+    }
+
+
+    // buttons
+    &__btn {
+        display: inline-block;
+        font-size: .650em;
+        color: $font-color;
+        background: $light-gray;
+        padding: .5em .625em;
+        margin-top: .875rem;
+        margin-right: .625rem;
+        cursor: pointer;
+        border-radius: 4px;
+
+        i.fa {
+            margin-right: .3125rem;
+        }
+    }
+
+
+    &__add-to-cart {
+        color: #fff;
+        background: $primary;
+
+        &:hover {
+            background: lighten($primary, 10%);
+        }
+    }
+
+    &__view {
+        color: $font-color;
+        background: $light-gray;
+
+        &:hover {
+            background: lighten($light-gray, 10%);
+        }
+    }
+}
+
+.filter-sort-dropdown {
+    text-align: end;
+}
+
+.filter-sort-dropdown>span {
+    font-size: 1rem;
+}
+
+/* detail product style */
+* {
+    box-sizing: border-box;
+}
+
+/** Dummy content **/
+.dummy {
+    text-align: center;
+    padding: 1em 0;
+    background: dodgerblue;
+    color: white;
+    margin: 16px 8px;
+    border-radius: 4px;
+    min-height: 80px;
+}
+
+.dummy__gallery-thumbs {
+    display: flex;
+    list-style: none;
+    justify-content: space-between;
+    padding: 0;
+    background: transparent;
+    min-height: 80px;
+}
+
+.dummy--gallery {
+    background: #663399;
+    background: rebeccapurple;
+    min-height: 400px;
+}
+
+.product-detail .dummy {
+    min-height: 240px;
+}
+
+.product {
+    position: relative;
+}
+
+.product::after {
+    display: table;
+    width: 100%;
+    height: 1px;
+    content: '';
+    clear: both;
+}
+
+@media screen and (min-width: 768px) {
+    .product-media {
+        float: left;
+        width: 50%;
+    }
+
+    .product-detail {
+        width: 50%;
+        float: right;
+    }
+}
+
+@media screen and (min-width: 768px) {
+
+    .is-sticky {
+        position: fixed;
+        top: 0;
+    }
+
+    .is-sticky-bottom {
+        position: absolute;
+        bottom: 0;
+    }
+}
+
+@supports (position: sticky) or (position: -webkit-sticky) {
+    @media screen and (min-width: 768px) {
+        .product-media {
+            position: -webkit-sticky;
+            position: -moz-sticky;
+            position: -o-sticky;
+            position: -ms-sticky;
+            position: sticky;
+            top: 0;
+        }
+    }
+}
+
+.app {
+    width: 100%;
+    overflow-x: hidden;
+    // margin: 0 auto;
+}
+
+/* helps */
+/* https://codepen.io/albino/pen/xEowgO griding in scss */
