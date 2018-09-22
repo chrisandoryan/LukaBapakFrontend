@@ -6,6 +6,18 @@ import {
 class Header extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            showMenu: false,
+        }
+        this.showMenu = this.showMenu.bind(this);
+    }
+
+    showMenu(event) {
+        event.preventDefault();
+        alert(1);
+        this.setState({
+            showMenu: true,
+        });
     }
 
     render() {
@@ -14,7 +26,7 @@ class Header extends React.Component {
                 <ul className="top-nav">
                     <div className="content">
                         <li><a href="#home">LukaBapak</a></li>
-                        <li><a href="#news">Category</a></li>
+                        <li><a onClick={this.showMenu} href="#news">Category</a></li>
                         <li>
                             <div className="search-container">
                                 <form>
