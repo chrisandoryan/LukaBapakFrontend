@@ -2,7 +2,7 @@ import React from 'react'
 import {
     Link
 } from 'react-router-dom'
-import './css/auth.css';
+import '../../css/auth.css';
 
 class Login extends React.Component {
     constructor(props) {

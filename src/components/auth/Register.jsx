@@ -2,8 +2,8 @@ import React from 'react'
 import {
     Link
 } from 'react-router-dom'
-import './css/auth.css';
-class Footer extends React.Component {
+import '../../css/auth.css';
+class Register extends React.Component {
     constructor(props) {
         super(props);
     }

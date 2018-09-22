@@ -10,7 +10,9 @@ class Footer extends React.Component {
 
     render() {
         return (
-            <div class="content-box footer">LukaBapak situs jual beli bikin luka TPA</div>
+            <div className="content wrapper">
+                <div className="content-box footer">LukaBapak situs jual beli bikin luka TPA</div>
+            </div>
         )
     }
 }

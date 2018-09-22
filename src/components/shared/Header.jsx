@@ -11,28 +11,28 @@ class Header extends React.Component {
     render() {
         return (
             <div>
-                <ul class="top-nav">
-                    <div class="content">
+                <ul className="top-nav">
+                    <div className="content">
                         <li><a href="#home">LukaBapak</a></li>
                         <li><a href="#news">Category</a></li>
                         <li>
-                            <div class="search-container">
+                            <div className="search-container">
                                 <form>
                                     <input type="text" placeholder="Aku mau belanja..." name="search" />
-                                    <button type="submit"><i class="fa fa-search"></i></button>
+                                    <button type="submit"><i className="fa fa-search"></i></button>
                                 </form>
                             </div>
                         </li>
                         <li><a href="#about">Lihat Status Transaksi</a></li>
                         <li><a href="">Cart</a></li>
                         <li>
-                            <button class="login-btn">Login</button>
-                            <button class="register-btn">Daftar</button>
+                            <button className="login-btn">Login</button>
+                            <button className="register-btn">Daftar</button>
                         </li>
                     </div>
                 </ul>
-                <ul class="suggestion-nav">
-                    <div class="content">
+                <ul className="suggestion-nav">
+                    <div className="content">
                         <li><a href="">#sepatumurah</a></li>
                         <li><a href="">#sepatumurah</a></li>
                         <li><a href="">#sepatumurah</a></li>

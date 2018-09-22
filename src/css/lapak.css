@@ -390,5 +390,8 @@ body {
   width: 100%;
   overflow-x: hidden; }
 
+.button-expand {
+  float: right; }
+
 /* helps */
 /* https://codepen.io/albino/pen/xEowgO griding in scss */
