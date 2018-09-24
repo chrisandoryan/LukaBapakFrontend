@@ -56,8 +56,10 @@ class Header extends React.Component {
                             <li><a href="#about">Lihat Status Transaksi</a></li>
                             <li><a href="">Cart</a></li>
                             <li>
-                                <button className="login-btn">Login</button>
-                                <button className="register-btn">Daftar</button>
+                                <a href="/login">Login</a>
+                            </li>
+                            <li>
+                                <a href="/register">Daftar</a>
                             </li>
                         </div>
                     </ul>

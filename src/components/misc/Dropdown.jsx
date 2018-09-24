@@ -7,45 +7,69 @@ import axios from 'axios'
 const APIcategories = 'http://localhost:8000/api/categories';
 
 class Dropdown extends React.Component {
-    state = {
-        parent_categories: []
-    }
     constructor(props) {
         super(props);
+        this.state = {
+            parent_categories: [],
+            hover: [],
+            prevHoverIndex: -1
+        }
+        // this.showSubMenu = this.showSubMenu.bind(this);
+        // this.hideSubMenu = this.hideSubMenu.bind(this);
     }
+
+    showSubMenu(index, event) {
+        // event.preventDefault();
+        const hover = this.state.hover
+        hover[index] = true;
+        this.setState({ hover });
+        console.log(this.state.prevHoverIndex);
+    }
+
+    hideSubMenu(index, event) {
+        const hover = this.state.hover
+        hover[index] = false;
+        this.setState({ hover });
+        console.log(this.state.prevHoverIndex);
+    }
+
     componentDidMount() {
         axios.get(APIcategories)
             .then(res => {
                 const parent_categories = res.data.data;
                 console.log(parent_categories);
                 this.setState({ parent_categories });
+                for(let i = 0; i < this.state.parent_categories.length; i++) {
+                    this.state.hover[i] = false;
+                }
             })
     }
 
     render() {
         return (
             <div className="dropdown-content show">
-                {this.state.parent_categories.map(function (name, index) {
-                    // console.log(name['name']);
+                {this.state.parent_categories.map((name, index) => {
+                    //console.log(this.state.hover[index]);
                     return (
-                        <div class="dropdown-content-child">
-                            {/* loop the subcategories here */}
-                            <a href="#">Link A</a>
-                            <a href="#">Link B</a>
-                            <a href="#">Link C</a>
+                        <div key={index}>
+                            {
+                                this.state.hover[index] ? (
+                                    <div className="dropdown-content-child show">
+                                        {name['subcategory'].map((subname, subindex) => {
+                                            console.log(subname['name']);
+                                            return (
+                                                <a onMouseLeave={this.hideSubMenu.bind(this, index)} key={subindex}>{subname['name']}</a>
+                                            );
+                                        })}
+                                    </div>
+                                ) : (
+                                        null
+                                    )
+                            }
+                            <a key={index} onMouseEnter={this.showSubMenu.bind(this, index)}>{name['name']}</a>
                         </div>
-                        <a key={index}>{name['name']}</a>
                     );
                 })}
-                {/* <a href="#">Link 1</a>
-                <div className="dropdown-content-child show">
-                    <a href="#">Link A</a>
-                    <a href="#">Link B</a>
-                    <a href="#">Link C</a>
-                    <a href="#">Link C</a>
-                </div>
-                <a href="#">Link 2</a>
-                <a href="#">Link 3</a> */}
             </div>
         )
     }

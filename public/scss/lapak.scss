@@ -600,9 +600,9 @@ body {
     display: none;
     position: absolute;
     background-color: #d71149;
-    right: -160px;
+    right: -260px;
     // top: 0px; 
-    min-width: 160px;
+    width: 260px;
     z-index: 1;
 }
 
@@ -621,6 +621,10 @@ body {
 
 .show {
     display: block;
+}
+
+.check-gender {
+    margin-right: 30px; 
 }
 
 

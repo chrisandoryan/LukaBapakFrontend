@@ -4,8 +4,8 @@ import Dashboard from "./components/dashboard/Dashboard"
 
 export default [
     { path: "/", component : Dashboard } ,
-    // { path: "/categories", component : CategoryPage } ,
-    // { path: "/categories/insert", component : InsertCategoryPage } ,
+    { path: "/login", component : Login } ,
+    { path: "/register", component : Register } ,
     // { path: "/categories/:id/detail", component : CategoryPage } ,
     // { path: "/products", component : ProductPage } ,
 ];

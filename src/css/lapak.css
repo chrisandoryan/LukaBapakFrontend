@@ -444,8 +444,8 @@ body {
   display: none;
   position: absolute;
   background-color: #d71149;
-  right: -160px;
-  min-width: 160px;
+  right: -260px;
+  width: 260px;
   z-index: 1; }
 
 .dropdown-content-child a {
@@ -461,6 +461,9 @@ body {
 
 .show {
   display: block; }
+
+.check-gender {
+  margin-right: 30px; }
 
 /* helps */
 /* https://codepen.io/albino/pen/xEowgO griding in scss */

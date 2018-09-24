@@ -34,7 +34,7 @@ class Login extends React.Component {
                 </div>
 
                         <a class="btn btn-primary btn-large btn-block" href="#">Login</a>
-                        <a class="login-link" href="#">Belum punya akun? Daftar di sini</a>
+                        <a class="login-link" href="/register">Belum punya akun? Daftar di sini</a>
                         <a class="login-link" href="#">Lupa password?</a>
                     </div>
                 </div>
