@@ -32,9 +32,7 @@ class Register extends React.Component {
         // });
 
         this.service.register(username, name, password, email, gender).then(() => {
-            if (this.service.isLoggedIn()) {
-                this.props.history.replace('/');
-            }
+            this.props.history.replace('/login');
         });
     }
 
@@ -81,9 +79,9 @@ class Register extends React.Component {
                         </div>
 
                         <div className="control-group">
-                            <input type="submit" className="btn btn-primary btn-large btn-block" href="#" value="Daftar" />
+                            <input type="submit" className="btn btn-primary btn-large btn-block" value="Daftar" />
                         </div>
-                        <a className="login-link" href="/login">Sudah punya akun?</a>
+                        <Link className="login-link" to="/login">Sudah punya akun?</Link>
                     </form>
                 </div>
             </div>

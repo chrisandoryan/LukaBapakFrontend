@@ -2,8 +2,23 @@ import axios from "axios";
 import decode from 'jwt-decode';
 
 class AuthService {
-    login(data) {
+    login(email, password) {
+        var formData = new FormData();
+        formData.append("password", password);
+        formData.append("email", email);
 
+        return axios
+            .post("http://localhost:8000/api/login", formData)
+            .then(response => {
+                if (response.data.message) {
+                    alert(response.data.message);                
+                }   
+                else {
+                    const access_token = response.data.access_token;
+                    this.setToken(access_token);
+                    return access_token;
+                }
+            })
     }
     register(username, name, password, email, gender) {
         var formData = new FormData();
@@ -12,17 +27,17 @@ class AuthService {
         formData.append("name", name);
         formData.append("username", username);
         formData.append("gender", gender);
-        console.log(formData);
+        // console.log(formData);
 
         return axios
             .post("http://localhost:8000/api/register", formData)
             .then(response => {
-                console.log(response);
+                // console.log(response);
                 return response;
             })
             .then(json => {
-                console.log(json.data.success);
-                if (json.data.success) {
+                // console.log(json.data);
+                if (json.data) {
                     alert(`Registration Successful!`);
 
                     // let userData = {
@@ -47,7 +62,10 @@ class AuthService {
                     // });
 
                     const access_token = json.data.access_token;
+                    console.log(access_token);
                     this.setToken(access_token);
+                    alert("Success. Please check your email");
+                    
                 } else {
                     console.log("registration failed");
                 }

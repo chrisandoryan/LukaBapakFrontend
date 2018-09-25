@@ -3,15 +3,18 @@ import {
     Link
 } from 'react-router-dom'
 import Dropdown from '../misc/Dropdown';
+import AuthService from '../../services/AuthService';
 
 class Header extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            showMenu: false,
-        }
         this.showMenu = this.showMenu.bind(this);
         this.hideMenu = this.hideMenu.bind(this);
+        this.service = new AuthService();
+        this.state = {
+            showMenu: false,
+            isLoggedIn: this.service.isLoggedIn(),
+        }
     }
 
     showMenu(event) {
@@ -34,7 +37,7 @@ class Header extends React.Component {
                     <ul className="top-nav">
                         <div className="content">
                             <li><a href="#home">LukaBapak</a></li>
-                            <li class="dropdown"><a class="dropbtn" onClick={this.showMenu} href="">Category</a>
+                            <li className="dropdown"><a className="dropbtn" onClick={this.showMenu} href="">Category</a>
                                 {
                                     this.state.showMenu
                                         ? (
@@ -55,12 +58,28 @@ class Header extends React.Component {
                             </li>
                             <li><a href="#about">Lihat Status Transaksi</a></li>
                             <li><a href="">Cart</a></li>
-                            <li>
-                                <a href="/login">Login</a>
-                            </li>
-                            <li>
-                                <a href="/register">Daftar</a>
-                            </li>
+                            {
+                                this.state.isLoggedIn ? (
+                                    <div>
+                                    <li>
+                                        <a href="/profile">Profile</a>
+                                    </li>
+                                    <li>
+                                        <a href="/logout">Logout</a>
+                                    </li>
+                                    </div>
+                                ) :
+                                (
+                                    <div>
+                                    <li>
+                                        <a href="/login">Login</a>
+                                    </li>
+                                    <li>
+                                        <a href="/register">Daftar</a>
+                                    </li>
+                                    </div>
+                                )
+                            }
                         </div>
                     </ul>
                     <ul className="suggestion-nav">
