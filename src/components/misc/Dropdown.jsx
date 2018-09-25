@@ -37,7 +37,7 @@ class Dropdown extends React.Component {
         axios.get(APIcategories)
             .then(res => {
                 const parent_categories = res.data.data;
-                console.log(parent_categories);
+                // console.log(parent_categories);
                 this.setState({ parent_categories });
                 for(let i = 0; i < this.state.parent_categories.length; i++) {
                     this.state.hover[i] = false;
@@ -48,7 +48,8 @@ class Dropdown extends React.Component {
     render() {
         return (
             <div className="dropdown-content show">
-                {this.state.parent_categories.map((name, index) => {
+                {
+                    this.state.parent_categories.map((name, index) => {
                     //console.log(this.state.hover[index]);
                     return (
                         <div key={index}>
@@ -56,7 +57,7 @@ class Dropdown extends React.Component {
                                 this.state.hover[index] ? (
                                     <div className="dropdown-content-child show">
                                         {name['subcategory'].map((subname, subindex) => {
-                                            console.log(subname['name']);
+                                            // console.log(subname['name']);
                                             return (
                                                 <a onMouseLeave={this.hideSubMenu.bind(this, index)} key={subindex}>{subname['name']}</a>
                                             );
@@ -66,7 +67,7 @@ class Dropdown extends React.Component {
                                         null
                                     )
                             }
-                            <a key={index} onMouseEnter={this.showSubMenu.bind(this, index)}>{name['name']}</a>
+                            <a key={index} onMouseEnter={this.showSubMenu.bind(this, index)}>{name.name}</a>
                         </div>
                     );
                 })}

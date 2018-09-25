@@ -91,11 +91,12 @@ body {
 }
 
 .content-promo {
-    margin: 0 200px;
+    // margin: 0 200px;
     display: inline-block;
     align-content: center;
-    position: absolute;
+    position: relative;
     left: 15%;
+    width: 70%;
     /*body content should be set like this too*/
 }
 
