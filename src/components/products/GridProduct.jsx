@@ -11,6 +11,7 @@ class GridProduct extends React.Component {
     render() {
         return (
             <div className="product-grid__product-wrapper">
+                <Link to={`products/${this.props.product.uuid}`}>
                 <div className="product-grid__product">
                     <div className="product-grid__img-wrapper">
                         <img src="https://images.apple.com/euro/macbook/a/screens/specs/images/finish_silver_large.jpg" alt="Img" className="product-grid__img" />
@@ -18,6 +19,7 @@ class GridProduct extends React.Component {
                     <span className="product-grid__title">{this.props.product.name}</span>
                     <span className="product-grid__price">Rp. {this.props.product.price}</span>
                 </div>
+                </Link>
             </div>
         )
     }
