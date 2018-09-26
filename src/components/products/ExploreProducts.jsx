@@ -15,14 +15,30 @@ class ExploreProducts extends React.Component {
         this.service = new ProductService();
     }
 
+    componentDidUpdate() {
+        // alert(this.props.match.params.keyword);
+        this.service.searchProducts(this.props.match.params.keyword)
+            .then(res => {
+                const productHits = res.data.hits.hits;
+                // console.log(productHits);
+                this.setState({ products: productHits });
+            })
+            .catch(err => {
+                alert(err);
+                console.log(err);
+            });
+    }
+
     componentDidMount() {
         // alert(this.props.match.params.keyword);
         this.service.searchProducts(this.props.match.params.keyword)
             .then(res => {
-                console.log(res);
+                const productHits = res.data.hits.hits;
+                // console.log(productHits);
+                this.setState({ products: productHits });
             })
             .catch(err => {
-                // alert(111);
+                alert(err);
                 console.log(err);
             });
     }
@@ -30,7 +46,7 @@ class ExploreProducts extends React.Component {
     render() {
         return (
             <div>
-                <Header />
+                <Header {...this.props} />
                 <div className="content wrapper">
                     <div className="content-box header">Hasil Pencarian "<b>{this.props.match.params.keyword}</b>"</div>
                     <div className="content-box product-options">
@@ -49,8 +65,14 @@ class ExploreProducts extends React.Component {
                                 <option value="audi">Audi</option>
                             </select>
                         </div>
+                        {
+                            this.state.products.map((data, index) => {
+                                return (
+                                    <GridProduct hoverable="true" product={data._source} />
+                                )
+                            })
+                        }
                     </div>
-                    {/* <GridProduct hoverable="true"/> */}
                 </div>
             </div>
         )

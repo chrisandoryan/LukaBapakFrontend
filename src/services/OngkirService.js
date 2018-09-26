@@ -11,7 +11,13 @@ class OngkirService {
         return Request.makeExternal("GET", RajaOngkirAPI, "city", {key: ROKey, province: province_id});
     }
     getCost(origin, destination, weight, courier) {
-        
+        return Request.makeExternal("POST", RajaOngkirAPI, "cost", 
+            {
+                key: ROKey, origin: origin, 
+                destination: destination, 
+                weight: weight,
+                courier: courier
+            });
     }
 }
 

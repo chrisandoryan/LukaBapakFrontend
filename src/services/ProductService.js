@@ -1,7 +1,7 @@
 import Request from "../utilities/Request";
 import Axios from "axios";
 
-const ElasticAPI = "localhost:9200/products/products/"
+const ElasticAPI = "http://localhost:9200/products/products/"
 
 class ProductService {
     getProduct(uuid) {
