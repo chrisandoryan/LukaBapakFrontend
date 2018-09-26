@@ -10,4 +10,17 @@ export default class Request {
             data: data
         });
     }
+    static makeExternal(method, basepoint, endpoint, data = {}) {
+        // alert(`${basepoint}${endpoint}`);
+        // console.log(data);
+        return axios({
+            method: method,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+            },
+            url: `${basepoint}${endpoint}`,
+            params: data
+        });
+    }
 }

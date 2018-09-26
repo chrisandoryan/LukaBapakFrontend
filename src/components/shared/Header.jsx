@@ -14,7 +14,11 @@ class Header extends React.Component {
         this.state = {
             showMenu: false,
             isLoggedIn: this.service.isLoggedIn(),
+            keyword: ''
         }
+        console.log(props);
+        this.handleKeywordChange = this.handleKeywordChange.bind(this);
+        // this.handleSearch = this.handleSearch.bind(this);
     }
 
     showMenu(event) {
@@ -31,74 +35,85 @@ class Header extends React.Component {
         });
     }
 
-        render() {
-            return (
-                <div>
-                    <ul className="top-nav">
-                        <div className="content">
-                            <li><a href="#home">LukaBapak</a></li>
-                            <li className="dropdown"><a className="dropbtn" onClick={this.showMenu} href="">Category</a>
-                                {
-                                    this.state.showMenu
-                                        ? (
-                                            <Dropdown />
-                                        )
-                                        : (
-                                            null
-                                        )
-                                }
-                            </li>
-                            <li>
-                                <div className="search-container">
-                                    <form>
-                                        <input type="text" placeholder="Aku mau belanja..." name="search" />
-                                        <button type="submit"><i className="fa fa-search"></i></button>
-                                    </form>
-                                </div>
-                            </li>
-                            <li><a href="#about">Lihat Status Transaksi</a></li>
-                            <li><a href="">Cart</a></li>
-                            {
-                                this.state.isLoggedIn ? (
-                                    <div>
-                                    <li>
-                                        <a href="/profile">Profile</a>
-                                    </li>
-                                    <li>
-                                        <a href="/logout">Logout</a>
-                                    </li>
-                                    </div>
-                                ) :
-                                (
-                                    <div>
-                                    <li>
-                                        <a href="/login">Login</a>
-                                    </li>
-                                    <li>
-                                        <a href="/register">Daftar</a>
-                                    </li>
-                                    </div>
-                                )
-                            }
-                        </div>
-                    </ul>
-                    <ul className="suggestion-nav">
-                        <div className="content">
-                            <li><a href="">#sepatumurah</a></li>
-                            <li><a href="">#sepatumurah</a></li>
-                            <li><a href="">#sepatumurah</a></li>
-                            <li><a href="">#sepatumurah</a></li>
-                            <li><a href="">#sepatumurah</a></li>
-                            <li><a href="">#sepatumurah</a></li>
-                            <li><a href="">#sepatumurah</a></li>
-                            <li><a href="">#sepatumurah</a></li>
-                            <li><a href="">#sepatumurah</a></li>
-                            <li><button>Lihat Semua</button></li>
-                        </div>
-                    </ul>
-                </div>
-            )
-        }
+    handleSearch(event) {
+        event.preventDefault();
+        this.props.history.replace(`/products/search/${this.state.keyword}`);
     }
 
-    export default Header;
+    handleKeywordChange(event) {
+        // this.setState({ keyword: e.target.value });
+        // alert(event.target.value);
+        this.setState({ keyword: event.target.value });
+    }
+
+    render() {
+        return (
+            <div>
+                <ul className="top-nav">
+                    <div className="content">
+                        <li><Link to="/">LukaBapak</Link></li>
+                        <li className="dropdown"><a className="dropbtn" onClick={this.showMenu} href="">Category</a>
+                            {
+                                this.state.showMenu
+                                    ? (
+                                        <Dropdown />
+                                    )
+                                    : (
+                                        null
+                                    )
+                            }
+                        </li>
+                        <li>
+                            <div className="search-container">
+                                <form onSubmit={this.handleSearch.bind(this)}>
+                                    <input type="text" onChange={this.handleKeywordChange} placeholder="Aku mau belanja..." name="search" />
+                                    <button type="submit"><i className="fa fa-search"></i></button>
+                                </form>
+                            </div>
+                        </li>
+                        <li><Link to="#Linkout">Lihat Status Transaksi</Link></li>
+                        <li><Link to="">Cart</Link></li>
+                        {
+                            this.state.isLoggedIn ? (
+                                <div>
+                                    <li>
+                                        <Link to="/profile">Profile</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/logout">Logout</Link>
+                                    </li>
+                                </div>
+                            ) :
+                                (
+                                    <div>
+                                        <li>
+                                            <Link to="/login">Login</Link>
+                                        </li>
+                                        <li>
+                                            <Link to="/register">Daftar</Link>
+                                        </li>
+                                    </div>
+                                )
+                        }
+                    </div>
+                </ul>
+                <ul className="suggestion-nav">
+                    <div className="content">
+                        <li><a href="">#sepatumurah</a></li>
+                        <li><a href="">#sepatumurah</a></li>
+                        <li><a href="">#sepatumurah</a></li>
+                        <li><a href="">#sepatumurah</a></li>
+                        <li><a href="">#sepatumurah</a></li>
+                        <li><a href="">#sepatumurah</a></li>
+                        <li><a href="">#sepatumurah</a></li>
+                        <li><a href="">#sepatumurah</a></li>
+                        <li><a href="">#sepatumurah</a></li>
+                        <li><button>Lihat Semua</button></li>
+                    </div>
+                </ul>
+            </div>
+        )
+    }
+}
+
+export default Header;

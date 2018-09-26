@@ -27,6 +27,9 @@ class Dropdown extends React.Component {
     }
 
     hideSubMenu(index, event) {
+        for(let i = 0; i < this.state.parent_categories.length; i++) {
+            this.state.hover[i] = false;
+        }
         const hover = this.state.hover
         hover[index] = false;
         this.setState({ hover });

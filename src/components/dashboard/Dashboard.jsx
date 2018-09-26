@@ -11,13 +11,14 @@ import DisplayPromotedProducts from '../products/DisplayPromotedProducts';
 class Dashboard extends Component {
     constructor(props) {
         super(props);
+        console.log(props);
     }
 
     render() {
         return (
-            <Fragment>
+            <div>
                 <div className="app">
-                    <Header />
+                    <Header {...this.props}/>
                     <div>
                         <div className="home-banner featured-main">
                             <div className="container-grid">
@@ -70,7 +71,7 @@ class Dashboard extends Component {
                     </div>
                     {/* <Footer /> */}
                 </div>
-            </Fragment>
+            </div>
         )
     }
 }

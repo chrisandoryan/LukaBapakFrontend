@@ -1,4 +1,7 @@
 import Request from "../utilities/Request";
+import Axios from "axios";
+
+const ElasticAPI = "localhost:9200/products/products/"
 
 class ProductService {
     getProduct(uuid) {
@@ -8,7 +11,8 @@ class ProductService {
 
     }
     searchProducts(keyword) {
-
+        return Request.makeExternal("GET", ElasticAPI, `_search?q=name:${keyword}&pretty`);
+        // return Axios.get(ElasticAPI + '_search?q=name:jaket');
     }
 }
 

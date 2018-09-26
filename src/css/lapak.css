@@ -465,5 +465,19 @@ body {
 .check-gender {
   margin-right: 30px; }
 
+.product-description {
+  text-align: left;
+  margin: 15px; }
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  font-size: 20px;
+  width: 100%; }
+
+td, th {
+  text-align: left;
+  padding: 8px; }
+
 /* helps */
 /* https://codepen.io/albino/pen/xEowgO griding in scss */
