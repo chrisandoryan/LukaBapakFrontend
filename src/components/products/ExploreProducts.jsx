@@ -5,6 +5,7 @@ import {
 import GridProduct from './GridProduct';
 import ProductService from '../../services/ProductService';
 import Header from '../shared/Header';
+import FilterSidebar from '../misc/FilterSidebar';
 
 class ExploreProducts extends React.Component {
     constructor(props) {
@@ -49,20 +50,16 @@ class ExploreProducts extends React.Component {
                 <Header {...this.props} />
                 <div className="content wrapper">
                     <div className="content-box header">Hasil Pencarian "<b>{this.props.match.params.keyword}</b>"</div>
-                    <div className="content-box product-options">
-                        <h6>Ubah Kriteria Pencarian</h6>
-                        <div>
-                            {/* TODO: sidebar panel kriteria pencarian */}
-                        </div>
-                    </div>
+                        <FilterSidebar />
                     <div className="content-box product-view-wrapper">
                         <div className="filter-sort-dropdown">
                             <span>Urutkan</span>
+                            <br/>
                             <select>
-                                <option value="volvo">Volvo</option>
-                                <option value="saab">Saab</option>
-                                <option value="mercedes">Mercedes</option>
-                                <option value="audi">Audi</option>
+                                <option value="">Terbaru</option>
+                                <option value="">Termurah</option>
+                                <option value="">Termahal</option>
+                                <option value="">Terlaris</option>
                             </select>
                         </div>
                         {

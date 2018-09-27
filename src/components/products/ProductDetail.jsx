@@ -21,12 +21,15 @@ class ProductDetail extends React.Component {
         // console.log(this.props.match.params.uuid);
         this.service = new ProductService();
         this.ongkir = new OngkirService();
+    }
+
+    componentDidMount() {
         this.service.getProduct(this.props.match.params.uuid)
             .then(res => {
                 const product = res.data.data;
                 const user = product.user;
                 this.setState({ product, user });
-                // console.log(this.state.product.category.name);
+                console.log(this.state.product.category.name);
             })
             .catch(err => {
                 console.log(err.response);
@@ -63,7 +66,7 @@ class ProductDetail extends React.Component {
         // console.log(reputation);
         return (
             <div className="app">
-                <Header />
+                <Header {...this.props} />
                 <div className="content">
                     <div className="dummy dummy--header">Breadcrumbs Go Here</div>
                     <div className="dummy">
@@ -140,7 +143,7 @@ class ProductDetail extends React.Component {
                                         <h3>Bergabung: </h3>
                                     </div>
                                 </div>
-                                <div className="dummy">Favorite Button Goes Here</div>
+                                {/* <div className="dummy">Favorite Button Goes Here</div> */}
                                 {/* <div className="dummy">Maybe QR Code or Share Button? Or Viewer and Favorite Count</div> */}
                                 {/* <div class="dummy">Customer Questions</div>
                                 <div class="dummy">You May Need</div>
@@ -152,14 +155,14 @@ class ProductDetail extends React.Component {
                             Shipping Cost Estimation
                             <div className="product-description">
                                 <div>
-                                    <h2>Masukkan Jumlah: </h2><input type="number" name="quantity" min="0" max="100" step="10" value="30" />
+                                    <h2>Masukkan Jumlah: </h2><input type="number" name="quantity" min="0" max="100" step="10" defaultValue="1" />
                                 </div>
                                 <div>
                                     <h2>Masukkan Tujuan: </h2>
                                 </div>
                                 <div>
-                                    <select name="select-province" onChange={this.handleProvinceChange} value={this.selectedProvince}>
-                                        <option selected> Pilih Provinsi </option>
+                                    <select name="select-province" onChange={this.handleProvinceChange} defaultValue={this.selectedProvince}>
+                                        <option value> Pilih Provinsi </option>
                                         {
                                             this.state.provinces.map((data, index) => {
                                                 return (
@@ -171,7 +174,7 @@ class ProductDetail extends React.Component {
                                         }
                                     </select>
                                     <select name="" style={{ width: '200px' }}>
-                                        <option selected> Pilih Kota </option>
+                                        <option value> Pilih Kota </option>
                                         {
                                             this.state.cities.map((data, index) => {
                                                 return (

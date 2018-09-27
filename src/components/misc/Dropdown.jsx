@@ -45,7 +45,7 @@ class Dropdown extends React.Component {
                 for(let i = 0; i < this.state.parent_categories.length; i++) {
                     this.state.hover[i] = false;
                 }
-            })
+            });
     }
 
     render() {

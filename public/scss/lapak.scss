@@ -646,5 +646,79 @@ td, th {
     padding: 8px;
 }
 
+.expand-dropdown ul {
+    font-size: 20px;
+}
+
+// accordion categories
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Condensed:300,400');
+* {outline-width: 0; font-family: 'Roboto';}
+
+header {
+	padding: 10px;
+	box-sizing: border-box;
+	h1 {
+		margin: 0;
+		font-weight: 300;
+		font-family: 'Roboto Condensed';
+	}
+	p {
+		margin: 0;
+		font-family: 'Roboto Condensed';
+	}
+}
+
+#accordion {
+	padding: 10px;
+	box-sizing: border-box;
+}
+.accordion-toggle {
+	border-top: 1px solid #eee;
+	padding: 10px 40px 10px 0;
+    cursor: pointer;
+    font-size: 18px;
+	position: relative;
+	p {
+		margin: 0;
+		font-family: 'Roboto Condensed';
+	}
+	span {
+		position: absolute;
+		right: 10px;
+		top: 35%;
+		transform: translateY(-50%) rotate(-45deg);
+		width: 16px;
+		height: 16px;
+		border-bottom: 1px solid #000;
+		border-left: 1px solid #000;
+	}
+}
+.accordion-content {
+	display: none;
+	padding: 5px 0 15px;
+	p {
+        padding-left: 30px;
+		margin: 20 0 10px;
+		&:last-child {
+			margin-bottom: 0;
+		}
+		&.steps {
+			font-style: italic;
+		}
+	}
+}
+.learn {
+	display: block;
+	color: #000;
+	font-family: 'Roboto Condensed';
+	font-weight: 400;
+	text-decoration: none;
+	width: 120px;
+	text-align: center;
+	background: #f8f8f8;
+	padding: 10px 0;
+	margin-top: 15px;
+}
+
 /* helps */
 /* https://codepen.io/albino/pen/xEowgO griding in scss */

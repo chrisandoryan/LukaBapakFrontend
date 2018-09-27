@@ -3,6 +3,7 @@ import Register from "./components/auth/Register";
 import Dashboard from "./components/dashboard/Dashboard"
 import ProductDetail from "./components/products/ProductDetail";
 import ExploreProducts from "./components/products/ExploreProducts";
+import AdminPanel from "./components/admin/AdminPanel";
 
 export default [
     { path: "/", component : Dashboard } ,
@@ -10,6 +11,6 @@ export default [
     { path: "/register", component : Register } ,
     { path: "/products/:uuid", component : ProductDetail } ,
     { path: "/products/search/:keyword", component : ExploreProducts } ,
-    // { path: "/categories/:id/detail", component : CategoryPage } ,
+    { path: "/admin", component : AdminPanel } ,
     // { path: "/products", component : ProductPage } ,
 ];

@@ -8,6 +8,7 @@
     <title>Proto LukaBapak</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="src/css/lapak.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -48,9 +49,25 @@
         <div class="content wrapper">
             <div class="content-box header">Hasil Pencarian "<b>Jam Tangan Fosil Dinosaurus</b>"</div>
             <div class="content-box product-options">
-                <h6>Ubah Kriteria Pencarian</h6>
+                <h4>Ubah Kriteria Pencarian</h4>
+                <br>
                 <div>
-                    <!-- TODO: sidebar panel kriteria pencarian -->
+                    Kategori
+                    <div id="accordion">
+                        <div class="accordion-toggle">
+                            <p>Fashion Pria</p>
+                            <span></span>
+                        </div>
+                        <section class="accordion-content">
+                            <div class="accordion-toggle">
+                                <p>Baju</p>
+                                <span></span>
+                            </div>
+                            <div class="accordion-toggle">
+                                <p>Sepatu</p>
+                            </div>
+                        </section>
+                    </div>
                 </div>
             </div>
             <div class="content-box product-view-wrapper">
@@ -284,5 +301,16 @@
         </div>
     </div>
 </body>
+<script>
+    $(function () {
+
+        // Code from: http://uniondesign.ca/simple-accordion-without-jquery-ui/
+        $('#accordion').find('.accordion-toggle').click(function () {
+            $(this).next().slideToggle(300);
+            $('.accordion-content').not($(this).next()).slideUp(300);
+        });
+
+    });
+</script>
 
 </html>
