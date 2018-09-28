@@ -29,15 +29,6 @@ a {
 span, label {
   display: inline-block; }
 
-input, textarea, select, button {
-  font-size: 1em;
-  outline: none;
-  padding: 0.5em 1em;
-  vertical-align: top; }
-
-select {
-  padding: calc(0.5em - 1px) 1em; }
-
 input[type="submit"], button {
   cursor: pointer; }
 
@@ -677,7 +668,9 @@ label {
   left: calc(50% - 4em); }
 
 .scrollX {
-  width: 100%; }
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll; }
 
 /* TABLE */
 .table {

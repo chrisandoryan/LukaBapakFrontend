@@ -13,6 +13,7 @@ class ProductDetail extends React.Component {
         this.state = {
             product: {},
             user: {},
+            category: {},
             provinces: [],
             cities: [],
             selectedProvince: '',
@@ -28,8 +29,9 @@ class ProductDetail extends React.Component {
             .then(res => {
                 const product = res.data.data;
                 const user = product.user;
-                this.setState({ product, user });
-                console.log(this.state.product.category.name);
+                const category = product.category;
+                this.setState({ product, user, category });
+                // console.log(this.state.product.category.name);
             })
             .catch(err => {
                 console.log(err.response);
@@ -100,7 +102,7 @@ class ProductDetail extends React.Component {
                         <div className="product-description">
                             <h1>Spesifikasi</h1>
                             <br></br>
-                            <h2>Kategori: {this.state.product.category}</h2>
+                            <h2>Kategori: {this.state.category.name}</h2>
                             <h2>Berat: {this.state.product.weight} gram</h2>
 
                         </div>

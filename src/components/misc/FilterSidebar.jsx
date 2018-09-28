@@ -59,25 +59,11 @@ class FilterSidebar extends React.Component {
                         })
                     }
                     </div>
-                    <div id="accordion">
-                        <div class="accordion-toggle">
-                            <p>Fashion Pria</p>
-                            <span></span>
-                        </div>
-                        <section class="accordion-content">
-                            <div class="accordion-toggle">
-                                <p>Baju</p>
-                                <span></span>
-                            </div>
-                            <div class="accordion-toggle">
-                                <p>Sepatu</p>
-                            </div>
-                        </section>
-                    </div>
                 </div>
                 </div>
                 <div>
                     Kondisi
+                    <br/>
                     <div class="accordion-toggle">
                         <input type="checkbox"/> Baru
                         <br/>

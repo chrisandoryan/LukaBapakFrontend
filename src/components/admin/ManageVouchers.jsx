@@ -2,24 +2,10 @@ import React from 'react'
 import {
     Link
 } from 'react-router-dom'
-import axios from 'axios'
 
-const APIcategories = 'http://localhost:8000/api/categories';
-
-class ManageCategories extends React.Component {
+class ManageVouchers extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            parent_categories: []
-        }
-    }
-
-    componentDidMount() {
-        axios.get(APIcategories)
-            .then(res => {
-                const parent_categories = res.data.data;
-                this.setState({ parent_categories });
-            });
     }
 
     render() {
@@ -27,7 +13,7 @@ class ManageCategories extends React.Component {
             <div className="mainContent">
                 <form action method="GET" name="listForm" className="form scrollX">
                     <div className="formHeader row">
-                        <h2 className="text-1 fl">Available Categories</h2>
+                        <h2 className="text-1 fl">Active Voucher Codes</h2>
                         {/* <div className="fr">
                         <button type="submit" className="btnSave bg-1 text-fff text-bold fr">SAVE</button><a href className="btnAdd fa fa-plus bg-1 text-fff" />
                     </div> */}
@@ -35,32 +21,30 @@ class ManageCategories extends React.Component {
                     <div className="table">
                         <div className="row bg-1">
                             <div className="cell cell-50 text-center text-fff">No.</div>
-                            <div className="cell cell-100 text-center text-fff">UUID</div>
-                            <div className="cell cell-100 text-center text-fff">Parent Category</div>
-                            <div className="cell cell-100 text-center text-fff">Category</div>
+                            <div className="cell cell-100 text-center text-fff">Code</div>
+                            <div className="cell cell-100 text-center text-fff">Voucher Name</div>
+                            <div className="cell cell-100 text-center text-fff">Used Count</div>
                             {/* <div className="cell cell-100 text-center text-fff"><input className="checkbox checkAll" name="statusAll" target=".status" type="checkbox" /></div> */}
-                            <div className="cell cell-100 text-center text-fff">EDIT</div>
+                            <div className="cell cell-100 text-center text-fff">Action</div>
                         </div>
                         {/*   BEGIN LOOP */}
-                        {
-                            this.state.parent_categories.map((data, index) => {
-                                return (
-                                    <ul>
-                                        <li className="row">
-                                            <div className="cell cell-50 text-center">{index + 1}</div>
-                                            <div className="cell cell-100 text-center">{data.uuid}</div>
-                                            <div className="cell cell-100 text-center">
-                                                {data.name}
-                                            </div>
-                                            <div className="cell cell-100 text-center"><a href>Pompa Bola</a></div>
-                                            <div className="cell cell-100 text-center">
-                                                <button>Remove</button>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                )
-                            })
-                        }
+                        <ul>
+                            <li className="row">
+                                <div className="cell cell-50 text-center">1</div>
+                                <div className="cell cell-100 text-center">LBPROMO100</div>
+                                <div className="cell cell-100 text-center">
+                                    Promo Cashback 100 Ribu
+                            </div>
+                                <div className="cell cell-100 text-center"><a href>119 Transaction(s)</a></div>
+                                {/* <div className="cell cell-100 text-center">
+                                <input className="status" name="status" defaultValue={0} type="hidden" />
+                                <input className="btnSwitch status" name="status" type="checkbox" />
+                            </div> */}
+                                <div className="cell cell-100 text-center">
+                                    <button>Remove</button>
+                                </div>
+                            </li>
+                        </ul>
                         {/*   END LOOP */}
                     </div>
                 </form>
@@ -123,7 +107,7 @@ class ManageCategories extends React.Component {
                 {/* DETAIL FORM */}
                 <form action method="POST" encType="multipart/form-data" className="form">
                     <div className="formHeader row">
-                        <h2 className="text-1 fl">Add New Category</h2>
+                        <h2 className="text-1 fl">Add Voucher Code</h2>
                         {/* <div className="fr">
                         <button type="submit" className="btnSave bg-1 text-fff text-bold fr">SAVE</button><a href className="btnAdd fa fa-plus bg-1 text-fff" />
                     </div> */}
@@ -131,26 +115,17 @@ class ManageCategories extends React.Component {
                     <div className="formBody row">
                         <div className="column s-6">
                             <label className="inputGroup">
-                                <h3>Category Name</h3>
+                                <h3>Voucher Code</h3>
                                 <br />
-                                <input name="name" type="text" />
+                                <input name="email" type="text" />
                             </label>
                             <label className="inputGroup">
-                                <h3>Parent Category</h3>
+                                <h3>Voucher Name</h3>
                                 <br />
-                                <select name="cate">
-                                    {
-                                        this.state.parent_categories.map((data, index) => {
-                                            return (
-                                                <option value={data.uuid}>{data.name}</option>                                    
-                                            )
-                                        })
-                                    }
-                                    <option value="">Pilih Kategori</option>
-                                </select>
+                                <input name="email" type="text" />
                             </label>
                             <label className="inputGroup">
-                                <input type="submit" value="Add" />
+                                <input type="submit" value="Activate" />
                             </label>
                         </div>
                     </div>
@@ -169,4 +144,4 @@ class ManageCategories extends React.Component {
     }
 }
 
-export default ManageCategories;
+export default ManageVouchers;

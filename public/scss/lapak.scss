@@ -22,6 +22,7 @@ $product-title-fontsize: 0.700em;
 body {
     margin: 0px;
     padding: 0px;
+    overflow-x: hidden;
 }
 
 .product-options {
@@ -457,8 +458,8 @@ body {
 .dummy {
     text-align: center;
     padding: 1em 0;
-    background: dodgerblue;
-    color: white;
+    background: white;
+    color: black;
     margin: 16px 8px;
     border-radius: 4px;
     min-height: 80px;
@@ -474,8 +475,8 @@ body {
 }
 
 .dummy--gallery {
-    background: #663399;
-    background: rebeccapurple;
+    background: white;
+    // background: rebeccapurple;
     min-height: 400px;
 }
 
@@ -676,7 +677,8 @@ header {
 	border-top: 1px solid #eee;
 	padding: 10px 40px 10px 0;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 15px;
+    width: 250px;
 	position: relative;
 	p {
 		margin: 0;
