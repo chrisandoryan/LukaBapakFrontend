@@ -31,7 +31,6 @@ span, label {
 
 input, textarea, select, button {
   font-size: 1em;
-  border: 1px solid #ccc;
   outline: none;
   padding: 0.5em 1em;
   vertical-align: top; }
@@ -678,8 +677,7 @@ label {
   left: calc(50% - 4em); }
 
 .scrollX {
-  width: 100%;
-  overflow-x: scroll; }
+  width: 100%; }
 
 /* TABLE */
 .table {
