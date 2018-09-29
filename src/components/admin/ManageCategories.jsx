@@ -3,6 +3,7 @@ import {
     Link
 } from 'react-router-dom'
 import axios from 'axios'
+import CategoryService from '../../services/CategoryService';
 
 const APIcategories = 'http://localhost:8000/api/categories';
 
@@ -10,8 +11,33 @@ class ManageCategories extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            parent_categories: []
+            parent_categories: [],
+            dropdownCategorySelected: '',
         }
+        this.handleDropDownCategoryChange = this.handleDropDownCategoryChange.bind(this);
+        this.service = new CategoryService();
+        this.handleCategoryInsert = this.handleCategoryInsert.bind(this);
+    }
+
+    handleDropDownCategoryChange(e) {
+        // alert(e.target.value);
+        this.setState({dropdownCategorySelected: e.target.value });
+    }
+
+    handleCategoryInsert(e) {
+        e.preventDefault();
+        const parent_uuid = e.target._parentCategorySelect.value;
+        const category_name = e.target._categoryName.value;
+        // alert(parent_uuid + category_name);
+        this.service.addCategory(parent_uuid, category_name)
+            .then(res => {
+                console.log(res);
+                alert('Success adding category ' + res.data.data.name);
+                this.forceUpdate();
+            })
+            .catch(err => {
+                alert(err.message);
+            });
     }
 
     componentDidMount() {
@@ -121,7 +147,7 @@ class ManageCategories extends React.Component {
                 </div>
             </form> */}
                 {/* DETAIL FORM */}
-                <form action method="POST" encType="multipart/form-data" className="form">
+                <form action method="POST" encType="multipart/form-data" className="form" onSubmit={this.handleCategoryInsert}>
                     <div className="formHeader row">
                         <h2 className="text-1 fl">Add New Category</h2>
                         {/* <div className="fr">
@@ -133,12 +159,13 @@ class ManageCategories extends React.Component {
                             <label className="inputGroup">
                                 <h3>Category Name</h3>
                                 <br />
-                                <input name="name" type="text" />
+                                <input name="_categoryName" type="text" />
                             </label>
                             <label className="inputGroup">
                                 <h3>Parent Category</h3>
                                 <br />
-                                <select name="cate">
+                                <select name="_parentCategorySelect" onChange={this.handleDropDownCategoryChange} defaultValue={this.state.dropdownCategorySelected}>
+                                    <option value="null">NULL (Set as Parent)</option>
                                     {
                                         this.state.parent_categories.map((data, index) => {
                                             return (
@@ -146,7 +173,6 @@ class ManageCategories extends React.Component {
                                             )
                                         })
                                     }
-                                    <option value="">Pilih Kategori</option>
                                 </select>
                             </label>
                             <label className="inputGroup">

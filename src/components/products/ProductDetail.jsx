@@ -6,6 +6,7 @@ import ProductService from '../../services/ProductService';
 import OngkirService from '../../services/OngkirService';
 import Header from '../shared/Header';
 import QRCode from 'qrcode.react';
+import ReactImageMagnify from 'react-image-magnify';
 
 class ProductDetail extends React.Component {
     constructor(props) {
@@ -22,6 +23,27 @@ class ProductDetail extends React.Component {
         // console.log(this.props.match.params.uuid);
         this.service = new ProductService();
         this.ongkir = new OngkirService();
+
+        this.imageBaseUrl = 'https://s3-us-west-1.amazonaws.com/react-package-assets/images/';
+        this.images = [
+            { name: 'wristwatch_355.jpg', vw: '355w' },
+            { name: 'wristwatch_481.jpg', vw: '481w' },
+            { name: 'wristwatch_584.jpg', vw: '584w' },
+            { name: 'wristwatch_687.jpg', vw: '687w' },
+            { name: 'wristwatch_770.jpg', vw: '770w' },
+            { name: 'wristwatch_861.jpg', vw: '861w' },
+            { name: 'wristwatch_955.jpg', vw: '955w' },
+            { name: 'wristwatch_1033.jpg', vw: '1033w' },
+            { name: 'wristwatch_1112.jpg', vw: '1112w' },
+            { name: 'wristwatch_1192.jpg', vw: '1192w' },
+            { name: 'wristwatch_1200.jpg', vw: '1200w' }
+        ];
+    }
+
+    srcSet() {
+        return this.images.map(image => {
+            return `${this.imageBaseUrl}${this.image.name} ${this.image.vw}`;
+        }).join(', ')
     }
 
     componentDidMount() {
@@ -64,6 +86,7 @@ class ProductDetail extends React.Component {
     render() {
         const total_feedback = this.state.user.positive_feedback + this.state.user.negative_feedback;
         var reputation = this.state.user.positive_feedback / total_feedback * 100;
+        if (isNaN(reputation)) reputation = 0;
         reputation = reputation.toFixed(2);
         // console.log(reputation);
         return (
@@ -72,39 +95,67 @@ class ProductDetail extends React.Component {
                 <div className="content">
                     <div className="dummy dummy--header">Breadcrumbs Go Here</div>
                     <div className="dummy">
-                        <h1>{this.state.product.name}</h1>
-                        <br />
-                        <h1>{`Rp.${this.state.product.price}`}</h1>
-                        <div className="product-description">
-                            <h2>Terjual: {this.state.product.sold_count}</h2>
-                            <h2>Kondisi: {this.state.product.product_condition}</h2>
-                            <h2>Dilihat: {this.state.product.view_count}</h2>
-                            <h2>Stok: {this.state.product.stock}</h2>
-                            <h2>Difavoritkan: {this.state.product.view_count}</h2>
-                            <h2>Diperbarui: {this.state.product.view_count}</h2>
-                        </div>
-                        <br />
-                        <div className="product-description">
-                            <h1>Deskripsi Produk</h1>
-                            <br></br>
-                            <h3>{
-                                this.state.product.description != '' ?
-                                    (
-                                        <p>{this.state.product.description}</p>
-                                    ) :
-                                    (
-                                        <p>Tidak ada deskripsi untuk produk ini</p>
-                                    )
-                            }
-                            </h3>
-                        </div>
-                        <br></br>
-                        <div className="product-description">
-                            <h1>Spesifikasi</h1>
-                            <br></br>
-                            <h2>Kategori: {this.state.category.name}</h2>
-                            <h2>Berat: {this.state.product.weight} gram</h2>
-
+                        <div className="perimeter">
+                            <div className="image">
+                                <ReactImageMagnify {...{
+                                    smallImage: {
+                                        alt: 'Wristwatch by Ted Baker London',
+                                        isFluidWidth: true,
+                                        src: `https://s3-us-west-1.amazonaws.com/react-package-assets/images/wristwatch_1033.jpg`,
+                                        // srcSet: this.srcSet,
+                                        sizes: '(min-width: 800px) 33.5vw, (min-width: 415px) 50vw, 100vw',
+                                    },
+                                    largeImage: {
+                                        alt: '',
+                                        src: `https://s3-us-west-1.amazonaws.com/react-package-assets/images/wristwatch_1200.jpg`,
+                                        width: 1200,
+                                        height: 1800,
+                                    },
+                                    isHintEnabled: false
+                                }} />
+                            </div>
+                            <div className="copy">
+                                <h1>{this.state.product.name}</h1>
+                                <br />
+                                <hr />
+                                <br />
+                                <div className="product-desc">
+                                    <h1>{`Rp. ${this.state.product.price}`}</h1>
+                                    <p className="App-intro">
+                                        {
+                                            this.state.product.description != '' ?
+                                                (
+                                                    <p>{this.state.product.description}</p>
+                                                ) :
+                                                (
+                                                    <p>Tidak ada deskripsi untuk produk ini</p>
+                                                )
+                                        }
+                                    </p>
+                                    <br/>
+                                    <div>
+                                        Cicilan 0% – 3 bulan Rp1.266.666/bulan
+                                        <br/>
+                                        Cicilan 0% – 6 bulan Rp633.333/bulan
+                                        <br/>
+                                        Cicilan 0% – 12 bulan Rp316.666/bulan
+                                    </div>
+                                    <p className="App-intro">
+                                        Masukkan jumlah yang diinginkan:
+                                        <br />
+                                        <div class="js-numstepper">
+                                            <input type="text" />
+                                        </div>
+                                    </p>
+                                    <p className="App-intro">
+                                        Jaminan 100% Aman!
+                                        Uang pasti kembali. Sistem pembayaran bebas penipuan. LukaBapak memang de best.
+                                    </p>
+                                    <button>Beli Sekarang!</button>
+                                    &nbsp;&nbsp;
+                                    <button>Jadikan Favorit</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className="product-page">
@@ -134,15 +185,15 @@ class ProductDetail extends React.Component {
                                     <h2>{this.state.user.username}</h2>
                                     <img src={this.state.user.avatar_url} alt="Pelapak IMG" />
                                     <h3>{reputation}%({this.state.user.positive_feedback} Feedback)</h3>
-                                    <i className="fas fa-map-marker-alt">{this.state.user.origin}</i>
+                                    <i className="fas fa-map-marker-alt">{this.state.product.city}</i>
                                 </div>
 
                                 <div className="dummy">
                                     Pengiriman Information Goes Here
                                     <div className="product-description">
                                         <h3>Pelanggan: </h3>
-                                        <h3>Login terakhir: </h3>
-                                        <h3>Bergabung: </h3>
+                                        <h3>Login terakhir: {this.state.user.created_at} </h3>
+                                        <h3>Bergabung: {this.state.user.created_at} </h3>
                                     </div>
                                 </div>
                                 {/* <div className="dummy">Favorite Button Goes Here</div> */}
@@ -157,11 +208,15 @@ class ProductDetail extends React.Component {
                             Shipping Cost Estimation
                             <div className="product-description">
                                 <div>
-                                    <h2>Masukkan Jumlah: </h2><input type="number" name="quantity" min="0" max="100" step="10" defaultValue="1" />
+                                    <h2>Masukkan Jumlah: </h2>
+                                    <br/>
+                                    <input type="number" name="quantity" min="0" max="100" step="10" defaultValue="1" />
                                 </div>
+                                <br/>
                                 <div>
                                     <h2>Masukkan Tujuan: </h2>
                                 </div>
+                                <br/>
                                 <div>
                                     <select name="select-province" onChange={this.handleProvinceChange} defaultValue={this.selectedProvince}>
                                         <option value> Pilih Provinsi </option>
@@ -188,7 +243,9 @@ class ProductDetail extends React.Component {
                                         }
                                     </select>
                                 </div>
+                                <br/>
                                 <h2>Estimasi Ongkos</h2>
+                                <br/>
                                 <table>
                                     <tbody>
                                         <tr>

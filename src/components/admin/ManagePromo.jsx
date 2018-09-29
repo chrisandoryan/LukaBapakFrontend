@@ -30,7 +30,7 @@ class ManagePromo extends React.Component {
         this.service.storePromo(promo_name)
             .then(res => {
                 console.log(res);
-                alert('Success add promo ' + res.data.data.name);
+                alert('Success adding promo ' + res.data.data.name);
             })
             .catch(err => {
                 console.log(err.message);
