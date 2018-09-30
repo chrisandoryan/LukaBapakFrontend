@@ -19,6 +19,8 @@ class ProductDetail extends React.Component {
             cities: [],
             selectedProvince: '',
             selectedCity: '',
+            availableCourier: [],
+            purchaseQuantity: 1,
         }
         // console.log(this.props.match.params.uuid);
         this.service = new ProductService();
@@ -38,6 +40,8 @@ class ProductDetail extends React.Component {
             { name: 'wristwatch_1192.jpg', vw: '1192w' },
             { name: 'wristwatch_1200.jpg', vw: '1200w' }
         ];
+
+        this.changePurchaseQuantity = this.changePurchaseQuantity.bind(this);
     }
 
     srcSet() {
@@ -50,6 +54,7 @@ class ProductDetail extends React.Component {
         this.service.getProduct(this.props.match.params.uuid)
             .then(res => {
                 const product = res.data.data;
+                // console.log(product.weight);
                 const user = product.user;
                 const category = product.category;
                 this.setState({ product, user, category });
@@ -82,6 +87,35 @@ class ProductDetail extends React.Component {
                 console.log(err);
             });
     };
+
+    handleCityChange = (event) => {
+        const couriers = ['jne', 'tiki', 'pos']
+        const dest_id = event.target.value;
+        this.setState({ selectedCity: dest_id });
+
+        couriers.map(courier => {
+            // alert(courier);
+            this.ongkir.getCost(this.state.user.city_id, dest_id, this.state.product.weight * this.state.purchaseQuantity, courier)
+                .then(res => {
+                    // alert(1);
+                    console.log(res.data.rajaongkir.results);
+                    const availableCourier = this.state.availableCourier;
+                    availableCourier.push(res.data.rajaongkir.results);
+                    this.setState({ availableCourier });
+                })
+                .then(() => {
+                    // console.log(this.state.availableCourier);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        })
+    }
+
+    changePurchaseQuantity(e) {
+        const purchaseQuantity = e.target.value;
+        this.setState({purchaseQuantity});
+    }
 
     render() {
         const total_feedback = this.state.user.positive_feedback + this.state.user.negative_feedback;
@@ -132,12 +166,12 @@ class ProductDetail extends React.Component {
                                                 )
                                         }
                                     </p>
-                                    <br/>
+                                    <br />
                                     <div>
                                         Cicilan 0% – 3 bulan Rp1.266.666/bulan
-                                        <br/>
+                                        <br />
                                         Cicilan 0% – 6 bulan Rp633.333/bulan
-                                        <br/>
+                                        <br />
                                         Cicilan 0% – 12 bulan Rp316.666/bulan
                                     </div>
                                     <p className="App-intro">
@@ -209,14 +243,14 @@ class ProductDetail extends React.Component {
                             <div className="product-description">
                                 <div>
                                     <h2>Masukkan Jumlah: </h2>
-                                    <br/>
-                                    <input type="number" name="quantity" min="0" max="100" step="10" defaultValue="1" />
+                                    <br />
+                                    <input type="number" name="quantity" min="0" max="100" step="1" defaultValue="1" onChange={this.changePurchaseQuantity}/>
                                 </div>
-                                <br/>
+                                <br />
                                 <div>
                                     <h2>Masukkan Tujuan: </h2>
                                 </div>
-                                <br/>
+                                <br />
                                 <div>
                                     <select name="select-province" onChange={this.handleProvinceChange} defaultValue={this.selectedProvince}>
                                         <option value> Pilih Provinsi </option>
@@ -230,7 +264,7 @@ class ProductDetail extends React.Component {
                                             })
                                         }
                                     </select>
-                                    <select name="" style={{ width: '200px' }}>
+                                    <select name="" onChange={this.handleCityChange} style={{ width: '200px' }}>
                                         <option value> Pilih Kota </option>
                                         {
                                             this.state.cities.map((data, index) => {
@@ -243,17 +277,44 @@ class ProductDetail extends React.Component {
                                         }
                                     </select>
                                 </div>
-                                <br/>
+                                <br />
                                 <h2>Estimasi Ongkos</h2>
-                                <br/>
+                                <br />
                                 <table>
                                     <tbody>
                                         <tr>
+                                            <th>Kurir</th>
                                             <th>Servis</th>
                                             <th>Waktu Antar</th>
                                             <th>Ongkos Kirim</th>
                                             <th>Harga + Ongkos Kirim</th>
                                         </tr>
+                                        {
+                                            this.state.availableCourier.map((courier, index) => {
+                                                // console.log(courier);
+                                                return (
+                                                    courier.map((service, id) => {
+                                                        // console.log(service);
+                                                        // alert(22);
+                                                        return (
+                                                            service.costs.map((cost, i) => {
+                                                                console.log(cost);
+                                                                return (
+                                                                    <tr>
+                                                                        <td>{service.name}</td>
+                                                                        <td>{cost.service}</td>
+                                                                        <td>{cost.cost[0].etd}</td>
+                                                                        <td>{cost.cost[0].value}</td>
+                                                                        <td>{cost.cost[0].value + this.state.product.price}</td>
+                                                                    </tr>
+                                                                )
+                                                            })
+
+                                                        )
+                                                    })
+                                                )
+                                            })
+                                        }
                                     </tbody>
                                 </table>
                             </div>

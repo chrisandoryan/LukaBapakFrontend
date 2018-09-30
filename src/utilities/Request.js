@@ -10,17 +10,30 @@ export default class Request {
             data: data
         });
     }
-    static makeExternal(method, basepoint, endpoint, data = {}) {
+    static makeExternalGet(basepoint, endpoint, data = {}) {
         // alert(`${basepoint}${endpoint}`);
         // console.log(data);
         return axios({
-            method: method,
+            method: "GET",
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
             },
             url: `${basepoint}${endpoint}`,
             params: data
+        });
+    }
+    static makeExternalPost(basepoint, endpoint, data = {}) {
+        // alert(`${basepoint}${endpoint}`);
+        console.log(data);
+        return axios({
+            method: "POST",
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded',
+                'key': 'ee085f49ba926d68cdf8773ecf5e2919',
+            },
+            url: `${basepoint}${endpoint}`,
+            data: data
         });
     }
 }
