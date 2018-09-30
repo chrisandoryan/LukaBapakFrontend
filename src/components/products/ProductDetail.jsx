@@ -7,6 +7,7 @@ import OngkirService from '../../services/OngkirService';
 import Header from '../shared/Header';
 import QRCode from 'qrcode.react';
 import ReactImageMagnify from 'react-image-magnify';
+import FavoriteProductService from '../../services/FavoriteProductService';
 
 class ProductDetail extends React.Component {
     constructor(props) {
@@ -25,6 +26,7 @@ class ProductDetail extends React.Component {
         // console.log(this.props.match.params.uuid);
         this.service = new ProductService();
         this.ongkir = new OngkirService();
+        this.fave = new FavoriteProductService();
 
         this.imageBaseUrl = 'https://s3-us-west-1.amazonaws.com/react-package-assets/images/';
         this.images = [
@@ -115,12 +117,24 @@ class ProductDetail extends React.Component {
 
     changePurchaseQuantity(e) {
         const purchaseQuantity = e.target.value;
-        this.setState({purchaseQuantity});
+        this.setState({ purchaseQuantity });
     }
 
     handleAddToFavorite(e) {
         e.preventDefault();
-        alert(1);
+        this.fave.addFavoriteProduct(this.state.product.uuid)
+            .then(res => {
+                alert("success!");
+                console.log(res);
+            })
+            .catch(err => {
+                alert(err.response.status);
+                if (err.response.status == 401) {
+                    console.log(err.message);
+                    alert("Please login first!");
+                    this.props.history.replace("/login");
+                }                   
+            });
     }
 
     render() {
@@ -250,7 +264,7 @@ class ProductDetail extends React.Component {
                                 <div>
                                     <h2>Masukkan Jumlah: </h2>
                                     <br />
-                                    <input type="number" name="quantity" min="0" max="100" step="1" defaultValue="1" onChange={this.changePurchaseQuantity}/>
+                                    <input type="number" name="quantity" min="0" max="100" step="1" defaultValue="1" onChange={this.changePurchaseQuantity} />
                                 </div>
                                 <br />
                                 <div>

@@ -10,11 +10,12 @@ export default class Request {
             data: data
         });
     }
-    static makeToProtected(method, endpoit, data = {}) {
+    static makeToProtected(method, endpoint, data = {}) {
         return axios({
             method: method,
             url: `http://localhost:8000/api/${endpoint}`,
             headers: {
+                'content-type': 'application/x-www-form-urlencoded',
                 Authorization: {
                     toString() {
                         return `Bearer ${localStorage.getItem('access_token')}`
