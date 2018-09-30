@@ -10,6 +10,20 @@ export default class Request {
             data: data
         });
     }
+    static makeToProtected(method, endpoit, data = {}) {
+        return axios({
+            method: method,
+            url: `http://localhost:8000/api/${endpoint}`,
+            headers: {
+                Authorization: {
+                    toString() {
+                        return `Bearer ${localStorage.getItem('access_token')}`
+                    }
+                }
+            },
+            data: data
+        });
+    }
     static makeExternalGet(basepoint, endpoint, data = {}) {
         // alert(`${basepoint}${endpoint}`);
         // console.log(data);
