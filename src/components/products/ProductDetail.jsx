@@ -42,6 +42,7 @@ class ProductDetail extends React.Component {
         ];
 
         this.changePurchaseQuantity = this.changePurchaseQuantity.bind(this);
+        this.handleAddToFavorite = this.handleAddToFavorite.bind(this);
     }
 
     srcSet() {
@@ -117,6 +118,11 @@ class ProductDetail extends React.Component {
         this.setState({purchaseQuantity});
     }
 
+    handleAddToFavorite(e) {
+        e.preventDefault();
+        alert(1);
+    }
+
     render() {
         const total_feedback = this.state.user.positive_feedback + this.state.user.negative_feedback;
         var reputation = this.state.user.positive_feedback / total_feedback * 100;
@@ -187,7 +193,7 @@ class ProductDetail extends React.Component {
                                     </p>
                                     <button>Beli Sekarang!</button>
                                     &nbsp;&nbsp;
-                                    <button>Jadikan Favorit</button>
+                                    <button onClick={this.handleAddToFavorite}>Jadikan Favorit</button>
                                 </div>
                             </div>
                         </div>
@@ -203,7 +209,7 @@ class ProductDetail extends React.Component {
                                             <div>
                                                 <br></br>
                                                 <br></br>
-                                                <QRCode value={`http://localhost:8000/${this.props.location.pathname}`} />
+                                                <QRCode value={`http://localhost:8000${this.props.location.pathname}`} />
                                             </div>
                                         ) :
                                             (

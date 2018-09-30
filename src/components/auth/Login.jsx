@@ -13,9 +13,12 @@ class Login extends React.Component {
     }
 
     componentWillMount() {
-        if (this.service.isLoggedIn()) {
-            this.props.history.replace('/');
-        }
+        this.service.isLoggedIn()
+            .then(res => {
+                if (res != false) {
+                    this.props.history.replace('/');
+                }
+            });
     }
 
     handleLogin(e) {
@@ -24,7 +27,7 @@ class Login extends React.Component {
         let password = e.target[1].value;
     
         this.service.login(email, password).then(access_token => {
-            if (access_token != '') {
+            if (this.service.isLoggedIn()) {
                 this.props.history.replace('/');
             }
         });

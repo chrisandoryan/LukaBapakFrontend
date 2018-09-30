@@ -11,14 +11,28 @@ class Header extends React.Component {
         this.showMenu = this.showMenu.bind(this);
         this.hideMenu = this.hideMenu.bind(this);
         this.service = new AuthService();
+        this.service.isLoggedIn()
+            .then(res => {
+                if (res === false) {
+                    this.setState({isLoggedIn: res});
+                }
+                else {
+                    this.setState({user: res});
+                }
+            });
         this.state = {
             showMenu: false,
             isLoggedIn: this.service.isLoggedIn(),
-            keyword: ''
+            keyword: '',
+            user: {},
         }
-        console.log(props);
+        // console.log(props);
         this.handleKeywordChange = this.handleKeywordChange.bind(this);
         // this.handleSearch = this.handleSearch.bind(this);
+    }
+
+    componentWillMount() {
+        this.forceUpdate();
     }
 
     showMenu(event) {

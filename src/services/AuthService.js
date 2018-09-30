@@ -61,9 +61,9 @@ class AuthService {
                     //     auth_token: json.data.access_token
                     // });
 
-                    const access_token = json.data.access_token;
-                    console.log(access_token);
-                    this.setToken(access_token);
+                    // const access_token = json.data.access_token;
+                    // console.log(access_token);
+                    // this.setToken(access_token);
                     alert("Success. Please check your email");
                     
                 } else {
@@ -76,19 +76,31 @@ class AuthService {
             });
     };
     logout() {
-        // let appState = {
-        //     isLoggedIn: false,
-        //     auth_token: {}
-        // };
-        // // save app state with user date in local storage
-        // localStorage["appState"] = JSON.stringify(appState);
-        // this.setState(appState);
         localStorage.removeItem('access_token');
+        return axios
+            .get("http://localhost:8000/api/logout")
+            .then(response => {
+                console.log(response);
+                return response;
+            })
     }
     isLoggedIn() {
         const token = this.getToken() // GEtting token from localstorage
-        console.log(token);
-        return !!token && !this.isTokenExpired(token) // handwaiving here
+        // console.log(token);
+        // return !!token && !this.isTokenExpired(token) // handwaiving here
+        return axios
+            .post("http://localhost:8000/api/me", {token: token})
+            .then(response => {
+                // console.log(response);
+                if (response.status == 200) {
+                    // alert('yey');
+                    return response.data;
+                }
+            })
+            .catch(err => {
+                // alert('boo');
+                return false;
+            })
     }
     isTokenExpired(token) {
         try {

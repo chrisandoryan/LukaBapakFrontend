@@ -4,6 +4,7 @@ import Dashboard from "./components/dashboard/Dashboard"
 import ProductDetail from "./components/products/ProductDetail";
 import ExploreProducts from "./components/products/ExploreProducts";
 import AdminPanel from "./components/admin/AdminPanel";
+import Logout from "./components/auth/Logout";
 
 export default [
     { path: "/", component : Dashboard } ,
@@ -12,5 +13,6 @@ export default [
     { path: "/products/:uuid", component : ProductDetail } ,
     { path: "/products/search/:keyword", component : ExploreProducts } ,
     { path: "/admin", component : AdminPanel } ,
+    { path: "/logout", component : Logout } ,
     // { path: "/products", component : ProductPage } ,
 ];
