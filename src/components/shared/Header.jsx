@@ -86,7 +86,7 @@ class Header extends React.Component {
                             </div>
                         </li>
                         <li><Link to="#Linkout">Lihat Status Transaksi</Link></li>
-                        <li><Link to="">Cart</Link></li>
+                        <li><Link to="/cart">Cart</Link></li>
                         {
                             this.state.isLoggedIn ? (
                                 <div>

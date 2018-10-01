@@ -25,11 +25,14 @@ class Login extends React.Component {
         e.preventDefault();
         let email = e.target[0].value;
         let password = e.target[1].value;
-    
+
         this.service.login(email, password).then(access_token => {
-            if (this.service.isLoggedIn()) {
-                this.props.history.replace('/');
-            }
+            this.service.isLoggedIn()
+                .then(res => {
+                    if (res !== false) {
+                        this.props.history.push("/");
+                    }
+                });
         });
     }
 

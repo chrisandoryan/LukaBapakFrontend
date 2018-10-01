@@ -8,6 +8,8 @@ import Header from '../shared/Header';
 import QRCode from 'qrcode.react';
 import ReactImageMagnify from 'react-image-magnify';
 import FavoriteProductService from '../../services/FavoriteProductService';
+import CartService from '../../services/CartService';
+import AuthService from '../../services/AuthService';
 
 class ProductDetail extends React.Component {
     constructor(props) {
@@ -22,9 +24,13 @@ class ProductDetail extends React.Component {
             selectedCity: '',
             availableCourier: [],
             purchaseQuantity: 1,
+            toCartAmount: 1,
+            isLoggedIn: false,
         }
         // console.log(this.props.match.params.uuid);
+        this.auth = new AuthService();
         this.service = new ProductService();
+        this.cart = new CartService();
         this.ongkir = new OngkirService();
         this.fave = new FavoriteProductService();
 
@@ -45,6 +51,8 @@ class ProductDetail extends React.Component {
 
         this.changePurchaseQuantity = this.changePurchaseQuantity.bind(this);
         this.handleAddToFavorite = this.handleAddToFavorite.bind(this);
+        this.updateInputAmountValue = this.updateInputAmountValue.bind(this);
+        this.handleAddToCart = this.handleAddToCart.bind(this);
     }
 
     srcSet() {
@@ -54,6 +62,18 @@ class ProductDetail extends React.Component {
     }
 
     componentDidMount() {
+        this.auth.isLoggedIn()
+            .then(res => {
+                if (res === false) {
+                    this.setState({isLoggedIn: res});
+                }
+                else {
+                    this.setState({isLoggedIn: true});
+                }
+            })
+            .catch(err => {
+                alert(err.message);
+            });
         this.service.getProduct(this.props.match.params.uuid)
             .then(res => {
                 const product = res.data.data;
@@ -120,6 +140,11 @@ class ProductDetail extends React.Component {
         this.setState({ purchaseQuantity });
     }
 
+    updateInputAmountValue(e) {
+        // alert(e.target.value);
+        this.setState({toCartAmount: e.target.value});
+    }
+
     handleAddToFavorite(e) {
         e.preventDefault();
         this.fave.addFavoriteProduct(this.state.product.uuid)
@@ -135,6 +160,35 @@ class ProductDetail extends React.Component {
                     this.props.history.replace("/login");
                 }                   
             });
+    }
+
+    handleAddToCart(e) {
+        e.preventDefault();
+        // alert(this.state.toCartAmount);
+        if (this.state.isLoggedIn) {
+            //if logged in, store to server side db
+            this.cart.addProductToCart(this.state.product.uuid, this.state.toCartAmount)
+            .then(res => {
+                console.log(res.data);
+                alert("product added to cart successfully");
+            })
+            .catch(err => {
+                if (err.response.status == 401) {
+                    console.log(err.message);
+                    alert("Please login first!");
+                    this.props.history.replace("/login");
+                }
+                //alert(err.message);
+                console.log(err);
+            });
+        }
+        else {
+            //if not logged in, store to indexed db
+            this.cart.addProductToIndexedDBCart(this.state.product.uuid, this.state.toCartAmount)
+                .then(res => {
+                    console.log(res);
+                });
+        }
     }
 
     render() {
@@ -197,15 +251,16 @@ class ProductDetail extends React.Component {
                                     <p className="App-intro">
                                         Masukkan jumlah yang diinginkan:
                                         <br />
-                                        <div class="js-numstepper">
-                                            <input type="text" />
-                                        </div>
+                                        <input type="number" min="1" max="20" name="_addCartAmount" onChange={this.updateInputAmountValue} defaultValue={this.state.toCartAmount} />
+                                        {/* <div className="js-numstepper">
+                                            <input type="text" name="_addCartAmount" onChange={this.updateInputAmountValue} />
+                                        </div> */}
                                     </p>
                                     <p className="App-intro">
                                         Jaminan 100% Aman!
                                         Uang pasti kembali. Sistem pembayaran bebas penipuan. LukaBapak memang de best.
                                     </p>
-                                    <button>Beli Sekarang!</button>
+                                    <button onClick={this.handleAddToCart}>Beli Sekarang!</button>
                                     &nbsp;&nbsp;
                                     <button onClick={this.handleAddToFavorite}>Jadikan Favorit</button>
                                 </div>

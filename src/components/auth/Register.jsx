@@ -13,9 +13,12 @@ class Register extends React.Component {
     }
 
     componentWillMount() {
-        if (this.service.isLoggedIn()) {
-            this.props.history.replace('/');
-        }
+        this.service.isLoggedIn()
+            .then(res => {
+                if (res !== false) {
+                    this.props.history.push("/");
+                }
+            });
     }
 
     handleRegister(e) {

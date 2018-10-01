@@ -1,5 +1,5 @@
 import Request from "../utilities/Request";
-import Axios from "axios";
+import IndexedDB from "../utilities/IndexedDB";
 
 const ElasticAPI = "http://localhost:9200/products/products/"
 
@@ -11,9 +11,10 @@ class ProductService {
 
     }
     searchProducts(keyword) {
-        return Request.makeExternal("GET", ElasticAPI, `_search?q=name:${keyword}&pretty`);
+        return Request.makeExternalGet(ElasticAPI, `_search?q=name:${keyword}&pretty`);
         // return Axios.get(ElasticAPI + '_search?q=name:jaket');
     }
+    
 }
 
 export default ProductService;

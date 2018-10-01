@@ -364,6 +364,7 @@
           this.$input.val(this.value.toLocaleString());
         } else {
           this.$input.val(this.value);
+          this.$input.attr('defaultValue', this.value);
         }
 
         if (this.isFirstRun || this.value !== this.valueOld) {
