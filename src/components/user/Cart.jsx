@@ -54,7 +54,7 @@ class Cart extends React.Component {
                                 return (
                                     <div className="product">
                                         <div className="product-image">
-                                            <img src="https://s.cdpn.io/3/dingo-dog-bones.jpg" />
+                                            <img src="https://via.placeholder.com/300x300" />
                                         </div>
                                         <div className="product-details">
                                             <div className="product-title">{data.product.name}</div>

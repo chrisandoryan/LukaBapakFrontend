@@ -19,6 +19,12 @@ class CartService {
         }
         return db.store(data);
     }
+    getProductsFromIndexedDBCart() {
+        const db = new IndexedDB("lukabapak", "cart");
+        db.getAll().then(res => {
+            console.log(res);
+        })
+    }
 }
 
 export default CartService;

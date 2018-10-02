@@ -3,10 +3,41 @@ import {
     Link
 } from 'react-router-dom'
 import Header from '../shared/Header';
+import AuthService from '../../services/AuthService';
+import CartService from '../../services/CartService';
 
 class PurchasePayment extends React.Component {
     constructor(props) {
         super(props);
+        this.authService = new AuthService();
+        this.cartService = new CartService();
+        this.state = {
+            user: {},
+            isLoggedIn: false,
+            cartContent: [],
+        }
+    }
+
+    componentDidMount() {
+        this.authService.isLoggedIn()
+            .then(res => {
+                if (res === false) {
+                    this.setState({isLoggedIn: res});
+                    alert("Please login first!");
+                    this.props.history.push("/login");
+                }
+                else {
+                    this.setState({user: res});
+                    this.cartService.getCart()
+                        .then(res => {
+                            this.setState({cartContent: res.data.data});
+                            console.log(this.state.cartContent);
+                        });
+                }
+            })
+            .catch(err => {
+                alert(err.message);
+            });
     }
 
     render() {
@@ -21,11 +52,9 @@ class PurchasePayment extends React.Component {
                                 <div className="dummy dummy--gallery">
                                     Detail Pembeli
                                     <div className="customer-detail">
-                                        <h2>Heri Vandoro</h2>
+                                        <h2>{this.state.user.name}</h2>
                                         <div className="customer-address">
-                                            Jalan Kebon Jeruk Raya No.27 1 9, Kb. Jeruk, Daerah Khusus Ibukota Jakarta 11530
-                                            Jalan Kebon Jeruk Raya No.27 1 9, Kb. Jeruk, Daerah Khusus Ibukota Jakarta 11530
-                                            Jalan Kebon Jeruk Raya No.27 1 9, Kb. Jeruk, Daerah Khusus Ibukota Jakarta 11530
+                                            {this.state.user.address}
                                         </div>
                                         <Link className="change-address" to="ulala">Ubah Alamat</Link>
                                         <div className="as-dropshipper">
@@ -71,12 +100,17 @@ class PurchasePayment extends React.Component {
                         </article>
                         <div className="dummy">
                             Detail Belanja
+                            {
+                                this.state.cartContent.map((data, index) => {
+                                    console.log(data);
+                                })
+                            }
                             <div className="product-purchased">
                                 Pembelian Dari <h3>Penjual Bahagia</h3>
                                 <div className="detailProduct">
                                     <div className="product">
                                         <div className="product-image">
-                                            <img src="https://s.cdpn.io/3/dingo-dog-bones.jpg" />
+                                            <img src="https://via.placeholder.com/300x300" />
                                         </div>
                                         <div className="product-details">
                                             <div className="product-title">Kuda Bening</div>
