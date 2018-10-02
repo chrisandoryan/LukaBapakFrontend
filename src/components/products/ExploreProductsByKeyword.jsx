@@ -7,7 +7,7 @@ import ProductService from '../../services/ProductService';
 import Header from '../shared/Header';
 import FilterSidebar from '../misc/FilterSidebar';
 
-class ExploreProducts extends React.Component {
+class ExploreProductsByKeyword extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -76,22 +76,23 @@ class ExploreProducts extends React.Component {
     }
 }
 
-export default ExploreProducts; <div className="content wrapper">
-    <div className="content-box header">Hasil Pencarian "<b>Jam Tangan Fosil Dinosaurus</b>"</div>
-    <div className="content-box product-options">
-        <h6>Ubah Kriteria Pencarian</h6>
-        <div>
-            {/* TODO: sidebar panel kriteria pencarian */}
-        </div>
-    </div>
-    <div className="content-box product-view-wrapper">
-        <div className="filter-sort-dropdown">
-            <span>Urutkan</span>
-            <select>
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="mercedes">Mercedes</option>
-                <option value="audi">Audi</option>
-            </select>
-        </div>
-    </div></div>
+export default ExploreProductsByKeyword; 
+// <div className="content wrapper">
+//     <div className="content-box header">Hasil Pencarian "<b>Jam Tangan Fosil Dinosaurus</b>"</div>
+//     <div className="content-box product-options">
+//         <h6>Ubah Kriteria Pencarian</h6>
+//         <div>
+//             {/* TODO: sidebar panel kriteria pencarian */}
+//         </div>
+//     </div>
+//     <div className="content-box product-view-wrapper">
+//         <div className="filter-sort-dropdown">
+//             <span>Urutkan</span>
+//             <select>
+//                 <option value="volvo">Volvo</option>
+//                 <option value="saab">Saab</option>
+//                 <option value="mercedes">Mercedes</option>
+//                 <option value="audi">Audi</option>
+//             </select>
+//         </div>
+//     </div></div>

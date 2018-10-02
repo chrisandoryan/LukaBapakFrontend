@@ -62,7 +62,7 @@ class Dropdown extends React.Component {
                                         {name['subcategory'].map((subname, subindex) => {
                                             // console.log(subname['name']);
                                             return (
-                                                <a onMouseLeave={this.hideSubMenu.bind(this, index)} key={subindex}>{subname['name']}</a>
+                                                <Link to={`/products/category/${subname['uuid']}`} onMouseLeave={this.hideSubMenu.bind(this, index)} key={subindex}>{subname['name']}</Link>
                                             );
                                         })}
                                     </div>
@@ -70,7 +70,7 @@ class Dropdown extends React.Component {
                                         null
                                     )
                             }
-                            <a key={index} onMouseEnter={this.showSubMenu.bind(this, index)}>{name.name}</a>
+                            <Link key={index} to={`/products/category/${name.uuid}`} onMouseLeave={this.hideSubMenu.bind(this, index)} onMouseEnter={this.showSubMenu.bind(this, index)}>{name.name}</Link>
                         </div>
                     );
                 })}

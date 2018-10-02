@@ -2,7 +2,8 @@ import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Dashboard from "./components/dashboard/Dashboard"
 import ProductDetail from "./components/products/ProductDetail";
-import ExploreProducts from "./components/products/ExploreProducts";
+import ExploreProductsByKeyword from "./components/products/ExploreProductsByKeyword";
+import ExploreProductsByCategory from "./components/products/ExploreProductsByCategory";
 import AdminPanel from "./components/admin/AdminPanel";
 import Logout from "./components/auth/Logout";
 import FavoriteProducts from "./components/user/FavoriteProducts";
@@ -14,7 +15,8 @@ export default [
     { path: "/login", component : Login } ,
     { path: "/register", component : Register } ,
     { path: "/products/:uuid", component : ProductDetail } ,
-    { path: "/products/search/:keyword", component : ExploreProducts } ,
+    { path: "/products/category/:uuid", component : ExploreProductsByCategory } ,
+    { path: "/products/search/:keyword", component : ExploreProductsByKeyword } ,
     { path: "/admin", component : AdminPanel } ,
     { path: "/logout", component : Logout } ,
     { path: "/favorites", component : FavoriteProducts } ,

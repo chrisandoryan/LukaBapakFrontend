@@ -187,6 +187,7 @@ class ProductDetail extends React.Component {
             this.cart.addProductToIndexedDBCart(this.state.product.uuid, this.state.toCartAmount)
                 .then(res => {
                     console.log(res);
+                    alert("Added to cart, but you have to login to proceed to payment");
                 });
         }
     }
@@ -260,9 +261,11 @@ class ProductDetail extends React.Component {
                                         Jaminan 100% Aman!
                                         Uang pasti kembali. Sistem pembayaran bebas penipuan. LukaBapak memang de best.
                                     </p>
-                                    <button onClick={this.handleAddToCart}>Beli Sekarang!</button>
+                                    <Link to="/payment"><button>Beli Sekarang!</button></Link>
                                     &nbsp;&nbsp;
                                     <button onClick={this.handleAddToFavorite}>Jadikan Favorit</button>
+                                    &nbsp;&nbsp;
+                                    <button onClick={this.handleAddToCart}>Masukkan ke Keranjang</button>
                                 </div>
                             </div>
                         </div>

@@ -7,8 +7,8 @@ class ProductService {
     getProduct(uuid) {
         return Request.make("GET", `products/${uuid}`);
     };
-    getProductsByCategory(category) {
-
+    getProductsByCategory(category_uuid) {
+        return Request.make("GET", `products?category=${category_uuid}`);
     }
     searchProducts(keyword) {
         return Request.makeExternalGet(ElasticAPI, `_search?q=name:${keyword}&pretty`);

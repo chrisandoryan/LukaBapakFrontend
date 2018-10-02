@@ -77,7 +77,7 @@ class Cart extends React.Component {
                                 )
                             })
                         }
-                        <button className="checkout">Checkout</button>
+                        <Link to="/payment"><button className="checkout">Checkout</button></Link>
                     </div>
                 </div>
             </div>

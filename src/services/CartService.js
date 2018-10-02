@@ -1,4 +1,5 @@
 import IndexedDB from "../utilities/IndexedDB";
+import Request from "../utilities/Request";
 
 class CartService {
     addProductToCart(productId, amount) {

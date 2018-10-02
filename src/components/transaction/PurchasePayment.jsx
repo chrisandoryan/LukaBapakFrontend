@@ -72,7 +72,7 @@ class PurchasePayment extends React.Component {
                         <div className="dummy">
                             Detail Belanja
                             <div className="product-purchased">
-                                <h3>Penjual Bahagia</h3>
+                                Pembelian Dari <h3>Penjual Bahagia</h3>
                                 <div className="detailProduct">
                                     <div className="product">
                                         <div className="product-image">
@@ -129,14 +129,19 @@ class PurchasePayment extends React.Component {
 
                                     </option>
                                 </select>
-                                {/* <div>
-                                <div className="specify-kurir">
-                                    <h2>Catatan</h2>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <div>
+                                    <div className="specify-kurir">
+                                        <h2>Catatan</h2>
+                                        <div className="purchase-note">
+                                            <textarea name="" id="" cols="30" rows="10" className="dropdown-kurir">
+
+                                            </textarea>
+                                        </div>
+                                    </div>
                                 </div>
-                                <textarea name="" id="" cols="30" rows="10" className="dropdown-kurir">
-                                
-                                </textarea>
-                                </div> */}
                             </div>
                         </div>
                     </div>
