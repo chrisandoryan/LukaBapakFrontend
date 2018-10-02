@@ -55,14 +55,14 @@ class PurchasePayment extends React.Component {
                                                 <h3>Biaya Asuransi</h3>
                                             </div>
                                             <span className="price">Rp. 30129</span>
-                                            <br/>
-                                            <br/>
+                                            <br />
+                                            <br />
                                             <div className="purchase-summary">
-                                            <h2>Total Belanja</h2>
+                                                <h2>Total Belanja</h2>
                                             </div>
                                             <span>Rp. 2932103</span>
-                                            <br/>
-                                            <br/>
+                                            <br />
+                                            <br />
                                             <button>Bayar</button>
                                         </div>
                                     </div>
@@ -71,6 +71,73 @@ class PurchasePayment extends React.Component {
                         </article>
                         <div className="dummy">
                             Detail Belanja
+                            <div className="product-purchased">
+                                <h3>Penjual Bahagia</h3>
+                                <div className="detailProduct">
+                                    <div className="product">
+                                        <div className="product-image">
+                                            <img src="https://s.cdpn.io/3/dingo-dog-bones.jpg" />
+                                        </div>
+                                        <div className="product-details">
+                                            <div className="product-title">Kuda Bening</div>
+                                            {/* <p className="product-description">The best dog bones of all time. Holy crap. Your dog will be begging for these things! I got curious once and ate one myself. I'm a fan.</p> */}
+                                        </div>
+                                        <div className="product-price">Sejuta ribu</div>
+                                        <div className="product-quantity">
+                                            <input defaultValue={2} min={1} type="number" />
+                                        </div>
+                                        <div className="product-removal">
+                                            <button className="remove-product">
+                                                Remove
+                                            </button>
+                                            <button className="update-product">
+                                                Update
+                                            </button>
+                                        </div>
+                                        <div className="product-line-price">Rp. 9999</div>
+                                    </div>
+                                </div>
+                                <div className="detailProduct">
+                                    <div className="product">
+                                        <div className="product-image">
+                                            <img src="https://s.cdpn.io/3/dingo-dog-bones.jpg" />
+                                        </div>
+                                        <div className="product-details">
+                                            <div className="product-title">Kuda Bening</div>
+                                            {/* <p className="product-description">The best dog bones of all time. Holy crap. Your dog will be begging for these things! I got curious once and ate one myself. I'm a fan.</p> */}
+                                        </div>
+                                        <div className="product-price">Sejuta ribu</div>
+                                        <div className="product-quantity">
+                                            <input defaultValue={2} min={1} type="number" />
+                                        </div>
+                                        <div className="product-removal">
+                                            <button className="remove-product">
+                                                Remove
+                                            </button>
+                                            <button className="update-product">
+                                                Update
+                                            </button>
+                                        </div>
+                                        <div className="product-line-price">Rp. 9999</div>
+                                    </div>
+                                </div>
+                                <div className="specify-kurir">
+                                    <h2>Kurir</h2>
+                                </div>
+                                <select className="dropdown-kurir" name="_pickCourier" id="">
+                                    <option value="">
+
+                                    </option>
+                                </select>
+                                {/* <div>
+                                <div className="specify-kurir">
+                                    <h2>Catatan</h2>
+                                </div>
+                                <textarea name="" id="" cols="30" rows="10" className="dropdown-kurir">
+                                
+                                </textarea>
+                                </div> */}
+                            </div>
                         </div>
                     </div>
                 </div>

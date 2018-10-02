@@ -915,5 +915,20 @@ label {
 .purchase-summary h3 {
   margin-right: 150px; }
 
+.product-purchased {
+  text-align: left;
+  margin: 0px 40px; }
+
+.detailProduct {
+  margin-top: 50px; }
+
+.specify-kurir {
+  display: inline-block;
+  margin-left: 10px; }
+
+.dropdown-kurir {
+  margin-left: 80px;
+  width: 600px; }
+
 /* helps */
 /* https://codepen.io/albino/pen/xEowgO griding in scss */
