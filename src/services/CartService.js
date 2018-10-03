@@ -25,6 +25,9 @@ class CartService {
             console.log(res);
         })
     }
+    downloadPurchaseTransaction() {
+        return Request.makeToProtected("GET", "payment/download");
+    }
 }
 
 export default CartService;

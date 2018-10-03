@@ -16,6 +16,29 @@ class ExploreProductsByKeyword extends React.Component {
         this.service = new ProductService();
     }
 
+    handleConditionUpdate(e) {
+        e.preventDefault();
+        if (e.target._newProductCheck.checked && e.target._oldProductCheck.checked) {
+            // alert("checked both"); //do nothing here perhaps
+        }
+        else if (e.target._newProductCheck.checked) {
+            // alert("new checked");
+            const products = this.state.products;
+            const filtered = products.filter(function (el) {
+                return el.product_condition === "new";
+            });
+        }
+        else if (e.target._oldProductCheck.checked) {
+            // alert("old checked");
+            const products = this.state.products;
+            const filtered = products.filter(function (el) {
+                return el.product_condition === "old";
+            });
+        }
+        // alert("something changed on filtersidebar component");
+    }
+
+    handle
     componentDidUpdate() {
         // alert(this.props.match.params.keyword);
         this.service.searchProducts(this.props.match.params.keyword)
@@ -44,17 +67,78 @@ class ExploreProductsByKeyword extends React.Component {
             });
     }
 
+    handlePriceRangeUpdate(e) {
+        e.preventDefault();
+        alert("price range changed");
+        // alert(e.target._minPrice.value == "");
+        if (e.target._minPrice.value == "" && e.target._maxPrice.value != "") {
+            //filter max price
+            alert("filter max");
+            const maxPrice = e.target._maxPrice.value;
+            const products = this.state.products;
+            const filtered = products.filter(function (el) {
+                return el.price < maxPrice;
+            });
+        }
+        else if (e.target._maxPrice.value == "" && e.target._minPrice.value != "") {
+            //filter min price
+            alert("filter min");
+            const minPrice = e.target._minPrice.value;
+            const products = this.state.products;
+            const filtered = products.filter(function (el) {
+                return el.price > minPrice;
+            });
+        }
+        else {
+            //filter full rage
+            alert("filter both");
+            const maxPrice = e.target._maxPrice.value;
+            const minPrice = e.target._minPrice.value;
+            const products = this.state.products;
+            const filtered = products.filter(function (el) {
+                return el.price < maxPrice && el.price > minPrice;
+            });
+        }
+    }
+
+    handeSortRating(e) {
+        e.preventDefault();
+        alert(e.target.value);
+        alert("rating range changed");
+        switch (e.target.value) {
+            case '5':
+                
+                break;
+            case '4':
+
+                break;
+            case '3':
+
+                break;
+            case '2':
+
+                break;
+            case '1':
+
+                break;
+        }
+    }
+
     render() {
         return (
             <div>
                 <Header {...this.props} />
                 <div className="content wrapper">
                     <div className="content-box header">Hasil Pencarian "<b>{this.props.match.params.keyword}</b>"</div>
-                        <FilterSidebar />
+                    <FilterSidebar
+                        handleConditionUpdate={this.handleConditionUpdate}
+                        handlePriceRangeUpdate={this.handlePriceRangeUpdate}
+                        handeSortRating={this.handeSortRating}
+                    />
                     <div className="content-box product-view-wrapper">
                         <div className="filter-sort-dropdown">
                             <span>Urutkan</span>
-                            <br/>
+                            <br />
                             <select>
                                 <option value="">Terbaru</option>
                                 <option value="">Termurah</option>
@@ -76,7 +160,7 @@ class ExploreProductsByKeyword extends React.Component {
     }
 }
 
-export default ExploreProductsByKeyword; 
+export default ExploreProductsByKeyword;
 // <div className="content wrapper">
 //     <div className="content-box header">Hasil Pencarian "<b>Jam Tangan Fosil Dinosaurus</b>"</div>
 //     <div className="content-box product-options">

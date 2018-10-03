@@ -64,11 +64,14 @@ class FilterSidebar extends React.Component {
                 <div>
                     Kondisi
                     <br/>
-                    <div class="accordion-toggle">
-                        <input type="checkbox"/> Baru
+                    <form class="accordion-toggle" onSubmit={this.props.handleConditionUpdate.bind(this)}>
+                        <input type="checkbox" name="_newProductCheck"/> Baru
                         <br/>
-                        <input type="checkbox"/> Bekas
-                    </div>
+                        <input type="checkbox" name="_oldProductCheck"/> Bekas
+                        <br/>
+                        <br/>
+                        <input type="submit" value="Terapkan"/>
+                    </form>
                 </div>
                 <div>
                     Dikirim dari
@@ -91,20 +94,23 @@ class FilterSidebar extends React.Component {
                 </div>
                 <div>
                     Rentang Harga
-                    <div class="accordion-toggle">
-                        <input type="text" placeholder="Min"/>
+                    <form class="accordion-toggle" onSubmit={this.props.handlePriceRangeUpdate}>
+                        <input type="text" name="_minPrice" placeholder="Min"/>
                         <br/>
-                        <input type="text" placeholder="Max"/>
-                        <button>Terapkan</button>
-                    </div>
+                        <input type="text" name="_maxPrice" placeholder="Max"/>
+                        <br/>
+                        <input type="submit" value="Terapkan"/>
+                    </form>
                 </div>
                 <div>
                     Rating
                     <div class="accordion-toggle">
-                        <select name="" id="">
-                            <option value="">5 Bintang</option>
-                            <option value="">4 Bintang</option>
-                            <option value="">3 Bintang</option>
+                        <select name="_filterRating" id="" onChange={this.props.handeSortRating.bind(this)}>
+                            <option value="5">5 Bintang</option>
+                            <option value="4">4 Bintang</option>
+                            <option value="3">3 Bintang</option>
+                            <option value="2">2 Bintang</option>
+                            <option value="1">1 Bintang</option>
                         </select>
                     </div>
                 </div>
