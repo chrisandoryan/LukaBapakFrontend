@@ -42,9 +42,9 @@ class ExploreProductsByKeyword extends React.Component {
         // alert(this.props.match.params.keyword);
         this.service.searchProducts(this.props.match.params.keyword)
             .then(res => {
-                const productHits = res.data.hits.hits;
+                const products = res.data.data;
                 // console.log(productHits);
-                this.setState({ products: productHits });
+                this.setState({ products });
             })
             .catch(err => {
                 alert(err);
@@ -56,9 +56,9 @@ class ExploreProductsByKeyword extends React.Component {
         // alert(this.props.match.params.keyword);
         this.service.searchProducts(this.props.match.params.keyword)
             .then(res => {
-                const productHits = res.data.hits.hits;
+                const products = res.data.data;
                 // console.log(productHits);
-                this.setState({ products: productHits });
+                this.setState({ products });
             })
             .catch(err => {
                 alert(err);
@@ -148,19 +148,19 @@ class ExploreProductsByKeyword extends React.Component {
                         {
                             this.state.products.map((data, index) => {
                                 return (
-                                    <GridProduct hoverable="true" product={data._source} />
+                                    <GridProduct hoverable="true" product={data} />
                                 )
                             })
                         }
                     </div>
                 </div>
-                <div class="pagination">
+                {/* <div class="pagination">
                     <a onClick={() => { this.handlePageChange(1) }} class="page dark">first</a>
                     <a onClick={() => { this.state.links.prev ? this.handlePageChange(this.state.links.prev.substr(this.state.links.prev.length - 1)) : this.handlePageChange(1) }} class="page dark">prev</a>
                     <span class="page active">{this.state.meta.current_page}</span>
                     <a onClick={() => { this.state.links.next ? this.handlePageChange(this.state.links.next.substr(this.state.links.next.length - 1)) : this.handlePageChange(1) }} class="page dark">next</a>
                     <a onClick={() => { this.setState({ page: this.state.meta.last_page }); this.handlePageChange(this.state.meta.last_page); }} class="page dark">last</a>
-                </div>
+                </div> */}
             </div>
         )
     }

@@ -11,7 +11,8 @@ class ProductService {
         return Request.make("GET", `products?category=${category_uuid}&page=${pagenum}`);
     }
     searchProducts(keyword) {
-        return Request.makeExternalGet(ElasticAPI, `_search?q=name:${keyword}&pretty`);
+        // return Request.makeExternalGet(ElasticAPI, `_search?q=name:${keyword}&pretty`);
+        return Request.make("GET", `products?search=${keyword}`);
         // return Axios.get(ElasticAPI + '_search?q=name:jaket');
     }
     
