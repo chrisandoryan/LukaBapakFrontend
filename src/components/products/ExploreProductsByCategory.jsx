@@ -23,6 +23,7 @@ class ExploreProductsByCategory extends React.Component {
         this.service = new ProductService();
         this.handleSortMode = this.handleSortMode.bind(this);
         this.handlePriceRangeUpdate = this.handlePriceRangeUpdate.bind(this);
+        this.handleConditionUpdate = this.handleConditionUpdate.bind(this);
     }
 
     handleConditionUpdate(e) {
@@ -34,15 +35,19 @@ class ExploreProductsByCategory extends React.Component {
             // alert("new checked");
             const products = this.state.products;
             const filtered = products.filter(function (el) {
-                return el.product_condition === "new";
+                return el.product_condition == "new";
             });
+            alert(filtered.length);
+            this.setState({products: filtered});
         }
         else if (e.target._oldProductCheck.checked) {
             // alert("old checked");
             const products = this.state.products;
             const filtered = products.filter(function (el) {
-                return el.product_condition === "old";
+                return el.product_condition == "old";
             });
+            alert(filtered.length);
+            this.setState({products: filtered});
         }
         // alert("something changed on filtersidebar component");
     }
