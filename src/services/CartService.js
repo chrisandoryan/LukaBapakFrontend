@@ -19,6 +19,14 @@ class CartService {
         }
         return db.store(data);
     }
+    addProductForQuickBuy(productId, _amount) {
+        const db = new IndexedDB("lukabapak", "quickBuy");
+        const data = {
+            product_uuid: productId,
+            amount: _amount,
+        }
+        return db.store(data);
+    }
     getProductsFromIndexedDBCart() {
         const db = new IndexedDB("lukabapak", "cart");
         db.getAll().then(res => {

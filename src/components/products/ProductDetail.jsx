@@ -10,6 +10,7 @@ import ReactImageMagnify from 'react-image-magnify';
 import FavoriteProductService from '../../services/FavoriteProductService';
 import CartService from '../../services/CartService';
 import AuthService from '../../services/AuthService';
+import '../../css/comment.css';
 
 class ProductDetail extends React.Component {
     constructor(props) {
@@ -65,10 +66,10 @@ class ProductDetail extends React.Component {
         this.auth.isLoggedIn()
             .then(res => {
                 if (res === false) {
-                    this.setState({isLoggedIn: res});
+                    this.setState({ isLoggedIn: res });
                 }
                 else {
-                    this.setState({isLoggedIn: true});
+                    this.setState({ isLoggedIn: true });
                 }
             })
             .catch(err => {
@@ -142,7 +143,7 @@ class ProductDetail extends React.Component {
 
     updateInputAmountValue(e) {
         // alert(e.target.value);
-        this.setState({toCartAmount: e.target.value});
+        this.setState({ toCartAmount: e.target.value });
     }
 
     handleAddToFavorite(e) {
@@ -158,7 +159,18 @@ class ProductDetail extends React.Component {
                     console.log(err.message);
                     alert("Please login first!");
                     this.props.history.replace("/login");
-                }                   
+                }
+            });
+    }
+
+    quickBuyIndexedDB() {
+        this.cart.addProductForQuickBuy(this.state.product.uuid, this.state.toCartAmount)
+            .then(res => {
+                console.log(res);
+                this.props.history.push("/payment");
+            })
+            .catch(err => {
+                alert(err.message);
             });
     }
 
@@ -168,19 +180,19 @@ class ProductDetail extends React.Component {
         if (this.state.isLoggedIn) {
             //if logged in, store to server side db
             this.cart.addProductToCart(this.state.product.uuid, this.state.toCartAmount)
-            .then(res => {
-                console.log(res.data);
-                alert("product added to cart successfully");
-            })
-            .catch(err => {
-                if (err.response.status == 401) {
-                    console.log(err.message);
-                    alert("Please login first!");
-                    this.props.history.replace("/login");
-                }
-                //alert(err.message);
-                console.log(err);
-            });
+                .then(res => {
+                    console.log(res.data);
+                    alert("product added to cart successfully");
+                })
+                .catch(err => {
+                    if (err.response.status == 401) {
+                        console.log(err.message);
+                        alert("Please login first!");
+                        this.props.history.replace("/login");
+                    }
+                    //alert(err.message);
+                    console.log(err);
+                });
         }
         else {
             //if not logged in, store to indexed db
@@ -261,7 +273,8 @@ class ProductDetail extends React.Component {
                                         Jaminan 100% Aman!
                                         Uang pasti kembali. Sistem pembayaran bebas penipuan. LukaBapak memang de best.
                                     </p>
-                                    <Link to="/payment"><button>Beli Sekarang!</button></Link>
+                                    {/* <Link to="/payment"><button onClick={this.quickBuyIndexedDB.bind(this)}>Beli Sekarang!</button></Link> */}
+                                    <button onClick={this.quickBuyIndexedDB.bind(this)}>Beli Sekarang!</button>
                                     &nbsp;&nbsp;
                                     <button onClick={this.handleAddToFavorite}>Jadikan Favorit</button>
                                     &nbsp;&nbsp;
@@ -398,10 +411,49 @@ class ProductDetail extends React.Component {
                             </div>
                         </div>
                         <div className="product__bought-together dummy">Top Review
-                        
+                        <div className="comment-container">
+                                <div className="comment-box">
+                                    <div className="comment-form">
+                                        <div className="header">Review Produk Ini</div>
+                                        <form>
+                                            {/* <div>
+                                                <input id="name" placeholder="Nama" type="text" />
+                                            </div> */}
+                                            <div>
+                                                <textarea id="comment" rows={3} cols={30} placeholder="Pertanyaan atau apapun" defaultValue={""} />
+                                            </div>
+                                            <button type="submit">Review</button>
+                                        </form>
+                                    </div>
+                                    <div>
+                                        <h4 className="header" style={{ textAlign: "left", marginLeft: 60 }}>Review</h4>
+                                        <div id="comments" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div className="dummy">Discussions
-                        
+                        <div className="comment-container">
+                                <div className="comment-box">
+                                    <div className="comment-form">
+                                        <div className="header">Tanyakan Apapun tentang {this.state.product.name}</div>
+                                        <form>
+                                            {/* <div>
+                                                <input id="name" placeholder="Nama" type="text" />
+                                            </div> */}
+                                            <div>
+                                                <textarea id="comment" rows={3} cols={30} placeholder="Pertanyaan atau apapun" defaultValue={""} />
+                                            </div>
+                                            <button type="submit">Kirim</button>
+                                        </form>
+                                    </div>
+                                    <div>
+                                        <h4 className="header" style={{ textAlign: "left", marginLeft: 60 }}>Diskusi</h4>
+                                        <div id="comments" />
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                         {/* <div class="dummy">More</div>
                         <div class="dummy">More</div>

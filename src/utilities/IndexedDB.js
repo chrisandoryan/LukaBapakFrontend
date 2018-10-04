@@ -5,7 +5,7 @@ export default class IndexedDB {
     constructor(db_name, key_val) {
         this.dbName = db_name;
         this.keyVal = key_val;
-        this.dbPromise = idb.open(db_name, 1, upgradeDB => {
+        this.dbPromise = idb.open(db_name, 2, upgradeDB => {
             upgradeDB.createObjectStore(key_val, {keyPath: 'id', autoIncrement: true});
         });
     }

@@ -57,6 +57,8 @@ class Register extends React.Component {
                             <input type="email" className="login-field" placeholder="Email/No Handphone" id="login-pass" />
                             <label className="login-field-icon fui-lock" htmlFor="login-pass"></label>
                         </div>
+                        <br/>
+                        <br/>
                         <div >
                             <span className="check-gender">
                                 <input type="radio" name="gender" value="male" defaultChecked /> Laki-laki
@@ -65,6 +67,8 @@ class Register extends React.Component {
                                 <input type="radio" name="gender" value="female" /> Perempuan
                             </span>
                         </div>
+                        <br/>
+                        <br/>
                         <br />
                         <div className="control-group">
                             <input type="text" className="login-field" placeholder="Lukabapak.com/username" id="login-pass" />

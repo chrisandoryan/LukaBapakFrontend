@@ -37,7 +37,7 @@ class ExploreProductsByCategory extends React.Component {
             const filtered = products.filter(function (el) {
                 return el.product_condition == "new";
             });
-            alert(filtered.length);
+            // alert(filtered.length);
             this.setState({products: filtered});
         }
         else if (e.target._oldProductCheck.checked) {
@@ -46,7 +46,7 @@ class ExploreProductsByCategory extends React.Component {
             const filtered = products.filter(function (el) {
                 return el.product_condition == "old";
             });
-            alert(filtered.length);
+            // alert(filtered.length);
             this.setState({products: filtered});
         }
         // alert("something changed on filtersidebar component");
@@ -136,6 +136,7 @@ class ExploreProductsByCategory extends React.Component {
             const filtered = products.filter(function (el) {
                 return el.price < maxPrice;
             });
+            this.setState({products: filtered});
         }
         else if (e.target._maxPrice.value == "" && e.target._minPrice.value != "") {
             //filter min price
@@ -145,6 +146,7 @@ class ExploreProductsByCategory extends React.Component {
             const filtered = products.filter(function (el) {
                 return el.price > minPrice;
             });
+            this.setState({products: filtered});
         }
         else {
             //filter full rage
@@ -155,6 +157,7 @@ class ExploreProductsByCategory extends React.Component {
             const filtered = products.filter(function (el) {
                 return el.price < maxPrice && el.price > minPrice;
             });
+            this.setState({products: filtered});
         }
     }
 

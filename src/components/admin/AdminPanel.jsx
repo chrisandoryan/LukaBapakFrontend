@@ -8,6 +8,7 @@ import ManageCategories from './ManageCategories';
 import ManageAdministrator from './ManageAdministrator';
 import ManageVouchers from './ManageVouchers';
 import ManagePromo from './ManagePromo';
+import AuthService from '../../services/AuthService';
 
 const adminRoutes = [
     {
@@ -31,6 +32,26 @@ const adminRoutes = [
 class AdminPanel extends React.Component {
     constructor(props) {
         super(props);
+        this.service = new AuthService();
+        this.service.isLoggedIn()
+            .then(res => {
+                if (res === false) {
+                    this.setState({isLoggedIn: res});
+                }
+                else {
+                    this.setState({user: res});
+                }
+            });
+        this.state = {
+            isLoggedIn: false,
+            user: {},
+        }
+    }
+
+    componentDidMount() {
+        if (!this.state.isLoggedIn || this.state.user.isAdmin == 0) {
+            this.props.history.push("/");
+        }
     }
 
     render() {
