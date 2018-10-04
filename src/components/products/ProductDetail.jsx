@@ -397,8 +397,12 @@ class ProductDetail extends React.Component {
                                 </table>
                             </div>
                         </div>
-                        <div className="product__bought-together dummy">Top Review</div>
-                        <div className="dummy">Discussions</div>
+                        <div className="product__bought-together dummy">Top Review
+                        
+                        </div>
+                        <div className="dummy">Discussions
+                        
+                        </div>
                         {/* <div class="dummy">More</div>
                         <div class="dummy">More</div>
                         <div class="dummy">More</div>

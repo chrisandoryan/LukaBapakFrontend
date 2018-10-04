@@ -14,12 +14,14 @@ class Dropdown extends React.Component {
             hover: [],
             prevHoverIndex: -1
         }
+        this.forceUpdate();
         // this.showSubMenu = this.showSubMenu.bind(this);
         // this.hideSubMenu = this.hideSubMenu.bind(this);
     }
 
     showSubMenu(index, event) {
         // event.preventDefault();
+        this.hideSubMenu(index);
         const hover = this.state.hover
         hover[index] = true;
         this.setState({ hover });
@@ -40,7 +42,7 @@ class Dropdown extends React.Component {
         axios.get(APIcategories)
             .then(res => {
                 const parent_categories = res.data.data;
-                // console.log(parent_categories);
+                console.log(parent_categories);
                 this.setState({ parent_categories });
                 for(let i = 0; i < this.state.parent_categories.length; i++) {
                     this.state.hover[i] = false;
@@ -62,7 +64,7 @@ class Dropdown extends React.Component {
                                         {name['subcategory'].map((subname, subindex) => {
                                             // console.log(subname['name']);
                                             return (
-                                                <Link to={`/products/category/${subname['uuid']}`} onMouseLeave={this.hideSubMenu.bind(this, index)} key={subindex}>{subname['name']}</Link>
+                                                <Link to={`/products/category/${subname['uuid']}`} key={subindex}>{subname['name']}</Link>
                                             );
                                         })}
                                     </div>
@@ -70,7 +72,7 @@ class Dropdown extends React.Component {
                                         null
                                     )
                             }
-                            <Link key={index} to={`/products/category/${name.uuid}`} onMouseLeave={this.hideSubMenu.bind(this, index)} onMouseEnter={this.showSubMenu.bind(this, index)}>{name.name}</Link>
+                            <Link key={index} to={`/products/category/${name.uuid}`} onMouseEnter={this.showSubMenu.bind(this, index)}>{name.name}</Link>
                         </div>
                     );
                 })}

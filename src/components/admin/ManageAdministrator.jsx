@@ -2,10 +2,24 @@ import React from 'react'
 import {
     Link
 } from 'react-router-dom'
+import AdminService from '../../services/AdminService';
 
 class ManageAdministrator extends React.Component {
     constructor(props) {
         super(props);
+        this.service = new AdminService();
+    }
+
+    handleAdminInvitation(e) {
+        e.preventDefault();
+        // alert(e.target._email.value);
+        this.service.sendAdminInvitation(e.target._email.value)
+            .then(res => {
+                alert("Invitation sent!");
+            })
+            .catch(err => {
+                alert(err.message);
+            })
     }
 
     render() {
@@ -112,18 +126,18 @@ class ManageAdministrator extends React.Component {
                         <button type="submit" className="btnSave bg-1 text-fff text-bold fr">SAVE</button><a href className="btnAdd fa fa-plus bg-1 text-fff" />
                     </div> */}
                     </div>
-                    <div className="formBody row">
+                    <form className="formBody row" onSubmit={this.handleAdminInvitation.bind(this)}>
                         <div className="column s-6">
                             <label className="inputGroup">
                                 <h3>Email</h3>
                                 <br/>
-                                <input name="email" type="text" />
+                                <input name="_email" type="text" />
                             </label>
                             <label className="inputGroup">
                                 <input type="submit" value="Invite" />
                             </label>
                         </div>
-                    </div>
+                    </form>
                 </form>
                 {/* <div id="pagination">
                 <ul className="pagination list-inline text-center">

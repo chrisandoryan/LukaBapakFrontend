@@ -18,21 +18,21 @@ class GridProduct extends React.Component {
                         </div>
                         <span className="product-grid__title">{this.props.product.name}</span>
                         <span className="product-grid__price">Rp. {this.props.product.price}</span>
-                    </div>
-                    {
-                        this.props.hoverable ? (
-                            <div class="product-grid__extend-wrapper">
-                                <div class="product-grid__extend">
-                                    <p class="product-grid__description">Komputer Shop SLC, Kerawang</p>
-                                    <span class="product-grid__btn product-grid__add-to-cart"><i class="fa fa-cart-arrow-down"></i>
-                                        Beli</span>
-                                    <span class="product-grid__btn product-grid__view"><i class="fa fa-eye"></i> View more</span>
+                        {
+                            this.props.hoverable == "true" ? (
+                                <div class="product-grid__extend-wrapper">
+                                    <div class="product-grid__extend">
+                                        <p class="product-grid__description">{this.props.product.user.name}</p>
+                                        <Link to="/payment" class="product-grid__btn product-grid__add-to-cart"><i class="fa fa-cart-arrow-down"></i>
+                                            Beli</Link>
+                                        <Link to={`/products/${this.props.product.uuid}`} class="product-grid__btn product-grid__view"><i class="fa fa-eye"></i> View more</Link>
+                                    </div>
                                 </div>
-                            </div>
-                        ) : (
-                                null
-                        )
-                    }
+                            ) : (
+                                    null
+                                )
+                        }
+                    </div>
                 </Link>
             </div>
         )

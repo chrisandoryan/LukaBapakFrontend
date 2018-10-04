@@ -38,7 +38,6 @@ class ExploreProductsByKeyword extends React.Component {
         // alert("something changed on filtersidebar component");
     }
 
-    handle
     componentDidUpdate() {
         // alert(this.props.match.params.keyword);
         this.service.searchProducts(this.props.match.params.keyword)
@@ -107,7 +106,7 @@ class ExploreProductsByKeyword extends React.Component {
         alert("rating range changed");
         switch (e.target.value) {
             case '5':
-                
+
                 break;
             case '4':
 
@@ -154,6 +153,13 @@ class ExploreProductsByKeyword extends React.Component {
                             })
                         }
                     </div>
+                </div>
+                <div class="pagination">
+                    <a onClick={() => { this.handlePageChange(1) }} class="page dark">first</a>
+                    <a onClick={() => { this.state.links.prev ? this.handlePageChange(this.state.links.prev.substr(this.state.links.prev.length - 1)) : this.handlePageChange(1) }} class="page dark">prev</a>
+                    <span class="page active">{this.state.meta.current_page}</span>
+                    <a onClick={() => { this.state.links.next ? this.handlePageChange(this.state.links.next.substr(this.state.links.next.length - 1)) : this.handlePageChange(1) }} class="page dark">next</a>
+                    <a onClick={() => { this.setState({ page: this.state.meta.last_page }); this.handlePageChange(this.state.meta.last_page); }} class="page dark">last</a>
                 </div>
             </div>
         )
