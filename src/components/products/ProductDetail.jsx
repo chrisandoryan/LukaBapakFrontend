@@ -12,6 +12,7 @@ import CartService from '../../services/CartService';
 import AuthService from '../../services/AuthService';
 import '../../css/comment.css';
 import ReviewService from '../../services/ReviewService';
+import DiscussionService from '../../services/DiscussionService';
 
 class ProductDetail extends React.Component {
     constructor(props) {
@@ -28,6 +29,9 @@ class ProductDetail extends React.Component {
             purchaseQuantity: 1,
             toCartAmount: 1,
             isLoggedIn: false,
+            reviews: [],
+            discussions: [],
+            reload: false,
         }
         // console.log(this.props.match.params.uuid);
         this.auth = new AuthService();
@@ -36,6 +40,7 @@ class ProductDetail extends React.Component {
         this.ongkir = new OngkirService();
         this.fave = new FavoriteProductService();
         this.review = new ReviewService();
+        this.discuss = new DiscussionService();
 
         this.imageBaseUrl = 'https://s3-us-west-1.amazonaws.com/react-package-assets/images/';
         this.images = [
@@ -84,6 +89,24 @@ class ProductDetail extends React.Component {
                 const user = product.user;
                 const category = product.category;
                 this.setState({ product, user, category });
+                this.review.getReviews(this.state.product.uuid)
+                    .then(res => {
+                        const reviews = res.data.data[0] != undefined ? res.data.data[0].detail_review : [];
+                        this.setState({ reviews });
+                        // console.log(reviews);
+                    })
+                    .catch(err => {
+                        alert(err.message);
+                    })
+                this.discuss.getDiscussions(this.state.product.uuid)
+                    .then(res => {
+                        const discussions = res.data.data[0] != undefined ? res.data.data[0].detail_discussion : [];
+                        this.setState({ discussions });
+                        console.log(this.state.discussions);
+                    })
+                    .catch(err => {
+                        alert(err.message);
+                    })
                 // console.log(this.state.product.category.name);
             })
             .catch(err => {
@@ -206,16 +229,89 @@ class ProductDetail extends React.Component {
         }
     }
 
+    handleSubmitDiscussion(e) {
+        e.preventDefault();
+        const message = e.target._discuss.value;
+        const parentId = e.target._parentId.value;
+        // alert(message);
+        this.discuss.addDiscussion(this.state.product.uuid, message, parentId)
+            .then(res => {
+                this.service.getProduct(this.props.match.params.uuid)
+                    .then(res => {
+                        const product = res.data.data;
+                        // console.log(product.weight);
+                        const user = product.user;
+                        const category = product.category;
+                        this.setState({ product, user, category });
+                        this.review.getReviews(this.state.product.uuid)
+                            .then(res => {
+                                const reviews = res.data.data[0] != undefined ? res.data.data[0].detail_review : [];
+                                this.setState({ reviews });
+                                // console.log(reviews);
+                            })
+                            .catch(err => {
+                                alert(err.message);
+                            })
+                        this.discuss.getDiscussions(this.state.product.uuid)
+                            .then(res => {
+                                const discussions = res.data.data[0] != undefined ? res.data.data[0].detail_discussion : [];
+                                this.setState({ discussions });
+                                console.log(this.state.discussions);
+                            })
+                            .catch(err => {
+                                alert(err.message);
+                            })
+                        // console.log(this.state.product.category.name);
+                    })
+                    .catch(err => {
+                        console.log(err.response);
+                    });
+            })
+            .catch(err => {
+                alert(err.message);
+            });
+    }
+
     handleSubmitReview(e) {
         e.preventDefault();
         const message = e.target._review.value;
         this.review.addReview(this.state.product.uuid, message)
             .then(() => {
-                this.forceUpdate();
+                this.service.getProduct(this.props.match.params.uuid)
+                    .then(res => {
+                        const product = res.data.data;
+                        // console.log(product.weight);
+                        const user = product.user;
+                        const category = product.category;
+                        this.setState({ product, user, category });
+                        this.review.getReviews(this.state.product.uuid)
+                            .then(res => {
+                                const reviews = res.data.data[0] != undefined ? res.data.data[0].detail_review : [];
+                                this.setState({ reviews });
+                                // console.log(reviews);
+                            })
+                            .catch(err => {
+                                alert(err.message);
+                            })
+                        this.discuss.getDiscussions(this.state.product.uuid)
+                            .then(res => {
+                                const discussions = res.data.data[0] != undefined ? res.data.data[0].detail_discussion : [];
+                                this.setState({ discussions });
+                                console.log(this.state.discussions);
+                            })
+                            .catch(err => {
+                                alert(err.message);
+                            })
+                        // console.log(this.state.product.category.name);
+                    })
+                    .catch(err => {
+                        console.log(err.response);
+                    });
             })
             .catch(err => {
                 alert(err.message);
             })
+        this.setState({ reload: !this.state.reload });
     }
 
     render() {
@@ -441,7 +537,13 @@ class ProductDetail extends React.Component {
                                     </div>
                                     <div>
                                         <h4 className="header" style={{ textAlign: "left", marginLeft: 60 }}>Review</h4>
-                                        <div id="comments" />
+                                        {
+                                            this.state.reviews.map((r, idx) => {
+                                                return (
+                                                    <div id="comments" style={{ textAlign: "left", marginLeft: 60, fontSize: 18 }}>{r.message} <blockquote> - oleh {r.user.name}</blockquote><br /></div>
+                                                )
+                                            })
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -451,19 +553,52 @@ class ProductDetail extends React.Component {
                                 <div className="comment-box">
                                     <div className="comment-form">
                                         <div className="header">Tanyakan Apapun tentang {this.state.product.name}</div>
-                                        <form>
+                                        <form onSubmit={this.handleSubmitDiscussion.bind(this)}>
                                             {/* <div>
                                                 <input id="name" placeholder="Nama" type="text" />
                                             </div> */}
                                             <div>
-                                                <textarea id="comment" rows={3} cols={30} placeholder="Pertanyaan atau apapun" defaultValue={""} />
+                                                <textarea id="comment" name="_discuss" rows={3} cols={30} placeholder="Pertanyaan atau apapun" defaultValue={""} />
+                                                <input type="hidden" name="_parentId" value="null" />
                                             </div>
                                             <button type="submit">Kirim</button>
                                         </form>
                                     </div>
                                     <div>
                                         <h4 className="header" style={{ textAlign: "left", marginLeft: 60 }}>Diskusi</h4>
-                                        <div id="comments" />
+                                        {
+                                            this.state.discussions.map((disc, idex) => {
+                                                let parentId = disc.id;
+                                                console.log(parentId);
+                                                return (
+                                                    disc.parent_id == null ? (
+                                                        <div id="comments" style={{ textAlign: "left", marginLeft: 60, fontSize: 18 }}>
+                                                            {disc.message} - {disc.user.name}
+                                                            <br />
+                                                            {
+                                                                disc.child.map((childDisc, child_id) => {
+                                                                    // console.log(childDisc);
+                                                                    // parentId = childDisc.parent_id;
+                                                                    return (
+                                                                        <div id="comments" style={{ textAlign: "left", marginLeft: 70, fontSize: 18 }}>
+                                                                            {childDisc.message} - {childDisc.user.name}
+                                                                        </div>
+                                                                    )
+                                                                })
+                                                            }
+                                                            <form onSubmit={this.handleSubmitDiscussion.bind(this)}>
+                                                                <input style={{ margin: -10 }} type="text" name="_discuss" id="" />
+                                                                <input type="hidden" name="_parentId" value={parentId} />
+                                                                <button type="submit">Balas</button>
+                                                            </form>
+                                                            <br />
+                                                            <br />
+                                                            <hr />
+                                                        </div>
+                                                    ) : (null)
+                                                )
+                                            })
+                                        }
                                     </div>
                                 </div>
                             </div>

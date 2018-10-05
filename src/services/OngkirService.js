@@ -1,7 +1,7 @@
 import Request from "../utilities/Request";
 
 const RajaOngkirAPI = "https://api.rajaongkir.com/starter/";
-const ROKey = "ee085f49ba926d68cdf8773ecf5e2919";
+const ROKey = "8ac01b66375eb0256122ae2b67a76902";
 
 class OngkirService {
     getProvinces() {
@@ -12,11 +12,11 @@ class OngkirService {
     };
     getCost(originId, destinationId, weightNumber, courierId) {
         let d = new FormData();
-        d.set('key', ROKey);
-        d.set('origin', originId);
-        d.set('destination', destinationId);
-        d.set('weight', weightNumber);
-        d.set('courier', courierId);
+        d.append('key', ROKey);
+        d.append('origin', originId);
+        d.append('destination', destinationId);
+        d.append('weight', weightNumber);
+        d.append('courier', courierId);
         return Request.makeExternalPost(RajaOngkirAPI, "cost", d);
     };
 }

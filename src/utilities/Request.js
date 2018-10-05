@@ -44,8 +44,7 @@ export default class Request {
         return axios({
             method: "POST",
             headers: {
-                'content-type': 'application/x-www-form-urlencoded',
-                'key': 'ee085f49ba926d68cdf8773ecf5e2919',
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
             url: `${basepoint}${endpoint}`,
             data: data
