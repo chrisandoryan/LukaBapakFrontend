@@ -11,6 +11,7 @@ import FavoriteProductService from '../../services/FavoriteProductService';
 import CartService from '../../services/CartService';
 import AuthService from '../../services/AuthService';
 import '../../css/comment.css';
+import ReviewService from '../../services/ReviewService';
 
 class ProductDetail extends React.Component {
     constructor(props) {
@@ -34,6 +35,7 @@ class ProductDetail extends React.Component {
         this.cart = new CartService();
         this.ongkir = new OngkirService();
         this.fave = new FavoriteProductService();
+        this.review = new ReviewService();
 
         this.imageBaseUrl = 'https://s3-us-west-1.amazonaws.com/react-package-assets/images/';
         this.images = [
@@ -202,6 +204,18 @@ class ProductDetail extends React.Component {
                     alert("Added to cart, but you have to login to proceed to payment");
                 });
         }
+    }
+
+    handleSubmitReview(e) {
+        e.preventDefault();
+        const message = e.target._review.value;
+        this.review.addReview(this.state.product.uuid, message)
+            .then(() => {
+                this.forceUpdate();
+            })
+            .catch(err => {
+                alert(err.message);
+            })
     }
 
     render() {
@@ -415,12 +429,12 @@ class ProductDetail extends React.Component {
                                 <div className="comment-box">
                                     <div className="comment-form">
                                         <div className="header">Review Produk Ini</div>
-                                        <form>
+                                        <form onSubmit={this.handleSubmitReview.bind(this)}>
                                             {/* <div>
                                                 <input id="name" placeholder="Nama" type="text" />
                                             </div> */}
                                             <div>
-                                                <textarea id="comment" rows={3} cols={30} placeholder="Pertanyaan atau apapun" defaultValue={""} />
+                                                <textarea id="comment" name="_review" rows={3} cols={30} placeholder="Pertanyaan atau apapun" defaultValue={""} />
                                             </div>
                                             <button type="submit">Review</button>
                                         </form>

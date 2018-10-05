@@ -33,15 +33,6 @@ class AdminPanel extends React.Component {
     constructor(props) {
         super(props);
         this.service = new AuthService();
-        this.service.isLoggedIn()
-            .then(res => {
-                if (res === false) {
-                    this.setState({isLoggedIn: res});
-                }
-                else {
-                    this.setState({user: res});
-                }
-            });
         this.state = {
             isLoggedIn: false,
             user: {},
@@ -49,9 +40,24 @@ class AdminPanel extends React.Component {
     }
 
     componentDidMount() {
-        if (!this.state.isLoggedIn || this.state.user.isAdmin == 0) {
-            this.props.history.push("/");
-        }
+        this.service.isLoggedIn()
+            .then(res => {
+                if (res === false) {
+                    this.setState({ isLoggedIn: res });
+                }
+                else {
+                    console.log(res);
+                    this.setState({ user: res });
+                }
+            })
+            .then(() => {
+                if (!this.state.user || this.state.user.is_admin == 0) {
+                    this.props.history.push("/");
+                    // alert(1);
+                    // console.log(this.state.user);
+                }
+            });
+        // alert(this.state.user.is_admin);
     }
 
     render() {
