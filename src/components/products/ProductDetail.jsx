@@ -96,7 +96,7 @@ class ProductDetail extends React.Component {
                         // console.log(reviews);
                     })
                     .catch(err => {
-                        alert(err.message);
+                        // alert(err.message);
                     })
                 this.discuss.getDiscussions(this.state.product.uuid)
                     .then(res => {
@@ -105,7 +105,7 @@ class ProductDetail extends React.Component {
                         console.log(this.state.discussions);
                     })
                     .catch(err => {
-                        alert(err.message);
+                        // alert(err.message);
                     })
                 // console.log(this.state.product.category.name);
             })

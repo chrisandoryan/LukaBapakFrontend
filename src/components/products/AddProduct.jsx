@@ -3,11 +3,27 @@ import {
     Link
 } from 'react-router-dom'
 import ProductService from '../../services/ProductService';
+import CategoryService from '../../services/CategoryService';
+import axios from 'axios'
+
+const APIcategories = 'http://localhost:8000/api/categories';
 
 class AddProduct extends React.Component {
     constructor(props) {
         super(props);
         this.service = new ProductService();
+        this.categoryService = new CategoryService();
+        this.state = {
+            parent_categories: [],
+        }
+    }
+
+    componentDidMount() {
+        axios.get()
+            .then(res => {
+                const parent_categories = res.data.data;
+                this.setState({ parent_categories });
+            });
     }
 
     handleAddProduct(e) {
@@ -52,18 +68,24 @@ class AddProduct extends React.Component {
                     <br />
                     <p>Category</p>
                     <select name="_category" id="">
-                        <option value=""></option>
+                        {
+                            this.state.parent_categories.map(category => {
+                                return (
+                                    <option value={category.uuid}></option>
+                                )
+                            })
+                        }
                     </select>
                     <br />
                     <br />
                     <p>Product Name</p>
-                    <input type="text" placeholder="Product Name" name="_name"/>
+                    <input type="text" placeholder="Product Name" name="_name" />
                     <p>Stock</p>
-                    <input type="text" placeholder="Stock" name="_stock"/>
+                    <input type="text" placeholder="Stock" name="_stock" />
                     <p>Price</p>
-                    Rp. <input type="text" placeholder="Price" name="_price"/>
+                    Rp. <input type="text" placeholder="Price" name="_price" />
                     <p>Weight</p>
-                    <input type="text" placeholder="Weight" name="_weight"/> gram
+                    <input type="text" placeholder="Weight" name="_weight" /> gram
                     <br />
                     <p>Product Condition</p>
                     <select name="_condition" id="">
