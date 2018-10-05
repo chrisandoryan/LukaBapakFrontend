@@ -15,6 +15,9 @@ class ProductService {
         return Request.make("GET", `products?search=${keyword}`);
         // return Axios.get(ElasticAPI + '_search?q=name:jaket');
     }
+    addProduct(data) {
+        return Request.makeToProtected("POST", "products", data);
+    }
     
 }
 

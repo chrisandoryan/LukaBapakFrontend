@@ -24,7 +24,6 @@ class PurchasePayment extends React.Component {
         }
         this.fetchSupportedCourier = this.fetchSupportedCourier.bind(this);
         this.subTotal = 0;                                
-
     }
 
     groupBy(list, keyGetter) {
@@ -40,6 +39,7 @@ class PurchasePayment extends React.Component {
         });
         return map;
     }
+
     componentDidMount() {
         this.authService.isLoggedIn()
             .then(res => {

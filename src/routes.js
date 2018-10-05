@@ -9,6 +9,8 @@ import Logout from "./components/auth/Logout";
 import FavoriteProducts from "./components/user/FavoriteProducts";
 import Cart from "./components/user/Cart";
 import PurchasePayment from "./components/transaction/PurchasePayment";
+import Profile from "./components/user/Profile";
+import AddProduct from "./components/products/AddProduct";
 
 export default [
     { path: "/", component : Dashboard } ,
@@ -22,5 +24,7 @@ export default [
     { path: "/favorites", component : FavoriteProducts } ,
     { path: "/cart", component : Cart } ,
     { path: "/payment", component : PurchasePayment } ,
+    { path: "/profile", component : Profile } ,
+    { path: "/addproduct", component : AddProduct } ,
     // { path: "/products", component : ProductPage } ,
 ];
