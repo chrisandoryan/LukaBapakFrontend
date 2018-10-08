@@ -8,6 +8,20 @@ class ManageAdministrator extends React.Component {
     constructor(props) {
         super(props);
         this.service = new AdminService();
+        this.state = {
+            admins: [],
+        }
+    }
+
+    componentDidMount() {
+        this.service.getAdmins()
+            .then(res => {
+                console.log(res.data.data);
+                this.setState({ admins: res.data.data });
+            })
+            .catch(err => {
+                alert(err.message);
+            });
     }
 
     handleAdminInvitation(e) {
@@ -16,6 +30,18 @@ class ManageAdministrator extends React.Component {
         this.service.sendAdminInvitation(e.target._email.value)
             .then(res => {
                 alert("Invitation sent!");
+            })
+            .catch(err => {
+                alert(err.message);
+            })
+    }
+
+    handleAdminRemoval(e) {
+        e.preventDefault();
+        const uuid = e.target._uuid.value;
+        this.service.revokeAdmin(uuid)
+            .then(res => {
+                alert("Success!");
             })
             .catch(err => {
                 alert(err.message);
@@ -42,83 +68,29 @@ class ManageAdministrator extends React.Component {
                             <div className="cell cell-100 text-center text-fff">Revoke</div>
                         </div>
                         {/*   BEGIN LOOP */}
-                        <ul>
-                            <li className="row">
-                                <div className="cell cell-50 text-center">1</div>
-                                <div className="cell cell-100 text-center">chrisando.siahaan@gmail.com</div>
-                                <div className="cell cell-100 text-center">
-                                    Chrisando Ryan
-                            </div>
-                                <div className="cell cell-100 text-center"><a href>28-02-2018 14:30:12</a></div>
-                                {/* <div className="cell cell-100 text-center">
-                                <input className="status" name="status" defaultValue={0} type="hidden" />
-                                <input className="btnSwitch status" name="status" type="checkbox" />
-                            </div> */}
-                                <div className="cell cell-100 text-center">
-                                    <button>Remove</button>
-                                </div>
-                            </li>
-                        </ul>
-                        {/*   END LOOP */}
+                        {
+                            this.state.admins.map((admin, index) => {
+                                return (
+                                    <ul>
+                                        <li className="row">
+                                            <div className="cell cell-50 text-center">{index + 1}</div>
+                                            <div className="cell cell-100 text-center">{admin.email}</div>
+                                            <div className="cell cell-100 text-center">
+                                                {admin.name}
+                                            </div>
+                                            <div className="cell cell-100 text-center"><a href>{admin.created_at}</a></div>
+                                            <form className="cell cell-100 text-center" onSubmit={this.handleAdminRemoval.bind(this)}>
+                                                <input type="hidden" name="_uuid" value={admin.uuid}/>
+                                                <button>Remove</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                )
+                            })
+                        }
                     </div>
                 </form>
                 <br />
-                {/* CATE LIST    */}
-                {/* <form action method="GET" name="listForm" className="form scrollX">
-                <div className="formHeader row">
-                    <h2 className="text-1 fl">Product List</h2>
-                    {/* <div className="fr">
-                        <button type="submit" className="btnSave bg-1 text-fff text-bold fr">SAVE</button><a href className="btnAdd fa fa-plus bg-1 text-fff" />
-                    </div>
-                </div>
-                <div className="table">
-                    <div className="row bg-1">
-                        <div className="cell cell-50 text-center text-fff">ID</div>
-                        <div className="cell cell-100 text-center text-fff">PARENT</div>
-                        <div className="cell cell-100p text-fff">NAME</div>
-                        <div className="cell cell-50 text-center text-fff">RANK</div>
-                        <div className="cell cell-50"><input className="checkbox caretAll" type="checkbox" /></div>
-                        <div className="cell cell-100 text-center text-fff">EDIT</div>
-                    </div>
-                    {/*    BEGIN LOOP 
-                    <ul>
-                        <li className="row">
-                            <div className="cell cell-50 text-center">1</div>
-                            <div className="cell cell-100 text-center">0</div>
-                            <div className="cell cell-100p"><a href>CATE 1</a></div>
-                            <div className="cell cell-50 text-center"><input name="rank[]" className="inputNumber" type="number" /></div>
-                            <div className="cell cell-50 text-center"><span className="fa fa-caret-down btnCaret" /></div>
-                            <div className="cell cell-100 text-center">
-                                <a href className="btnEdit fa fa-pencil bg-1 text-fff" /><a href className="btnRemove fa fa-remove bg-1 text-fff" onclick="return confirm(&quot;Do you really want to remove it ?&quot;)" />
-                            </div>
-                            <ul className="sublist">
-                                <li className="row">
-                                    <div className="cell cell-50 text-center">ID</div>
-                                    <div className="cell cell-100 text-center">PARENT</div>
-                                    <div className="cell cell-100p"><a href>PRODUCT 2</a></div>
-                                    <div className="cell cell-50 text-center"><span className="fa fa-caret-down btnCaret" /></div>
-                                    <div className="cell cell-100 text-center">
-                                        <a href className="btnEdit fa fa-pencil bg-1 text-fff" /><a href className="btnRemove fa fa-remove bg-1 text-fff" onclick="return confirm(&quot;Do you really want to remove it ?&quot;)" />
-                                    </div>
-                                    <ul className="sublist">
-                                        <li>
-                                            <div className="cell cell-50 text-center">ID</div>
-                                            <div className="cell cell-100 text-center">PARENT</div>
-                                            <div className="cell cell-100p"><a href>PRODUCT 2</a></div>
-                                            <div className="cell cell-50" />
-                                            <div className="cell cell-100 text-center">
-                                                <a href className="btnEdit fa fa-pencil bg-1 text-fff" /><a href className="btnRemove fa fa-remove bg-1 text-fff" onclick="return confirm(&quot;Do you really want to remove it ?&quot;)" />
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                    {/*    END LOOP 
-                </div>
-            </form> */}
-                {/* DETAIL FORM */}
                 <form action method="POST" encType="multipart/form-data" className="form">
                     <div className="formHeader row">
                         <h2 className="text-1 fl">Invite Admin</h2>
@@ -130,7 +102,7 @@ class ManageAdministrator extends React.Component {
                         <div className="column s-6">
                             <label className="inputGroup">
                                 <h3>Email</h3>
-                                <br/>
+                                <br />
                                 <input name="_email" type="text" />
                             </label>
                             <label className="inputGroup">

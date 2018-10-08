@@ -13,6 +13,7 @@ class ManagePromo extends React.Component {
         this.state = {
             promos: [],
             dropdownPromoSelected: '',
+            selectedPromo: null,
         }
         this.service = new PromoService();
         this.handlePromoInsert = this.handlePromoInsert.bind(this);
@@ -20,8 +21,42 @@ class ManagePromo extends React.Component {
         this.handleDropDownPromoChange = this.handleDropDownPromoChange.bind(this);
     }
 
+    handleViewDetail(e) {
+        e.preventDefault();
+        const id = e.target.value;
+        this.service.getPromoDetail(id)
+            .then(res => {
+                console.log(res.data.data);
+                this.setState({ selectedPromo: res.data.data[0] });
+                console.log(this.state.selectedPromo);
+            })
+            .catch(err => {
+                alert(err.message);
+            })
+        // alert(id);
+    }
+
     handleDropDownPromoChange(e) {
-        this.setState({dropdownPromoSelected: e.target.value });
+        this.setState({ dropdownPromoSelected: e.target.value });
+    }
+
+    handleDeactivatePromo(e) {
+        e.preventDefault();
+        const id = e.target.value;
+        // alert(id);
+        this.service.removePromo(id)
+            .then(res => {
+                alert("Success!");
+                axios.get(APIPromos)
+                    .then(res => {
+                        const promos = res.data.data
+                        this.setState({ promos });
+                        // console.log(this.state.promos);
+                    });
+            })
+            .catch(err => {
+                alert(err.message);
+            });
     }
 
     handlePromoInsert(e) {
@@ -30,13 +65,18 @@ class ManagePromo extends React.Component {
         this.service.storePromo(promo_name)
             .then(res => {
                 console.log(res);
+                axios.get(APIPromos)
+                    .then(res => {
+                        const promos = res.data.data
+                        this.setState({ promos });
+                        // console.log(this.state.promos);
+                    });
                 alert('Success adding promo ' + res.data.data.name);
             })
             .catch(err => {
                 console.log(err.message);
                 alert('Failed');
             })
-        this.forceUpdate()
     }
 
     handleAddProductToPromo(e) {
@@ -53,6 +93,7 @@ class ManagePromo extends React.Component {
     }
 
     componentDidMount() {
+        // alert(this.state.selectedPromo);
         axios.get(APIPromos)
             .then(res => {
                 const promos = res.data.data
@@ -93,9 +134,8 @@ class ManagePromo extends React.Component {
                                             </div>
                                             <div className="cell cell-100 text-center"><a href>{data.products.length}</a></div>
                                             <div className="cell cell-100 text-center">
-                                                <button>View Detail</button>
-
-                                                <button>Deactivate</button>
+                                                <button value={data.id} onClick={this.handleViewDetail.bind(this)}>View Detail</button>
+                                                <button value={data.id} onClick={this.handleDeactivatePromo.bind(this)}>Deactivate</button>
                                             </div>
                                         </li>
                                     </ul>
@@ -107,10 +147,10 @@ class ManagePromo extends React.Component {
                 </form>
                 <br />
                 {
-                    this.state.selected_promo ? (
+                    this.state.selectedPromo != null ? (
                         <form action method="GET" name="listForm" className="form scrollX">
                             <div className="formHeader row">
-                                <h2 className="text-1 fl">Products on Promo <i>Kemerdekaan Dari TPA</i>: </h2>
+                                <h2 className="text-1 fl">Products on Promo <i>{this.state.selectedPromo.name}</i>: </h2>
                                 {/* <div className="fr">
                         <button type="submit" className="btnSave bg-1 text-fff text-bold fr">SAVE</button><a href className="btnAdd fa fa-plus bg-1 text-fff" />
                     </div> */}
@@ -125,33 +165,35 @@ class ManagePromo extends React.Component {
                                     <div className="cell cell-100 text-center text-fff">Action</div>
                                 </div>
                                 {/*   BEGIN LOOP */}
-                                <ul>
-                                    <li className="row">
-                                        <div className="cell cell-50 text-center">1</div>
-                                        <div className="cell cell-100 text-center">Promo Kemerdekaan dari TPA</div>
-                                        <div className="cell cell-100 text-center">
-                                            Rp. 99900
-                            </div>
-                                        <div className="cell cell-100 text-center"><a href>Rp. 79900</a></div>
-                                        {/* <div className="cell cell-100 text-center">
-                                <input className="status" name="status" defaultValue={0} type="hidden" />
-                                <input className="btnSwitch status" name="status" type="checkbox" />
-                            </div> */}
-                                        <div className="cell cell-100 text-center">
-                                            <button>Remove</button>
-                                        </div>
-                                    </li>
-                                </ul>
+                                {
+                                    this.state.selectedPromo.products.map((prod, idx) => {
+                                        return (
+                                            <ul>
+                                                <li className="row">
+                                                    <div className="cell cell-50 text-center">{idx + 1}</div>
+                                                    <div className="cell cell-100 text-center">{prod.name}</div>
+                                                    <div className="cell cell-100 text-center">
+                                                        Rp. {prod.price}
+                                                    </div>
+                                                    <div className="cell cell-100 text-center">
+                                                        <a contenteditable href>Rp. 79900</a></div>
+                                                    <div className="cell cell-100 text-center">
+                                                        <button>Remove</button>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        )
+                                    })
+                                }
                                 {/*   END LOOP */}
                             </div>
                         </form>
                     ) : (null)
                 }
-                <br />
                 {/* DETAIL FORM */}
                 {
                     this.state.promos.length > 0 ? (
-                         <form action method="POST" encType="multipart/form-data" onSubmit={this.handleAddProductToPromo} className="form">
+                        <form action method="POST" encType="multipart/form-data" onSubmit={this.handleAddProductToPromo} className="form">
                             <div className="formHeader row">
                                 <h2 className="text-1 fl">Promote Product</h2>
                             </div>
@@ -161,11 +203,11 @@ class ManagePromo extends React.Component {
                                         <h3>Promo</h3>
                                         <br />
                                         <select name="promo_id" id="" onChange={this.handleDropDownPromoChange} defaultValue={this.state.dropdownPromoSelected}>
-                                        {
-                                            this.state.promos.map((promo, index) => (
-                                                <option value={promo.id}>{promo.name}</option>
-                                            ))
-                                        }
+                                            {
+                                                this.state.promos.map((promo, index) => (
+                                                    <option value={promo.id}>{promo.name}</option>
+                                                ))
+                                            }
                                         </select>
                                     </label>
                                     <label className="inputGroup">

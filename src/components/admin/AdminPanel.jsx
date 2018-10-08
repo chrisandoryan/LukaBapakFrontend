@@ -34,7 +34,7 @@ class AdminPanel extends React.Component {
         super(props);
         this.service = new AuthService();
         this.state = {
-            isLoggedIn: false,
+            isLoggedIn: true,
             user: {},
         }
     }
@@ -43,15 +43,16 @@ class AdminPanel extends React.Component {
         this.service.isLoggedIn()
             .then(res => {
                 if (res === false) {
-                    this.setState({ isLoggedIn: res });
+                    this.setState({ isLoggedIn: false });
                 }
                 else {
+                    // alert(2);
                     console.log(res);
                     this.setState({ user: res });
                 }
             })
             .then(() => {
-                if (!this.state.user || this.state.user.is_admin == 0) {
+                if (!this.state.user || this.state.user.is_admin == 0 || this.state.isLoggedIn === false) {
                     this.props.history.push("/");
                     // alert(1);
                     // console.log(this.state.user);
@@ -77,10 +78,10 @@ class AdminPanel extends React.Component {
                                 <li><a href="index.php?c=product&a=list02"><span className="fa fa-tags" />Category List</a></li>
                             </ul>
                         </li> */}
-                            <li><Link to="categories"><span className="fa fa-sitemap" />Categories</Link></li>
-                            <li><Link to="promo"><span className="fa fa-money" />Promo</Link></li>
-                            <li><Link to="vouchers"><span className="fa fa-user-o" />Vouchers</Link></li>
-                            <li><Link to="admins"><span className="fa fa-envelope-o" />Admins</Link></li>
+                            <li><Link to="categories">Categories</Link></li>
+                            <li><Link to="promo">Promo</Link></li>
+                            <li><Link to="vouchers">Vouchers</Link></li>
+                            <li><Link to="admins">Admins</Link></li>
                         </ul>
                     </div>
                     {/*     SIDE AREA */}
@@ -88,7 +89,7 @@ class AdminPanel extends React.Component {
                         {/* BEGIN NAV */}
                         <nav className="navTop row">
                             <div className="account fr">
-                                <div className="name has-submenu">John Doe</div>
+                                <div className="name has-submenu">{this.state.user.name}</div>
                             </div>
                         </nav>
                         {/* END NAV */}

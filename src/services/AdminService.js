@@ -8,7 +8,10 @@ class AdminService {
         return Request.makeToProtected("POST", "admin/invite", d);
     }
     getAdmins() {
-        return Request.makeToProtected("GET", "admin");
+        return Request.makeToProtected("GET", "admins");
+    }
+    revokeAdmin(_uuid) {   
+        return Request.makeToProtected("DELETE", `admins/${_uuid}`);
     }
 }
 

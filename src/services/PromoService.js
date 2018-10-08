@@ -14,6 +14,12 @@ class PromoService {
     getProductsByCategory(category) {
 
     }
+    removePromo(_promoId) {
+        return Request.makeToProtected("DELETE", `promotions/${_promoId}`);
+    }
+    getPromoDetail(_id) {
+        return Request.makeToProtected("GET", `promotions/${_id}`);
+    }
 }
 
 export default PromoService;

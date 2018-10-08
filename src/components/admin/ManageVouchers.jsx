@@ -2,10 +2,33 @@ import React from 'react'
 import {
     Link
 } from 'react-router-dom'
+import VoucherService from '../../services/VoucherService';
 
 class ManageVouchers extends React.Component {
     constructor(props) {
         super(props);
+        this.service = new VoucherService();
+    }
+
+    componentDidMount() {
+
+    }
+
+    updateVoucherList() {
+
+    }
+
+    handleAddVoucher(e) {
+        e.preventDefault();
+        const code = e.target._code.value;
+        const name = e.target._name.value;
+        this.service.storeVoucher(code, name)
+            .then(res => {
+                alert("Success!");
+            })
+            .catch(err => {
+                alert(err.message);
+            })
     }
 
     render() {
@@ -23,7 +46,7 @@ class ManageVouchers extends React.Component {
                             <div className="cell cell-50 text-center text-fff">No.</div>
                             <div className="cell cell-100 text-center text-fff">Code</div>
                             <div className="cell cell-100 text-center text-fff">Voucher Name</div>
-                            <div className="cell cell-100 text-center text-fff">Used Count</div>
+                            <div className="cell cell-100 text-center text-fff">Added At</div>
                             {/* <div className="cell cell-100 text-center text-fff"><input className="checkbox checkAll" name="statusAll" target=".status" type="checkbox" /></div> */}
                             <div className="cell cell-100 text-center text-fff">Action</div>
                         </div>
@@ -105,7 +128,7 @@ class ManageVouchers extends React.Component {
                 </div>
             </form> */}
                 {/* DETAIL FORM */}
-                <form action method="POST" encType="multipart/form-data" className="form">
+                <form onSubmit={this.handleAddVoucher.bind(this)} className="form">
                     <div className="formHeader row">
                         <h2 className="text-1 fl">Add Voucher Code</h2>
                         {/* <div className="fr">
@@ -117,12 +140,12 @@ class ManageVouchers extends React.Component {
                             <label className="inputGroup">
                                 <h3>Voucher Code</h3>
                                 <br />
-                                <input name="email" type="text" />
+                                <input name="_code" type="text" />
                             </label>
                             <label className="inputGroup">
                                 <h3>Voucher Name</h3>
                                 <br />
-                                <input name="email" type="text" />
+                                <input name="_name" type="text" />
                             </label>
                             <label className="inputGroup">
                                 <input type="submit" value="Activate" />
