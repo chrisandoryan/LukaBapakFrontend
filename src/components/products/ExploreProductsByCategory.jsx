@@ -81,6 +81,7 @@ class ExploreProductsByCategory extends React.Component {
                 console.log(products);
                 this.setState({ products, category, links: res.data.links, meta: res.data.meta });
                 // alert(this.state.links.first);
+                this.forceUpdate();
             })
             .catch(err => {
                 alert(err);
@@ -208,8 +209,9 @@ class ExploreProductsByCategory extends React.Component {
                         </div>
                         {
                             this.state.products.map((data, index) => {
+                                console.log(data);
                                 return (
-                                    <GridProduct hoverable="true" product={data} />
+                                    <GridProduct hoverable="true" product={data}/>
                                 )
                             })
                         }

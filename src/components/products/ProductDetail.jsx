@@ -13,6 +13,7 @@ import AuthService from '../../services/AuthService';
 import '../../css/comment.css';
 import ReviewService from '../../services/ReviewService';
 import DiscussionService from '../../services/DiscussionService';
+import { Breadcrumbs, BreadcrumbsItem } from 'react-breadcrumbs-dynamic'
 
 class ProductDetail extends React.Component {
     constructor(props) {
@@ -32,6 +33,8 @@ class ProductDetail extends React.Component {
             reviews: [],
             discussions: [],
             reload: false,
+            image: {},
+            headImage: null
         }
         // console.log(this.props.match.params.uuid);
         this.auth = new AuthService();
@@ -85,10 +88,14 @@ class ProductDetail extends React.Component {
         this.service.getProduct(this.props.match.params.uuid)
             .then(res => {
                 const product = res.data.data;
-                // console.log(product.weight);
+                console.log(product);
+                const image = product.image.url;
+                // alert(image);
+                // const headImage = images[Object.keys(images)[0]].url;
                 const user = product.user;
                 const category = product.category;
-                this.setState({ product, user, category });
+                this.setState({ product, user, category, image });
+                // alert(this.state.image);
                 this.review.getReviews(this.state.product.uuid)
                     .then(res => {
                         const reviews = res.data.data[0] != undefined ? res.data.data[0].detail_review : [];
@@ -324,7 +331,12 @@ class ProductDetail extends React.Component {
             <div className="app">
                 <Header {...this.props} />
                 <div className="content">
-                    <div className="dummy dummy--header">Breadcrumbs Go Here</div>
+                    <BreadcrumbsItem to={`/`}>
+                        Home
+                        </BreadcrumbsItem>
+                    <div className="dummy dummy--header">
+
+                    </div>
                     <div className="dummy">
                         <div className="perimeter">
                             <div className="image">
@@ -332,13 +344,13 @@ class ProductDetail extends React.Component {
                                     smallImage: {
                                         alt: 'Wristwatch by Ted Baker London',
                                         isFluidWidth: true,
-                                        src: `https://s3-us-west-1.amazonaws.com/react-package-assets/images/wristwatch_1033.jpg`,
+                                        src: this.state.image,
                                         // srcSet: this.srcSet,
                                         sizes: '(min-width: 800px) 33.5vw, (min-width: 415px) 50vw, 100vw',
                                     },
                                     largeImage: {
                                         alt: '',
-                                        src: `https://s3-us-west-1.amazonaws.com/react-package-assets/images/wristwatch_1200.jpg`,
+                                        src: this.state.image,
                                         width: 1200,
                                         height: 1800,
                                     },

@@ -5,6 +5,9 @@ class CategoryService {
     addCategory(parentUuid, categoryName) {
         return Request.make("POST", 'categories', {parent_uuid: parentUuid, category_name: categoryName});
     }
+    getAllCategories() {
+        return Request.make("GET", 'categories');
+    }
 }
 
 export default CategoryService;

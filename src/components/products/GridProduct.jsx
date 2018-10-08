@@ -6,6 +6,14 @@ import {
 class GridProduct extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            product: {},
+            image: {},
+        }
+        this.forceUpdate();
+        // console.log(this.props.product.name);
+        // this.setState({product: this.props.product});
+        // console.log('aa', this.state.product);
     }
 
     render() {
@@ -14,7 +22,7 @@ class GridProduct extends React.Component {
                 <Link to={`/products/${this.props.product.uuid}`}>
                     <div className="product-grid__product">
                         <div className="product-grid__img-wrapper">
-                            <img src="https://images.apple.com/euro/macbook/a/screens/specs/images/finish_silver_large.jpg" alt="Img" className="product-grid__img" />
+                            <img src={this.props.product.image.url} alt="Img" className="product-grid__img" />
                         </div>
                         <span className="product-grid__title">{this.props.product.name}</span>
                         <span className="product-grid__price">Rp. {this.props.product.price}</span>

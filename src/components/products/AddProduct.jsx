@@ -5,6 +5,7 @@ import {
 import ProductService from '../../services/ProductService';
 import CategoryService from '../../services/CategoryService';
 import axios from 'axios'
+import OngkirService from '../../services/OngkirService';
 
 const APIcategories = 'http://localhost:8000/api/categories';
 
@@ -13,18 +14,50 @@ class AddProduct extends React.Component {
         super(props);
         this.service = new ProductService();
         this.categoryService = new CategoryService();
+        this.ongkirService = new OngkirService();
         this.state = {
             parent_categories: [],
+            provinces: [],
+            cities: [],
+            selectedProvince: null
         }
     }
 
     componentDidMount() {
-        axios.get()
+        this.categoryService.getAllCategories()
             .then(res => {
                 const parent_categories = res.data.data;
                 this.setState({ parent_categories });
-            });
+            })
+            .catch(err => {
+                alert(err.message);
+            })
+        this.ongkirService.getProvinces()
+            .then(res => {
+                const provinces = res.data.rajaongkir.results;
+                // console.log(provinces);
+                this.setState({ provinces });
+            })
+        // axios.get()
+        //     .then(res => {
+        //         const parent_categories = res.data.data;
+        //         this.setState({ parent_categories });
+        //     });
     }
+
+    handleProvinceChange = (event) => {
+        const province_id = event.target.value;
+        this.setState({ selectedProvince: province_id });
+        this.ongkirService.getCities(province_id)
+            .then(res => {
+                const cities = res.data.rajaongkir.results;
+                console.log(cities);
+                this.setState({ cities });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
 
     handleAddProduct(e) {
         e.preventDefault();
@@ -49,10 +82,11 @@ class AddProduct extends React.Component {
         d.append('city', city);
         d.append('province', province);
         d.append('category_id', category);
-
+        // console.log(name + stock + price + category);
         this.service.addProduct(d)
             .then(res => {
                 console.log(res);
+                alert(`Success added ${res.data.data.name}`)
             })
             .catch(err => {
                 alert(err.message);
@@ -62,7 +96,7 @@ class AddProduct extends React.Component {
     render() {
         return (
             <div className="content wrapper">
-                <form action="">
+                <form onSubmit={this.handleAddProduct.bind(this)}>
                     <h2>Add Product</h2>
                     <br />
                     <br />
@@ -71,7 +105,13 @@ class AddProduct extends React.Component {
                         {
                             this.state.parent_categories.map(category => {
                                 return (
-                                    <option value={category.uuid}></option>
+                                    // console.log(category);
+                                    category.subcategory.map(sub => {
+                                        console.log(sub);
+                                        return (
+                                            <option value={sub.uuid}>{sub.name}</option>
+                                        )
+                                    })
                                 )
                             })
                         }
@@ -98,19 +138,32 @@ class AddProduct extends React.Component {
                     <textarea name="_description" id="" cols="30" rows="10" placeholder="Description"></textarea>
                     <br />
                     <br />
+                    <p>Province</p>
+                    <select name="_province" id="" onChange={this.handleProvinceChange.bind(this)}>
+                        {
+                            this.state.provinces.map(p => {
+                                // console.log(p);
+                                return (
+                                    <option value={p.province_id}>{p.province}</option>
+                                )
+                            })
+                        }
+                    </select>
+                    <br />
+                    <br />
                     <p>City</p>
                     <select name="_city" id="">
-                        <option value=""></option>
+                        {
+                            this.state.cities.map(c => {
+                                return (
+                                    <option value={c.city_id}>{c.city_name}</option>
+                                )
+                            })
+                        }
                     </select>
                     <br />
                     <br />
-                    <p>Province</p>
-                    <select name="_province" id="">
-                        <option value=""></option>
-                    </select>
-                    <br />
-                    <br />
-                    <button>Submit</button>
+                    <button type="submit">Submit</button>
                 </form>
             </div>
         )
