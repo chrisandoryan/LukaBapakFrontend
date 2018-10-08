@@ -3,7 +3,9 @@ import {
     Link
 } from 'react-router-dom'
 import axios from 'axios'
+import ReactDOM from 'react-dom';
 import PromoService from '../../services/PromoService';
+import ContentEditable from "react-sane-contenteditable";
 
 const APIPromos = 'http://localhost:8000/api/promotions';
 
@@ -14,6 +16,8 @@ class ManagePromo extends React.Component {
             promos: [],
             dropdownPromoSelected: '',
             selectedPromo: null,
+            newPromoName: "",
+            selectedPromoId: 0,
         }
         this.service = new PromoService();
         this.handlePromoInsert = this.handlePromoInsert.bind(this);
@@ -34,6 +38,11 @@ class ManagePromo extends React.Component {
                 alert(err.message);
             })
         // alert(id);
+    }
+
+    handleNameChange = (ev, value) => {
+        console.log(value);
+        this.state.newPromoName = value;
     }
 
     handleDropDownPromoChange(e) {
@@ -59,23 +68,44 @@ class ManagePromo extends React.Component {
             });
     }
 
+    updatePromoList() {
+        axios.get(APIPromos)
+            .then(res => {
+                const promos = res.data.data
+                this.setState({ promos });
+                // console.log(this.state.promos);
+            });
+    }
+
     handlePromoInsert(e) {
         e.preventDefault();
         const promo_name = e.target._addPromoName.value;
         this.service.storePromo(promo_name)
             .then(res => {
                 console.log(res);
-                axios.get(APIPromos)
-                    .then(res => {
-                        const promos = res.data.data
-                        this.setState({ promos });
-                        // console.log(this.state.promos);
-                    });
+                this.updatePromoList();
                 alert('Success adding promo ' + res.data.data.name);
             })
             .catch(err => {
                 console.log(err.message);
                 alert('Failed');
+            })
+    }
+
+    updatePromoName = (e, data) => {
+        const newName = this.state.newPromoName;
+        // console.log(data);
+        const id = data.id;
+        // alert(id);
+        // const id = ReactDOM.findDOMNode(this.refs['promoId']);
+        // console.log(e.target.value);
+        this.service.updatePromo(id, newName)
+            .then(res => {
+                alert("Success!");
+                this.updatePromoList();
+            })
+            .catch(err => {
+                alert(err.message);
             })
     }
 
@@ -124,11 +154,25 @@ class ManagePromo extends React.Component {
                         {/*   BEGIN LOOP */}
                         {
                             this.state.promos.map((data, index) => {
+                                console.log(data);
                                 return (
                                     <ul>
                                         <li className="row">
                                             <div className="cell cell-50 text-center">{index + 1}</div>
-                                            <div className="cell cell-100 text-center">{data.name}</div>
+                                            {/* <div className="cell cell-100 text-center">{data.name}</div> */}
+                                            <ContentEditable
+                                                // key={index}
+                                                tagName="div"
+                                                content={`${data.name}`}
+                                                className="cell cell-100 text-center"
+                                                editable={true}
+                                                maxLength={140}
+                                                multiLine={false}
+                                                value={data.id}
+                                                // ref="promoId"
+                                                onBlur={((e) => this.updatePromoName(e, data))}
+                                                onChange={this.handleNameChange.bind(this)}
+                                            />
                                             <div className="cell cell-100 text-center">
                                                 {data.created_at.date}
                                             </div>
