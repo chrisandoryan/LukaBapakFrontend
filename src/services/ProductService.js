@@ -16,6 +16,8 @@ class ProductService {
         // return Axios.get(ElasticAPI + '_search?q=name:jaket');
     }
     addProduct(data) {
+        // console.log(_image);
+        // Request.makeToProtected("POST", "images", data);
         return Request.makeToProtected("POST", "products", data);
     }
     getProductsByPromo(_promoId) {

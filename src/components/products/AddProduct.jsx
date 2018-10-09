@@ -19,7 +19,8 @@ class AddProduct extends React.Component {
             parent_categories: [],
             provinces: [],
             cities: [],
-            selectedProvince: null
+            selectedProvince: null,
+            image: null,
         }
     }
 
@@ -59,6 +60,22 @@ class AddProduct extends React.Component {
             });
     };
 
+    handleImageUpload(e) {
+        e.preventDefault();
+        let file = e.target.files[0];
+        // if (!file.length) return;
+        alert("Uploading");
+        this.createImage(file);
+    }
+
+    createImage(file) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+            this.setState({image: e.target.result});
+        }
+        reader.readAsDataURL(file);
+    }
+
     handleAddProduct(e) {
         e.preventDefault();
         const name = e.target._name.value;
@@ -70,6 +87,7 @@ class AddProduct extends React.Component {
         const city = e.target._city.value;
         const province = e.target._province.value;
         const category = e.target._category.value;
+        const image = this.state.image;
 
         let d = new FormData();
 
@@ -82,11 +100,14 @@ class AddProduct extends React.Component {
         d.append('city', city);
         d.append('province', province);
         d.append('category_id', category);
+        d.append('image', this.state.image);
+        // console.log(this.state.image);
         // console.log(name + stock + price + category);
         this.service.addProduct(d)
             .then(res => {
                 console.log(res);
-                alert(`Success added ${res.data.data.name}`)
+                alert(`Success added ${res.data.data.name}`);
+                this.forceUpdate();
             })
             .catch(err => {
                 alert(err.message);
@@ -132,6 +153,10 @@ class AddProduct extends React.Component {
                         <option selected value="new">New</option>
                         <option selected value="old">Old</option>
                     </select>
+                    <br />
+                    <br />
+                    <p>Image</p>
+                    <input type="file" onChange={this.handleImageUpload.bind(this)}/>
                     <br />
                     <br />
                     <p>Description</p>
