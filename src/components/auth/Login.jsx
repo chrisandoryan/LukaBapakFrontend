@@ -24,9 +24,22 @@ class Login extends React.Component {
     handleLogin(e) {
         e.preventDefault();
         let email = e.target[0].value;
+        let mode = "";
+        if ((/^\d$/g).test(email)) {
+            mode = "phone";
+        }
+        else if((/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(email)) {
+            mode = "email";
+        }
+        else {
+            mode = "username";
+        }
+
+        // alert(mode);
+
         let password = e.target[1].value;
 
-        this.service.login(email, password).then(access_token => {
+        this.service.login(email, password, mode).then(access_token => {
             this.service.isLoggedIn()
                 .then(res => {
                     if (res !== false) {

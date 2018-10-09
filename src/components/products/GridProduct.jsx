@@ -11,7 +11,7 @@ class GridProduct extends React.Component {
             image: {},
         }
         this.forceUpdate();
-        this.setState({image: this.props.product.image != undefined ? this.props.product.image.url : this.props.product.images.url });
+        this.setState({image: this.props.product.image != undefined ? this.props.product.image.url : this.props.product.images != undefined ? this.props.product.images.url : "https://via.placeholder.com/300x300" });
         // console.log(this.props.product.name);
         // this.setState({product: this.props.product});
         // console.log('aa', this.state.product);

@@ -10,7 +10,7 @@ class ListProduct extends React.Component {
             image: {},
             product: {},
         }
-        this.setState({image: this.props.product.image != undefined ? this.props.product.image.url : this.props.product.images.url });
+        this.setState({image: this.props.product.image != undefined ? this.props.product.image.url : this.props.product.images != undefined ? this.props.product.images.url : "https://via.placeholder.com/300x300" });
     }
 
     render() {

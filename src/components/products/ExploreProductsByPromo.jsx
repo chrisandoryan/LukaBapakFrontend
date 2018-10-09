@@ -3,6 +3,7 @@ import {
     Link
 } from 'react-router-dom'
 import GridProduct from './GridProduct';
+import ListProduct from './ListProduct';
 import ProductService from '../../services/ProductService';
 import Header from '../shared/Header';
 import FilterSidebar from '../misc/FilterSidebar';
@@ -19,11 +20,16 @@ class ExploreProductsByPromo extends React.Component {
             links: {},
             meta: {},
             page: 1,
+            isList: false,
         }
         this.service = new ProductService();
         this.handleSortMode = this.handleSortMode.bind(this);
         this.handlePriceRangeUpdate = this.handlePriceRangeUpdate.bind(this);
         this.handleConditionUpdate = this.handleConditionUpdate.bind(this);
+    }
+
+    handleDisplayMode() {
+        this.setState({ isList: !this.state.isList });
     }
 
     handleConditionUpdate(e) {
@@ -38,7 +44,7 @@ class ExploreProductsByPromo extends React.Component {
                 return el.product_condition == "new";
             });
             // alert(filtered.length);
-            this.setState({products: filtered});
+            this.setState({ products: filtered });
         }
         else if (e.target._oldProductCheck.checked) {
             // alert("old checked");
@@ -47,7 +53,7 @@ class ExploreProductsByPromo extends React.Component {
                 return el.product_condition == "old";
             });
             // alert(filtered.length);
-            this.setState({products: filtered});
+            this.setState({ products: filtered });
         }
         // alert("something changed on filtersidebar component");
     }
@@ -137,7 +143,7 @@ class ExploreProductsByPromo extends React.Component {
             const filtered = products.filter(function (el) {
                 return el.price < maxPrice;
             });
-            this.setState({products: filtered});
+            this.setState({ products: filtered });
         }
         else if (e.target._maxPrice.value == "" && e.target._minPrice.value != "") {
             //filter min price
@@ -147,7 +153,7 @@ class ExploreProductsByPromo extends React.Component {
             const filtered = products.filter(function (el) {
                 return el.price > minPrice;
             });
-            this.setState({products: filtered});
+            this.setState({ products: filtered });
         }
         else {
             //filter full rage
@@ -158,7 +164,7 @@ class ExploreProductsByPromo extends React.Component {
             const filtered = products.filter(function (el) {
                 return el.price < maxPrice && el.price > minPrice;
             });
-            this.setState({products: filtered});
+            this.setState({ products: filtered });
         }
     }
 
@@ -197,6 +203,8 @@ class ExploreProductsByPromo extends React.Component {
                         handeSortRating={this.handeSortRating}
                     />
                     <div className="content-box product-view-wrapper">
+                        <button onClick={this.handleDisplayMode.bind(this)}>Grid</button>
+                        <button onClick={this.handleDisplayMode.bind(this)}>List</button>
                         <div className="filter-sort-dropdown">
                             <span>Urutkan</span>
                             <br />
@@ -211,7 +219,11 @@ class ExploreProductsByPromo extends React.Component {
                             this.state.products.map((data, index) => {
                                 console.log(data);
                                 return (
-                                    <GridProduct hoverable="true" product={data}/>
+                                    this.state.isList ? (
+                                        <ListProduct product={data} />
+                                    ) : (
+                                            <GridProduct hoverable="true" product={data} />
+                                        )
                                 )
                             })
                         }

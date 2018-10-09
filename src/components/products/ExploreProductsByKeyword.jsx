@@ -3,6 +3,7 @@ import {
     Link
 } from 'react-router-dom'
 import GridProduct from './GridProduct';
+import ListProduct from './ListProduct';
 import ProductService from '../../services/ProductService';
 import Header from '../shared/Header';
 import FilterSidebar from '../misc/FilterSidebar';
@@ -12,8 +13,13 @@ class ExploreProductsByKeyword extends React.Component {
         super(props);
         this.state = {
             products: [],
+            isList: false,
         }
         this.service = new ProductService();
+    }
+
+    handleDisplayMode() {
+        this.setState({ isList: !this.state.isList });
     }
 
     handleConditionUpdate(e) {
@@ -135,6 +141,10 @@ class ExploreProductsByKeyword extends React.Component {
                         handeSortRating={this.handeSortRating}
                     />
                     <div className="content-box product-view-wrapper">
+                    <div style={{float:"left"}}>
+                        <button onClick={this.handleDisplayMode.bind(this)}>Grid</button>
+                        <button onClick={this.handleDisplayMode.bind(this)}>List</button>
+                    </div>
                         <div className="filter-sort-dropdown">
                             <span>Urutkan</span>
                             <br />
@@ -148,7 +158,11 @@ class ExploreProductsByKeyword extends React.Component {
                         {
                             this.state.products.map((data, index) => {
                                 return (
-                                    <GridProduct hoverable="true" product={data} />
+                                    this.state.isList ? (
+                                        <ListProduct product={data} />
+                                    ) : (
+                                            <GridProduct hoverable="true" product={data} />
+                                        )
                                 )
                             })
                         }

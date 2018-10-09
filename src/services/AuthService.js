@@ -2,10 +2,11 @@ import axios from "axios";
 import decode from 'jwt-decode';
 
 class AuthService {
-    login(email, password) {
+    login(email, password, mode) {
         var formData = new FormData();
         formData.append("password", password);
         formData.append("email", email);
+        formData.append("mode", mode);
 
         return axios
             .post("http://localhost:8000/api/login", formData)
