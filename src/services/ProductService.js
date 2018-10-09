@@ -18,7 +18,9 @@ class ProductService {
     addProduct(data) {
         return Request.makeToProtected("POST", "products", data);
     }
-    
+    getProductsByPromo(_promoId) {
+        return Request.make("GET", `promotions/${_promoId}`);
+    }
 }
 
 export default ProductService;

@@ -3,33 +3,27 @@ import {
     Link
 } from 'react-router-dom'
 import GridProduct from './GridProduct';
-import ListProduct from './ListProduct';
 import ProductService from '../../services/ProductService';
 import Header from '../shared/Header';
 import FilterSidebar from '../misc/FilterSidebar';
 import Pagination from "react-js-pagination";
 // require("bootstrap/less/bootstrap.less");
 
-class ExploreProductsByCategory extends React.Component {
+class ExploreProductsByPromo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             products: [],
-            category: {},
+            promo: {},
             sortingMode: 0,
             links: {},
             meta: {},
             page: 1,
-            isList: false,
         }
         this.service = new ProductService();
         this.handleSortMode = this.handleSortMode.bind(this);
         this.handlePriceRangeUpdate = this.handlePriceRangeUpdate.bind(this);
         this.handleConditionUpdate = this.handleConditionUpdate.bind(this);
-    }
-
-    handleDisplayMode() {
-        this.setState({isList: !this.state.isList});
     }
 
     handleConditionUpdate(e) {
@@ -58,15 +52,15 @@ class ExploreProductsByCategory extends React.Component {
         // alert("something changed on filtersidebar component");
     }
     componentDidMount() {
-        // alert(this.props.match.params.uuid);
-        this.service.getProductsByCategory(this.props.match.params.uuid, this.state.page)
+        // alert(this.props.match.params.promoid);
+        this.service.getProductsByPromo(this.props.match.params.promoid)
             .then(res => {
                 // alert(res.data.links);
-                const products = res.data.data;
-                const category = res.data.data[0].category;
+                const products = res.data.data[0].products;
+                const promo = res.data.data[0];
                 // const productHits = res.data.hits.hits;
-                console.log(products);
-                this.setState({ products, category, links: res.data.links, meta: res.data.meta });
+                console.log('aa', res.data.data[0]);
+                this.setState({ products, promo, links: res.data.links, meta: res.data.meta });
                 // alert(this.state.links.first);
             })
             .catch(err => {
@@ -77,23 +71,23 @@ class ExploreProductsByCategory extends React.Component {
 
     handlePageChange(pageNum) {
         // alert(pageNum);
-        this.service.getProductsByCategory(this.props.match.params.uuid, pageNum)
-            .then(res => {
-                // alert(res.data.links);
-                const products = res.data.data;
-                const category = res.data.data[0].category;
-                // const productHits = res.data.hits.hits;
-                // console.log(productHits);
-                console.log(products);
-                this.setState({ products, category, links: res.data.links, meta: res.data.meta });
-                // alert(this.state.links.first);
-                this.forceUpdate();
-            })
-            .catch(err => {
-                alert(err);
-                console.log(err);
-            });
-        this.forceUpdate();
+        // this.service.getProductsByCategory(this.props.match.params.uuid, pageNum)
+        //     .then(res => {
+        //         // alert(res.data.links);
+        //         const products = res.data.data;
+        //         const category = res.data.data[0].category;
+        //         // const productHits = res.data.hits.hits;
+        //         // console.log(productHits);
+        //         console.log(products);
+        //         this.setState({ products, category, links: res.data.links, meta: res.data.meta });
+        //         // alert(this.state.links.first);
+        //         this.forceUpdate();
+        //     })
+        //     .catch(err => {
+        //         alert(err);
+        //         console.log(err);
+        //     });
+        // this.forceUpdate();
     }
 
     handleSortMode(e) {
@@ -196,15 +190,13 @@ class ExploreProductsByCategory extends React.Component {
             <div>
                 <Header {...this.props} />
                 <div className="content wrapper">
-                    <div className="content-box header">Produk Dalam Kategori <b>{this.state.category.name}</b></div>
+                    <div className="content-box header">Produk Dalam Promo <b>{this.state.promo.name}</b></div>
                     <FilterSidebar
                         handleConditionUpdate={this.handleConditionUpdate}
                         handlePriceRangeUpdate={this.handlePriceRangeUpdate}
                         handeSortRating={this.handeSortRating}
                     />
                     <div className="content-box product-view-wrapper">
-                        <button onClick={this.handleDisplayMode.bind(this)}>Grid</button>
-                        <button onClick={this.handleDisplayMode.bind(this)}>List</button>
                         <div className="filter-sort-dropdown">
                             <span>Urutkan</span>
                             <br />
@@ -219,29 +211,25 @@ class ExploreProductsByCategory extends React.Component {
                             this.state.products.map((data, index) => {
                                 console.log(data);
                                 return (
-                                    this.state.isList ? (
-                                        <ListProduct product={data} />
-                                        ) : (
-                                        <GridProduct hoverable="true" product={data}/>     
-                                        )
+                                    <GridProduct hoverable="true" product={data}/>
                                 )
                             })
                         }
                     </div>
                 </div>
-                <div class="pagination">
+                {/* <div class="pagination">
                     <a onClick={() => {this.handlePageChange(1)}} class="page dark">first</a>
                     <a onClick={() => {this.state.links.prev ? this.handlePageChange(this.state.links.prev.substr(this.state.links.prev.length - 1)) : this.handlePageChange(1)}} class="page dark">prev</a>
                     <span class="page active">{this.state.meta.current_page}</span>
                     <a onClick={() => {this.state.links.next ? this.handlePageChange(this.state.links.next.substr(this.state.links.next.length - 1)) : this.handlePageChange(1)}} class="page dark">next</a>
                     <a onClick={() => {this.setState({page: this.state.meta.last_page}); this.handlePageChange(this.state.meta.last_page);}} class="page dark">last</a>
-                </div>
+                </div> */}
             </div>
         )
     }
 }
 
-export default ExploreProductsByCategory;
+export default ExploreProductsByPromo;
 // <div className="content wrapper">
 //     <div className="content-box header">Hasil Pencarian "<b>Jam Tangan Fosil Dinosaurus</b>"</div>
 //     <div className="content-box product-options">

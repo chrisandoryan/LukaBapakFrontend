@@ -33,7 +33,7 @@ class DisplayPromotedProducts extends React.Component {
                         <div key={index} className="content-promo">
                             <div className="small-title header">
                                 <b>{ data.name }</b>
-                                <button style={{ float: 'right' }}>Lihat Semua</button>
+                                <Link to={`/promo/${data.id}`} style={{ float: 'right' }}><button style={{ float: 'right' }}>Lihat Semua</button></Link>
                             </div>
                             {
                                 data.products.map((product, productIndex) => {

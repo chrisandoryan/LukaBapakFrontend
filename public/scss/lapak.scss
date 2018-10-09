@@ -1483,6 +1483,29 @@ label {
     background-color: #F1F1F1;
 }
 
+.product-list {
+    .product {
+        width: 100%;
+        min-width: 320px;
+    }
+
+    .product-image {
+        float: left;
+        margin-right: 20px;
+    }
+}
+
+.product {
+    padding: 10px;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+
+    &:hover {
+        border: 1px solid #aaa;
+        cursor: pointer;
+    }
+}
+
 
 /* helps */
 /* https://codepen.io/albino/pen/xEowgO griding in scss */

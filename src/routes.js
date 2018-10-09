@@ -11,13 +11,14 @@ import Cart from "./components/user/Cart";
 import PurchasePayment from "./components/transaction/PurchasePayment";
 import Profile from "./components/user/Profile";
 import AddProduct from "./components/products/AddProduct";
+import ExploreProductsByPromo from "./components/products/ExploreProductsByPromo";
 
 export default [
     { path: "/", component : Dashboard } ,
     { path: "/login", component : Login } ,
     { path: "/register", component : Register } ,
     { path: "/products/:uuid", component : ProductDetail } ,
-    { path: "/products/category/:uuid", component : ExploreProductsByCategory } ,
+    { path: "/products/category/:uuid", component    : ExploreProductsByCategory } ,
     { path: "/products/search/:keyword", component : ExploreProductsByKeyword } ,
     { path: "/admin", component : AdminPanel } ,
     { path: "/logout", component : Logout } ,
@@ -26,5 +27,6 @@ export default [
     { path: "/payment", component : PurchasePayment } ,
     { path: "/profile", component : Profile } ,
     { path: "/addproduct", component : AddProduct } ,
+    { path: "/promo/:promoid", component : ExploreProductsByPromo } ,
     // { path: "/products", component : ProductPage } ,
 ];
