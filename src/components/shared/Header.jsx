@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom'
 import Dropdown from '../misc/Dropdown';
 import AuthService from '../../services/AuthService';
+import Search from './Search';
 
 class Header extends React.Component {
     constructor(props) {
@@ -79,10 +80,11 @@ class Header extends React.Component {
                         </li>
                         <li>
                             <div className="search-container">
-                                <form onSubmit={this.handleSearch.bind(this)}>
+                                <Search />
+                                {/* <form onSubmit={this.handleSearch.bind(this)}>
                                     <input type="text" onChange={this.handleKeywordChange} placeholder="Aku mau belanja..." name="search" />
                                     <button type="submit"><i className="fa fa-search"></i></button>
-                                </form>
+                                </form> */}
                             </div>
                         </li>
                         <li><Link to="/payment">Lihat Status Transaksi</Link></li>

@@ -85,14 +85,16 @@ class ProductDetail extends React.Component {
             .catch(err => {
                 alert(err.message);
             });
+        // alert(this.props.match.params.uuid)
         this.service.getProduct(this.props.match.params.uuid)
             .then(res => {
                 const product = res.data.data;
-                console.log(product);
+                console.log('aa', product);
                 const image = product.image.url;
                 // alert(image);
                 // const headImage = images[Object.keys(images)[0]].url;
                 const user = product.user;
+                console.log(user);
                 const category = product.category;
                 this.setState({ product, user, category, image });
                 // alert(this.state.image);
@@ -117,7 +119,7 @@ class ProductDetail extends React.Component {
                 // console.log(this.state.product.category.name);
             })
             .catch(err => {
-                console.log(err.response);
+                console.log(err.message);
             });
         this.ongkir.getProvinces()
             .then(res => {

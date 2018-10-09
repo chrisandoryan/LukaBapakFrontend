@@ -26,7 +26,8 @@
     "react-scripts": "1.1.5",
     "react-through": "^1.1.1",
     "sass-flex-mixin": "^1.0.3",
-    "sass-loader": "^7.1.0"
+    "sass-loader": "^7.1.0",
+    "throttle-debounce": "^2.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
