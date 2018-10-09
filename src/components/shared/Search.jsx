@@ -7,6 +7,12 @@ import { debounce } from 'throttle-debounce'
 import '../../css/search.css';
 
 class Search extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.doSearchRedirect = this.doSearchRedirect.bind(this);
+    }
+
     state = {
         value: '',
         suggestions: []
@@ -21,8 +27,8 @@ class Search extends React.Component {
 
     renderSuggestion = suggestion => {
         return (
-            <div className="result">
-                <div className="suggest1" style={{wordWrap: "break-word", width: 400}}>{suggestion.name}</div>
+            <div className="result" style={{wordWrap: "break-word", maxWidth: 400}}>
+                {suggestion.name}
             </div>
         )
     }
@@ -49,6 +55,13 @@ class Search extends React.Component {
             })
     }
 
+    doSearchRedirect() {
+        // event.preventDefault();
+        this.props.history.replace(`/products/search/${this.state.value}`);
+        console.log(this.state.value);
+        // alert(this.state.value);
+    }
+
     onSuggestionsClearRequested = () => {
         this.setState({ suggestions: [] })
     }
@@ -72,6 +85,7 @@ class Search extends React.Component {
                     renderSuggestion={this.renderSuggestion}
                     inputProps={inputProps}
                 />
+                <button type="submit" onClick={this.doSearchRedirect}><i className="fa fa-search"></i></button>
             </div>
         )
     }

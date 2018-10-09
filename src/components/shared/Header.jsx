@@ -80,7 +80,7 @@ class Header extends React.Component {
                         </li>
                         <li>
                             <div className="search-container">
-                                <Search />
+                                <Search {...this.props}/>
                                 {/* <form onSubmit={this.handleSearch.bind(this)}>
                                     <input type="text" onChange={this.handleKeywordChange} placeholder="Aku mau belanja..." name="search" />
                                     <button type="submit"><i className="fa fa-search"></i></button>
