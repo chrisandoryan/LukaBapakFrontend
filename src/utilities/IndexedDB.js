@@ -1,4 +1,4 @@
-import idb from 'idb'
+import idb from 'idb';
 
 export default class IndexedDB {
     

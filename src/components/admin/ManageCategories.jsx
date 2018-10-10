@@ -21,7 +21,7 @@ class ManageCategories extends React.Component {
 
     handleDropDownCategoryChange(e) {
         // alert(e.target.value);
-        this.setState({dropdownCategorySelected: e.target.value });
+        this.setState({ dropdownCategorySelected: e.target.value });
     }
 
     handleCategoryInsert(e) {
@@ -48,6 +48,25 @@ class ManageCategories extends React.Component {
             });
     }
 
+    handleCategoryDelete(e) {
+        const uuid = e.target.value;
+        // alert(uuid);
+        this.service.deleteCategory(uuid)
+            .then(res => {
+                console.log(res);
+                alert("Success!");
+                axios.get(APIcategories)
+                    .then(res => {
+                        const parent_categories = res.data.data;
+                        this.setState({ parent_categories });
+                    });
+            })
+            .catch(err => {
+                alert(err.message);
+            })
+
+    }
+
     render() {
         return (
             <div className="mainContent">
@@ -70,6 +89,7 @@ class ManageCategories extends React.Component {
                         {/*   BEGIN LOOP */}
                         {
                             this.state.parent_categories.map((data, index) => {
+                                console.log(data);
                                 return (
                                     <ul>
                                         <li className="row">
@@ -78,9 +98,9 @@ class ManageCategories extends React.Component {
                                             <div className="cell cell-100 text-center">
                                                 {data.name}
                                             </div>
-                                            <div className="cell cell-100 text-center"><a href>Pompa Bola</a></div>
+                                            <div className="cell cell-100 text-center"><a href>{data.name}</a></div>
                                             <div className="cell cell-100 text-center">
-                                                <button>Remove</button>
+                                                <button value={data.uuid} onClick={this.handleCategoryDelete.bind(this)}>Remove</button>
                                             </div>
                                         </li>
                                     </ul>
@@ -169,7 +189,7 @@ class ManageCategories extends React.Component {
                                     {
                                         this.state.parent_categories.map((data, index) => {
                                             return (
-                                                <option value={data.uuid}>{data.name}</option>                                    
+                                                <option value={data.uuid}>{data.name}</option>
                                             )
                                         })
                                     }

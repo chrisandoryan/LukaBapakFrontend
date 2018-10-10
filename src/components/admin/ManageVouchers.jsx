@@ -13,8 +13,9 @@ class ManageVouchers extends React.Component {
             vouchers: [],
             newPriceCut: 0,
             selectedVoucherId: null,
+            image: null,
         }
-        this.handleSelectVoucher = this.handleSelectVoucher.bind(this);
+        // this.handleSelectVoucher = this.handleSelectVoucher.bind(this);
     }
 
     componentDidMount() {
@@ -50,7 +51,9 @@ class ManageVouchers extends React.Component {
         const code = e.target._code.value;
         const name = e.target._name.value;
         const price = e.target._price.value;
-        this.service.storeVoucher(code, name, price)
+        const image = this.state.image;
+        alert(price);
+        this.service.storeVoucher(code, name, price, image)
             .then(res => {
                 alert("Success!");
                 this.updateVoucherList();
@@ -77,6 +80,22 @@ class ManageVouchers extends React.Component {
     handlePriceChange = (ev, value) => {
         console.log(value);
         this.state.newPriceCut = value;
+    }
+
+    handleImageUpload(e) {
+        e.preventDefault();
+        let file = e.target.files[0];
+        // if (!file.length) return;
+        // alert("Uploading");
+        this.createImage(file);
+    }
+
+    createImage(file) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+            this.setState({image: e.target.result});
+        }
+        reader.readAsDataURL(file);
     }
 
     render() {
@@ -159,6 +178,11 @@ class ManageVouchers extends React.Component {
                                 <h3>Price Cut</h3>
                                 <br />
                                 Rp. <input name="_price" type="text" />
+                            </label>
+                            <label className="inputGroup">
+                                <h3>Banner</h3>
+                                <br />
+                                <input name="_image" type="file" onChange={this.handleImageUpload.bind(this)}/>
                             </label>
                             <label className="inputGroup">
                                 <input type="submit" value="Activate" />

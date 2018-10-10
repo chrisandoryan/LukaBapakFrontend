@@ -8,6 +8,9 @@ class CategoryService {
     getAllCategories() {
         return Request.make("GET", 'categories');
     }
+    deleteCategory(_id) {
+        return Request.makeToProtected("DELETE", `categories/${_id}`);
+    }
 }
 
 export default CategoryService;
