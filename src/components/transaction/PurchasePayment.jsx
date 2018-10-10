@@ -21,9 +21,11 @@ class PurchasePayment extends React.Component {
             groupedProducts: [],
             availableCourier: [],
             totalPrice: 0,
+            subTotalPrice: 0,
+            deliveryFee: 0,
         }
         this.fetchSupportedCourier = this.fetchSupportedCourier.bind(this);
-        this.subTotal = 0;                                
+        this.subTotalPrice = 0;
     }
 
     groupBy(list, keyGetter) {
@@ -40,6 +42,14 @@ class PurchasePayment extends React.Component {
         return map;
     }
 
+    amount(item) {
+        return item.price;
+    }
+
+    sum(prev, next) {
+        return prev + next;
+    }
+
     componentDidMount() {
         this.authService.isLoggedIn()
             .then(res => {
@@ -53,16 +63,35 @@ class PurchasePayment extends React.Component {
                     this.cartService.getCart()
                         .then(res => {
                             this.setState({ cartContent: res.data.data });
-                            // console.log(this.state.cartContent);
+                            console.log(this.state.cartContent);
                             const grouped = this.groupBy(res.data.data, p => p.product.user.name);
                             // console.log(grouped);
                             this.setState({ groupedProducts: grouped });
+                            this.state.cartContent.map(x => {
+                                console.log(this.subTotalPrice, x.product.price);
+                                this.subTotalPrice += x.product.price;
+                                this.setState({subTotalPrice: this.subTotalPrice});
+                            });
+                            // alert(this.subTotalPrice);
+                            // console.log(this.state.cartContent.product.map(this.amount).reduce(this.sum));
                         });
                 }
             })
             .catch(err => {
                 alert(err.message);
             });
+    }
+
+    componentWillMount() {
+        this.calculateSubTotal();
+    }
+
+    calculateSubTotal() {
+        this.state.cartContent.map(x => {
+            console.log(this.subTotalPrice, x.product.price);
+            this.subTotalPrice += x.product.price;
+        });
+        // return this.subTotalPrice;
     }
 
     fetchSupportedCourier(productWeight, qty, seller_city) {
@@ -127,32 +156,32 @@ class PurchasePayment extends React.Component {
                                     <div className="customer-detail">
                                         <h2>Ringkasan Belanja</h2>
                                         <div className="customer-address">
-                                            <div className="use-voucher">
-                                                <input type="text" placeholder="Punya Kode Voucher?" />
+                                            <div className="use-voucher" style={{ width: 40 }}>
+                                                <input type="text" placeholder="Punya Kode Voucher?" style={{ width: 400 }} />
                                             </div>
                                             <div className="purchase-summary">
                                                 <h3>Total Harga Barang</h3>
                                             </div>
-                                            <span className="price">Rp. {this.subTotal}</span>
+                                            <span className="price">Rp. {this.state.subTotalPrice}</span>
                                             <div className="purchase-summary">
                                                 <h3>Biaya Kirim</h3>
                                             </div>
-                                            <span className="price">Rp. {this.state.totalPrice}</span>
+                                            <span className="price">Rp. {this.state.subTotalPrice * 0.1}</span>
                                             <div className="purchase-summary">
                                                 <h3>Biaya Asuransi</h3>
                                             </div>
-                                            <span className="price">Rp. 30129</span>
+                                            <span className="price">Rp. {this.state.subTotalPrice * 0.1}</span>
                                             <br />
                                             <br />
                                             <div className="purchase-summary">
                                                 <h2>Total Belanja</h2>
                                             </div>
-                                            <span>Rp. 2932103</span>
+                                            <span>Rp. {this.state.subTotalPrice + this.state.subTotalPrice * 0.1 + this.state.deliveryFee}</span>
                                             <br />
                                             <br />
                                             <button>Bayar</button>
-                                            <br/>
-                                            <br/>
+                                            <br />
+                                            <br />
                                             <a onClick={this.handleDownloadRequest.bind(this)}>Download Transaksi</a>
                                         </div>
                                     </div>
