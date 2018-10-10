@@ -84,8 +84,9 @@ class Search extends React.Component {
                     getSuggestionValue={suggestion => suggestion.fullName}
                     renderSuggestion={this.renderSuggestion}
                     inputProps={inputProps}
+                    style={{display: "inline-block"}}
                 />
-                <button type="submit" onClick={this.doSearchRedirect}><i className="fa fa-search"></i></button>
+                <button type="submit" style={{width: 40, float: "right"}} onClick={this.doSearchRedirect}><i className="fa fa-search"></i></button>
             </div>
         )
     }

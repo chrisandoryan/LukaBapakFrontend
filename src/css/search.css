@@ -1,7 +1,6 @@
 .react-autosuggest__container {
     position: relative;
     display: inline-block;
-    width: 200px;
     /* margin-top: -10px; */
 }
 
@@ -51,7 +50,7 @@
     padding: 10px;
     border-bottom: 1px solid #eee;
     width: 300px;
-    white-space: pre-line;
+    /* white-space: nowrap; */
     z-index: 10;
 }
 

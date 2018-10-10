@@ -69,7 +69,7 @@ class Dashboard extends Component {
                         </div>
                         <DisplayPromotedProducts />
                     </div>
-                    {/* <Footer /> */}
+                    <Footer />
                 </div>
             </div>
         )
