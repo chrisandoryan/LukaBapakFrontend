@@ -90,9 +90,10 @@ class PurchasePayment extends React.Component {
 
     handleDownloadRequest(e) {
         e.preventDefault();
+        // window.open('http://localhost:8000/api/payment/download');
         this.cartService.downloadPurchaseTransaction()
             .then(res => {
-                // console.log(res);
+                console.log(res.data);
                 FileDownload(res.data, 'transaction.xlsx');
             })
     }

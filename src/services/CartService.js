@@ -34,7 +34,7 @@ class CartService {
         })
     }
     downloadPurchaseTransaction() {
-        return Request.makeToProtected("GET", "payment/download");
+        return Request.makeToProtectedDownload("GET", "payment/download");
     }
 }
 
