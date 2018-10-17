@@ -53,6 +53,7 @@ class AdminPanel extends React.Component {
             })
             .then(() => {
                 if (!this.state.user || this.state.user.is_admin == 0 || this.state.isLoggedIn === false) {
+                    alert("Please login");
                     this.props.history.push("/");
                     // alert(1);
                     // console.log(this.state.user);

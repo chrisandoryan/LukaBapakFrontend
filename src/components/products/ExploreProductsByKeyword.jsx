@@ -142,8 +142,8 @@ class ExploreProductsByKeyword extends React.Component {
                     />
                     <div className="content-box product-view-wrapper">
                     <div style={{float:"left"}}>
-                        <button onClick={this.handleDisplayMode.bind(this)}>Grid</button>
-                        <button onClick={this.handleDisplayMode.bind(this)}>List</button>
+                        <button onClick={this.handleDisplayMode.bind(this)}><i class="fas fa-grip-horizontal"></i></button>
+                        <button onClick={this.handleDisplayMode.bind(this)}><i class="fas fa-list-ul"></i></button>
                     </div>
                         <div className="filter-sort-dropdown">
                             <span>Urutkan</span>

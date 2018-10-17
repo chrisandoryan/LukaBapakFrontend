@@ -29,12 +29,27 @@ class CartService {
     }
     getProductsFromIndexedDBCart() {
         const db = new IndexedDB("lukabapak", "cart");
-        db.getAll().then(res => {
-            console.log(res);
-        })
+        return db.getAll();
+        // db.getAll().then(res => {
+        //     return res;
+        // })
     }
     downloadPurchaseTransaction() {
         return Request.makeToProtectedDownload("GET", "payment/download");
+    }
+
+    createHeaderTransaction(seller_id) {
+        var d = new FormData();
+        d.append('seller_id', seller_id);
+        return Request.makeToProtected("POST", 'header-transaction', d);
+    }
+
+    storeTransactionData(header_id, product_id, amount) {
+        var d = new FormData();
+        d.append('header_id', header_id);
+        d.append('product_id', product_id);
+        d.append('amount', amount);
+        return Request.makeToProtected("POST", 'transactions', d);
     }
 }
 

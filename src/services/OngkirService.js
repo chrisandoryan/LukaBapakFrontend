@@ -1,7 +1,7 @@
 import Request from "../utilities/Request";
 
 const RajaOngkirAPI = "https://api.rajaongkir.com/starter/";
-const ROKey = "4c53e243feccd52fc7b006463c51b654";
+const ROKey = "cde042394ffeb746946c22d61af083dc";
 
 class OngkirService {
     getProvinces() {

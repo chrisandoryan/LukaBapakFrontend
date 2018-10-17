@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom'
 import Autosuggest from 'react-autosuggest'
 import axios from 'axios'
 import { debounce } from 'throttle-debounce'
+import {
+    Link
+} from 'react-router-dom'
 
 import '../../css/search.css';
 
@@ -27,9 +30,11 @@ class Search extends React.Component {
 
     renderSuggestion = suggestion => {
         return (
+            <Link to={`/products/${suggestion.uuid}`} style={{color: "black"}}>
             <div className="result" style={{wordWrap: "break-word", maxWidth: 400}}>
                 {suggestion.name}
             </div>
+            </Link>
         )
     }
 

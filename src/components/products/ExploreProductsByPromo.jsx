@@ -203,8 +203,8 @@ class ExploreProductsByPromo extends React.Component {
                         handeSortRating={this.handeSortRating}
                     />
                     <div className="content-box product-view-wrapper">
-                        <button onClick={this.handleDisplayMode.bind(this)}>Grid</button>
-                        <button onClick={this.handleDisplayMode.bind(this)}>List</button>
+                        <button onClick={this.handleDisplayMode.bind(this)}><i class="fas fa-grip-horizontal"></i></button>
+                        <button onClick={this.handleDisplayMode.bind(this)}><i class="fas fa-list-ul"></i></button>
                         <div className="filter-sort-dropdown">
                             <span>Urutkan</span>
                             <br />

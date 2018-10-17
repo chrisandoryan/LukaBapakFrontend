@@ -6,6 +6,8 @@ import Header from '../shared/Header';
 import AuthService from '../../services/AuthService';
 import CartService from '../../services/CartService';
 import OngkirService from '../../services/OngkirService';
+// import IndexedDB from '../../utilities/IndexedDB';
+
 const FileDownload = require('js-file-download');
 
 class PurchasePayment extends React.Component {
@@ -23,6 +25,7 @@ class PurchasePayment extends React.Component {
             totalPrice: 0,
             subTotalPrice: 0,
             deliveryFee: 0,
+            groupedProductsById: [],
         }
         this.fetchSupportedCourier = this.fetchSupportedCourier.bind(this);
         this.subTotalPrice = 0;
@@ -55,22 +58,35 @@ class PurchasePayment extends React.Component {
             .then(res => {
                 if (res === false) {
                     this.setState({ isLoggedIn: res });
-                    alert("Please login first!");
-                    this.props.history.push("/login");
+                    this.cartService.getProductsFromIndexedDBCart()
+                        .then(res => {
+                            if (res.length > 0) {
+                                this.setState({ cartContent: res });
+                                console.log(res);
+                            }
+                            else {
+                                alert("No item on your cart :(, considering login?");
+                                this.props.history.push("/login");
+                            }
+                        });
+                    // alert("Please login first!");
+                    // this.props.history.push("/login");
                 }
                 else {
                     this.setState({ user: res });
                     this.cartService.getCart()
                         .then(res => {
+                            console.log('bb', res.data);
                             this.setState({ cartContent: res.data.data });
-                            console.log(this.state.cartContent);
+                            console.log('aa', this.state.cartContent);
                             const grouped = this.groupBy(res.data.data, p => p.product.user.name);
-                            // console.log(grouped);
-                            this.setState({ groupedProducts: grouped });
+                            const grouped_byId = this.groupBy(res.data.data, p => p.product.user.uuid);
+                            console.log('BYID', grouped_byId);
+                            this.setState({ groupedProducts: grouped, groupedProductsById: grouped_byId });
                             this.state.cartContent.map(x => {
                                 console.log(this.subTotalPrice, x.product.price);
                                 this.subTotalPrice += x.product.price;
-                                this.setState({subTotalPrice: this.subTotalPrice});
+                                this.setState({ subTotalPrice: this.subTotalPrice });
                             });
                             // alert(this.subTotalPrice);
                             // console.log(this.state.cartContent.product.map(this.amount).reduce(this.sum));
@@ -92,6 +108,35 @@ class PurchasePayment extends React.Component {
             this.subTotalPrice += x.product.price;
         });
         // return this.subTotalPrice;
+    }
+
+    handleProceedPurchase() {
+        Array.from(this.state.groupedProductsById).map(([key, value]) => {
+            console.log(key, value);
+            const seller_id = key;
+            this.cartService.createHeaderTransaction(seller_id)
+                .then(res => {
+                    console.log(res.data.id);
+                    const header_id = res.data.id
+                    value.map(data => {
+                        console.log('data', data.amount);
+                        this.cartService.storeTransactionData(header_id, data.product.uuid, data.amount)
+                            .then(res => {
+                                console.log(res);
+                            })
+                            .catch(err => {
+                                alert(err.message);
+                            })
+                    })
+                })
+                .then(() => {
+
+                })
+                .catch(err => {
+                    alert(err.message);
+                })
+        });
+        alert("Transaction success!");
     }
 
     fetchSupportedCourier(productWeight, qty, seller_city) {
@@ -179,7 +224,7 @@ class PurchasePayment extends React.Component {
                                             <span>Rp. {this.state.subTotalPrice + this.state.subTotalPrice * 0.1 + this.state.deliveryFee}</span>
                                             <br />
                                             <br />
-                                            <button>Bayar</button>
+                                            <button onClick={this.handleProceedPurchase.bind(this)}>Bayar</button>
                                             <br />
                                             <br />
                                             <a onClick={this.handleDownloadRequest.bind(this)}>Download Transaksi</a>
@@ -192,7 +237,7 @@ class PurchasePayment extends React.Component {
                             Detail Belanja
                             {
                                 Array.from(this.state.groupedProducts).map(([key, value]) => {
-                                    console.log(key)
+                                    console.log(key, value)
                                     return (
                                         <div className="product-purchased">
                                             Pembelian Dari <h3>{key}</h3>
