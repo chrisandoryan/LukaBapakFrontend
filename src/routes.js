@@ -12,6 +12,7 @@ import PurchasePayment from "./components/transaction/PurchasePayment";
 import Profile from "./components/user/Profile";
 import AddProduct from "./components/products/AddProduct";
 import ExploreProductsByPromo from "./components/products/ExploreProductsByPromo";
+import Order from "./components/user/Order"
 
 export default [
     { path: "/", component : Dashboard } ,
@@ -28,5 +29,6 @@ export default [
     { path: "/profile", component : Profile } ,
     { path: "/addproduct", component : AddProduct } ,
     { path: "/promo/:promoid", component : ExploreProductsByPromo } ,
+    { path: "/order", component : Order } ,
     // { path: "/products", component : ProductPage } ,
 ];

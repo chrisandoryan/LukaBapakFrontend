@@ -2,6 +2,7 @@ import React from 'react'
 import {
     Link
 } from 'react-router-dom'
+import ImageLoader from 'react-loading-image';
 
 class GridProduct extends React.Component {
     constructor(props) {
@@ -11,7 +12,7 @@ class GridProduct extends React.Component {
             image: {},
         }
         this.forceUpdate();
-        this.setState({image: this.props.product.image != undefined ? this.props.product.image.url : this.props.product.images != undefined ? this.props.product.images.url : "https://via.placeholder.com/300x300" });
+        this.setState({ image: this.props.product.image != undefined ? this.props.product.image.url : this.props.product.images != undefined ? this.props.product.images.url : "https://via.placeholder.com/300x300" });
         // console.log(this.props.product.name);
         // this.setState({product: this.props.product});
         // console.log('aa', this.state.product);
@@ -23,7 +24,12 @@ class GridProduct extends React.Component {
                 <Link to={`/products/${this.props.product.uuid}`}>
                     <div className="product-grid__product">
                         <div className="product-grid__img-wrapper">
-                            <img src={this.state.image} alt="Img" className="product-grid__img" />
+                            {/* <img src={this.state.image} alt="Img" className="product-grid__img" /> */}
+                            <ImageLoader
+                                src={this.state.image}
+                                loading={() => <div>Fetching Image...</div>}
+                                error={() => <img src="https://via.placeholder.com/500x500" alt="Img" className="product-grid__img" />}
+                            />
                         </div>
                         <span className="product-grid__title">{this.props.product.name}</span>
                         <span className="product-grid__price">Rp. {this.props.product.price}</span>

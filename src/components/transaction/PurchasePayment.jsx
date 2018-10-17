@@ -137,6 +137,7 @@ class PurchasePayment extends React.Component {
                 })
         });
         alert("Transaction success!");
+        this.props.history.push("/");
     }
 
     fetchSupportedCourier(productWeight, qty, seller_city) {
