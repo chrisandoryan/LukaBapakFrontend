@@ -1,7 +1,11 @@
 import axios from "axios";
 import decode from 'jwt-decode';
+import Request from "../utilities/Request";
 
 class AuthService {
+    checkUsername(username) {
+        return Request.make("GET", `checkUsername/${username}`);
+    }
     login(email, password, mode) {
         var formData = new FormData();
         formData.append("password", password);

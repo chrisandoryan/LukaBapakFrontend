@@ -44,11 +44,12 @@ class Search extends React.Component {
 
     onSuggestionsFetchRequested = ({ value }) => {
         axios
-            .post('http://localhost:9200/products/products/_search', {
+            // .post('http://localhost:9200/products/products/_search', {
+            .post('http://localhost:9200/pelapak/new_users/_search', {
                 query: {
                     multi_match: {
                         query: value,
-                        fields: ['name', 'description']
+                        fields: ['username', 'name']
                     }
                 },
                 sort: ['_score']

@@ -15,6 +15,32 @@ class Order extends React.Component {
         this.orderService = new OrderService();
     }
 
+    handleAcceptOrder(e) {
+        const id = e.target.value;
+        let d = new FormData();
+        d.append('status', 1);
+        this.orderService.acceptOrRejectOrder(id, d)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                alert(err.message);
+            })
+    }
+
+    handleRejectOrder(e) {
+        const id = e.target.value;
+        let d = new FormData();
+        d.append('status', 1);
+        this.orderService.acceptOrRejectOrder(id, d)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                alert(err.message);
+            })
+    }
+
     componentDidMount() {
         this.orderService.getOrders()
             .then(res => {
@@ -32,12 +58,11 @@ class Order extends React.Component {
                 <Header {...this.props} />
                 <div className="content wrapper">
                     <div className="shopping-cart">
-                        <div className="column-labels">
+                        <div className="column-labels" style={{display:"block"}}>
                             <label className="product-image">Gambar</label>
                             <label className="product-details">Nama Produk</label>
                             <label className="product-price">Harga</label>
                             <label className="product-quantity">Jumlah</label>
-                            <label className="product-removal">Remove</label>
                             <label className="product-line-price">Total</label>
                         </div>
                         {
@@ -78,7 +103,8 @@ class Order extends React.Component {
                                                 )
                                             })
                                         }
-                                    <button style={{float:"right"}}>Proses</button>
+                                    <button value={data.id} onClick={this.handleAcceptOrder.bind(this)} style={{float:"right"}}>Terima Order</button>
+                                    <button value={data.id} onClick={this.handleRejectOrder.bind(this)} style={{float:"right"}}>Tolak Order</button>
                                     <br/>
                                     <br/>
                                     <br/>

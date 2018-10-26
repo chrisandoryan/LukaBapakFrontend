@@ -26,7 +26,7 @@ export default [
     { path: "/favorites", component : FavoriteProducts } ,
     { path: "/cart", component : Cart } ,
     { path: "/payment", component : PurchasePayment } ,
-    { path: "/profile", component : Profile } ,
+    { path: "/profile/:uuid", component : Profile } ,
     { path: "/addproduct", component : AddProduct } ,
     { path: "/promo/:promoid", component : ExploreProductsByPromo } ,
     { path: "/order", component : Order } ,

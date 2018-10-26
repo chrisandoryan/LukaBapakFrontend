@@ -14,6 +14,8 @@ import '../../css/comment.css';
 import ReviewService from '../../services/ReviewService';
 import DiscussionService from '../../services/DiscussionService';
 import { Breadcrumbs, BreadcrumbsItem } from 'react-breadcrumbs-dynamic'
+import Lightbox from 'react-image-lightbox';
+import 'react-image-lightbox/style.css';
 
 class ProductDetail extends React.Component {
     constructor(props) {
@@ -34,7 +36,8 @@ class ProductDetail extends React.Component {
             discussions: [],
             reload: false,
             image: {},
-            headImage: null
+            headImage: null,
+            isOpen: false,
         }
         // console.log(this.props.match.params.uuid);
         this.auth = new AuthService();
@@ -88,15 +91,22 @@ class ProductDetail extends React.Component {
         // alert(this.props.match.params.uuid)
         this.service.getProduct(this.props.match.params.uuid)
             .then(res => {
+                // alert(1);
+                console.log('wooo', res.data.data);
                 const product = res.data.data;
                 console.log('aa', product);
-                const image = product.image.url;
+                // alert(1234)
+                const image = product.image != null ? product.image.url : "https://via.placeholder.com/500";
+                // alert(1235)
                 // alert(image);
                 // const headImage = images[Object.keys(images)[0]].url;
+                // alert(123)
                 const user = product.user;
                 console.log(user);
+                // alert(123)
                 const category = product.category;
                 this.setState({ product, user, category, image });
+                // alert(123)
                 // alert(this.state.image);
                 this.review.getReviews(this.state.product.uuid)
                     .then(res => {
@@ -323,6 +333,11 @@ class ProductDetail extends React.Component {
         this.setState({ reload: !this.state.reload });
     }
 
+    displayFullSize() {
+        // alert("YEY");
+        this.setState({isOpen: !this.state.isOpen})
+    }
+
     render() {
         const total_feedback = this.state.user.positive_feedback + this.state.user.negative_feedback;
         var reputation = this.state.user.positive_feedback / total_feedback * 100;
@@ -335,14 +350,35 @@ class ProductDetail extends React.Component {
                 <div className="content">
                     <BreadcrumbsItem to={`/`}>
                         Home
-                        </BreadcrumbsItem>
+                    </BreadcrumbsItem>
                     <div className="dummy dummy--header">
 
                     </div>
                     <div className="dummy">
                         <div className="perimeter">
                             <div className="image">
-                                <ReactImageMagnify {...{
+                            {
+                                this.state.isOpen && (
+                                <Lightbox
+                                    mainSrc={this.state.image}
+                                    onClick={this.displayFullSize.bind(this)}
+                                    // nextSrc={images[(photoIndex + 1) % images.length]}
+                                    // prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+                                    // onCloseRequest={() => this.setState({ isOpen: false })}
+                                    // onMovePrevRequest={() =>
+                                    //     this.setState({
+                                    //         photoIndex: (photoIndex + images.length - 1) % images.length,
+                                    //     })
+                                    // }
+                                    // onMoveNextRequest={() =>
+                                    //     this.setState({
+                                    //         photoIndex: (photoIndex + 1) % images.length,
+                                    //     })
+                                    // }
+                                />
+                                )
+                            }
+                                {/* <ReactImageMagnify {...{
                                     smallImage: {
                                         alt: 'Wristwatch by Ted Baker London',
                                         isFluidWidth: true,
@@ -357,7 +393,9 @@ class ProductDetail extends React.Component {
                                         height: 1800,
                                     },
                                     isHintEnabled: false
-                                }} />
+                                }}  */}
+                                {/* onClick={this.displayFullSize.bind(this)}/> */}
+                                <img src={this.state.image} alt="Product Image" onClick={this.displayFullSize.bind(this)}/>
                             </div>
                             <div className="copy">
                                 <h1>{this.state.product.name}</h1>
@@ -365,6 +403,9 @@ class ProductDetail extends React.Component {
                                 <hr />
                                 <br />
                                 <div className="product-desc">
+                                    {
+                                        console.log(this.state.product)
+                                    }
                                     <h1>{`Rp. ${this.state.product.price}`}</h1>
                                     <p className="App-intro">
                                         {
@@ -398,7 +439,13 @@ class ProductDetail extends React.Component {
                                         Uang pasti kembali. Sistem pembayaran bebas penipuan. LukaBapak memang de best.
                                     </p>
                                     {/* <Link to="/payment"><button onClick={this.quickBuyIndexedDB.bind(this)}>Beli Sekarang!</button></Link> */}
-                                    <button onClick={this.quickBuyIndexedDB.bind(this)}>Beli Sekarang!</button>
+                                    {
+                                        this.state.product.stock > 0 ? (
+                                            <button onClick={this.quickBuyIndexedDB.bind(this)}>Beli Sekarang!</button>
+                                        ) : (
+                                                null
+                                            )
+                                    }
                                     &nbsp;&nbsp;
                                     <button onClick={this.handleAddToFavorite}>Jadikan Favorit</button>
                                     &nbsp;&nbsp;

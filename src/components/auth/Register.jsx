@@ -21,6 +21,21 @@ class Register extends React.Component {
             });
     }
 
+    checkUsername(e) {
+        let username = e.target.value;
+        // alert(username);
+        this.service.checkUsername(username)
+            .then(res => {
+                console.log(res.data);
+                if (res.data.status == false) {
+                    alert(res.data.message);
+                }
+            })
+            .catch(err => {
+                alert(err.message);
+            })
+    }
+
     handleRegister(e) {
         e.preventDefault();
 
@@ -54,7 +69,12 @@ class Register extends React.Component {
                         </div>
 
                         <div className="control-group">
-                            <input type="email" className="login-field" placeholder="Email/No Handphone" id="login-pass" />
+                            <input type="text" className="login-field" placeholder="Email" id="login-pass" />
+                            <label className="login-field-icon fui-lock" htmlFor="login-pass"></label>
+                        </div>
+
+                        <div className="control-group">
+                            <input type="text" className="login-field" placeholder="No Handphone" id="login-pass" />
                             <label className="login-field-icon fui-lock" htmlFor="login-pass"></label>
                         </div>
                         <br/>
@@ -71,7 +91,7 @@ class Register extends React.Component {
                         <br/>
                         <br />
                         <div className="control-group">
-                            <input type="text" className="login-field" placeholder="Lukabapak.com/username" id="login-pass" />
+                            <input type="text" className="login-field" placeholder="Lukabapak.com/username" id="login-pass" onBlur={this.checkUsername.bind(this)}/>
                             <label className="login-field-icon fui-lock" htmlFor="login-pass"></label>
                         </div>
 
