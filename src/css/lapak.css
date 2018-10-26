@@ -446,6 +446,7 @@ body {
   position: absolute;
   background-color: #d71149;
   right: -260px;
+  top: 0px;
   width: 260px;
   z-index: 1; }
 

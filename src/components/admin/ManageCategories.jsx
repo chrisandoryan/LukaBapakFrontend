@@ -5,7 +5,7 @@ import {
 import axios from 'axios'
 import CategoryService from '../../services/CategoryService';
 
-const APIcategories = 'http://localhost:8000/api/categories';
+const APIcategories = 'http://localhost:8000/api/allcategories';
 
 class ManageCategories extends React.Component {
     constructor(props) {
@@ -77,7 +77,7 @@ class ManageCategories extends React.Component {
                         <button type="submit" className="btnSave bg-1 text-fff text-bold fr">SAVE</button><a href className="btnAdd fa fa-plus bg-1 text-fff" />
                     </div> */}
                     </div>
-                    <div className="table">
+                    <div className="table" style={{overflow: "scrollY"}}>
                         <div className="row bg-1">
                             <div className="cell cell-50 text-center text-fff">No.</div>
                             <div className="cell cell-100 text-center text-fff">UUID</div>

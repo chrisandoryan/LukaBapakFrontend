@@ -79,7 +79,7 @@ class Register extends React.Component {
                         </div>
                         <br/>
                         <br/>
-                        <div >
+                        <div style={{marginRight: 190}}>
                             <span className="check-gender">
                                 <input type="radio" name="gender" value="male" defaultChecked /> Laki-laki
                             </span>
