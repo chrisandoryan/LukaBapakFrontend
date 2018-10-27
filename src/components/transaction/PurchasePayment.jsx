@@ -6,6 +6,7 @@ import Header from '../shared/Header';
 import AuthService from '../../services/AuthService';
 import CartService from '../../services/CartService';
 import OngkirService from '../../services/OngkirService';
+import VoucherService from '../../services/VoucherService';
 // import IndexedDB from '../../utilities/IndexedDB';
 
 const FileDownload = require('js-file-download');
@@ -16,6 +17,8 @@ class PurchasePayment extends React.Component {
         this.authService = new AuthService();
         this.cartService = new CartService();
         this.ongkirService = new OngkirService();
+        this.voucherService = new VoucherService();
+
         this.state = {
             user: {},
             isLoggedIn: false,
@@ -26,6 +29,7 @@ class PurchasePayment extends React.Component {
             subTotalPrice: 0,
             deliveryFee: 0,
             groupedProductsById: [],
+            priceCut: 0,
         }
         this.fetchSupportedCourier = this.fetchSupportedCourier.bind(this);
         this.subTotalPrice = 0;
@@ -51,6 +55,48 @@ class PurchasePayment extends React.Component {
 
     sum(prev, next) {
         return prev + next;
+    }
+
+    checkVoucher(e) {
+        var code = e.target.value;
+        this.voucherService.checkVoucher(code)
+            .then(res => {
+                // console.log(res.data)
+                if (!res.data.status) {
+                    alert(res.data.message);
+                }
+                else {
+                    this.applyVoucher(res.data.voucher);
+                }
+            })
+            .catch(err => {
+                alert(err.message);
+            })
+    }
+
+    applyVoucher(voucher) {
+        console.log(voucher);
+        // alert(voucher.price_cut);
+        this.setState({ priceCut: voucher.price_cut })
+        this.cartService.getCart()
+            .then(res => {
+                console.log('bb', res.data);
+                this.setState({ cartContent: res.data.data });
+                console.log('aa', this.state.cartContent);
+                const grouped = this.groupBy(res.data.data, p => p.product.user.name);
+                const grouped_byId = this.groupBy(res.data.data, p => p.product.user.uuid);
+                console.log('BYID', grouped_byId);
+                this.setState({ groupedProducts: grouped, groupedProductsById: grouped_byId });
+                this.state.cartContent.map(x => {
+                    console.log(this.subTotalPrice, x.product.price);
+                    this.subTotalPrice += x.product.price;
+                    this.setState({ subTotalPrice: this.subTotalPrice });
+                });
+                console.log(this.subTotalPrice, '-', this.state.priceCut)
+                this.setState({ subTotalPrice: this.subTotalPrice - this.state.priceCut });
+                // alert(this.subTotalPrice);
+                // console.log(this.state.cartContent.product.map(this.amount).reduce(this.sum));
+            });
     }
 
     componentDidMount() {
@@ -88,6 +134,7 @@ class PurchasePayment extends React.Component {
                                 this.subTotalPrice += x.product.price;
                                 this.setState({ subTotalPrice: this.subTotalPrice });
                             });
+                            this.setState({ subTotalPrice: Math.abs(this.subTotalPrice - this.state.priceCut) });
                             // alert(this.subTotalPrice);
                             // console.log(this.state.cartContent.product.map(this.amount).reduce(this.sum));
                         });
@@ -107,6 +154,7 @@ class PurchasePayment extends React.Component {
             console.log(this.subTotalPrice, x.product.price);
             this.subTotalPrice += x.product.price;
         });
+        // Math.abs(this.subTotalPrice - this.state.priceCut);
         // return this.subTotalPrice;
     }
 
@@ -203,7 +251,7 @@ class PurchasePayment extends React.Component {
                                         <h2>Ringkasan Belanja</h2>
                                         <div className="customer-address">
                                             <div className="use-voucher" style={{ width: 40 }}>
-                                                <input type="text" placeholder="Punya Kode Voucher?" style={{ width: 400 }} />
+                                                <input type="text" placeholder="Punya Kode Voucher?" style={{ width: 400 }} onBlur={this.checkVoucher.bind(this)} />
                                             </div>
                                             <div className="purchase-summary">
                                                 <h3>Total Harga Barang</h3>

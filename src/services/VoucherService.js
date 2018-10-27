@@ -22,6 +22,9 @@ class VoucherService {
         d.append('_method', "PUT");
         return Request.makeToProtected("POST", `vouchers/${_id}`, d);
     }
+    checkVoucher(voucher) {
+        return Request.make("GET", `applyvoucher/${voucher}`);
+    }
 }
 
 export default VoucherService;

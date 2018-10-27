@@ -10,8 +10,9 @@ class Subdropdown extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            categories: {},
-            hasChild: false
+            categories: [],
+            hasChild: false,
+            selectedChildren: []
         }
     }
 
@@ -20,17 +21,28 @@ class Subdropdown extends React.Component {
         console.log('hoo', this.props.child)
     }
 
+    showSubMenu(index, event) {
+        // console.log('dita', this.props.child[index])
+        var child = this.props.child[index].children.length > 0 ? this.props.child[index].children : []
+        this.setState({ selectedChildren: child })
+        // console.log('dita', child);
+    }
+
     render() {
+        // console.log(this.props.child)
+        // var classname = this.props.child.child.length == 0 ? "dropdown-content-child show" : "dropdown-content show"
+        // alert(classname);
         return (
             <div className="dropdown-content-child show">
                 {
                     this.props.child.map((subname, subindex) => {
                         console.log('subname.name')
                         return (
-                            <Link to={`/products/category/${subname['uuid']}`} key={subindex}>{subname['name']}</Link>
+                            <Link to={`/products/category/${subname['uuid']}`} key={subindex} onMouseEnter={this.showSubMenu.bind(this, subindex)}>{subname['name']}</Link>
                         );
                     })
                 }
+                {this.state.selectedChildren.length > 0 ? (<Subdropdown child={this.state.selectedChildren}></Subdropdown>) : (null)}
             </div >
         )
     }
@@ -100,11 +112,14 @@ class Dropdown extends React.Component {
                         //console.log(this.state.hover[index]);
                         return (
                             <div key={index}>
+                                {
+                                    this.state.selectedChildren.length > 0 && this.state.hover[index] ? 
+                                    (<Subdropdown child={this.state.selectedChildren}></Subdropdown>) : (null)
+                                }
                                 <Link key={index} to={`/products/category/${name.uuid}`} onMouseEnter={this.showSubMenu.bind(this, index)}>{name.name}</Link>
                             </div>
                         );
                     })}
-            {this.state.selectedChildren.length > 0 ? (<Subdropdown child={this.state.selectedChildren}></Subdropdown>) : (null)}
             </div>
         )
     }

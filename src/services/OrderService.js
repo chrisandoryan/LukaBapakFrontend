@@ -6,7 +6,15 @@ class OrderService {
     }
 
     acceptOrRejectOrder(order_id, data) {
-        return Request.makeToProtected("PUT", `transactions/${order_id}`, data);
+        return Request.makeToProtected("POST", `transactions/${order_id}`, data);
+    }
+
+    getAcceptedOrders() {
+        return Request.makeToProtected("GET", "orders");
+    }
+
+    addResi(id, data) {
+        return Request.makeToProtected("POST", `add-resi/${id}`, data);
     }
 }
 

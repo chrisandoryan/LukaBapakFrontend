@@ -488,7 +488,7 @@ class ProductDetail extends React.Component {
                                     Pengiriman Information Goes Here
                                     <div className="product-description">
                                         <h3>Pelanggan: 0</h3>
-                                        <h3>Login terakhir: {this.state.user.created_at} </h3>
+                                        <h3>Login terakhir: {new Date(Date.parse(this.state.user.created_at)).toDateString()} </h3>
                                         <h3>Bergabung: {this.state.user.created_at} </h3>
                                     </div>
                                 </div>
