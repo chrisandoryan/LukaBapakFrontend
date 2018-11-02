@@ -39,17 +39,25 @@ class Register extends React.Component {
     handleRegister(e) {
         e.preventDefault();
 
-        let name = e.target[0].value;
-        let email = e.target[1].value;
+        let name = e.target.name.value;
+        let email = e.target.email.value;
         let gender = e.target[2].checked ? e.target[2].value : e.target[3].value;
-        let username = e.target[4].value;
-        let password = e.target[5].value;
+        let username = e.target.username.value;
+        let password = e.target.password.value;
+        let phone = e.target.phone.value;
+
+        // alert(email+"email");
+        // alert(username+"username");
+        // alert(password+"pass");
+        // alert(gender+"gender");
+        // alert(phone+"phone");
+        // alert(name+"name");
 
         // this.service.register(username, name, password, email, gender).then(registered_data => {
         //     this.setState({data: registered_data});
         // });
 
-        this.service.register(username, name, password, email, gender).then(() => {
+        this.service.register(username, name, password, email, gender, phone).then(() => {
             this.props.history.replace('/login');
         });
     }
@@ -64,17 +72,17 @@ class Register extends React.Component {
                     <br />
                     <form onSubmit={this.handleRegister} className="login-form">
                         <div className="control-group">
-                            <input type="text" className="login-field" placeholder="Nama Lengkap" id="login-name" />
+                            <input type="text" className="login-field" placeholder="Nama Lengkap" id="login-name" name="name" />
                             <label className="login-field-icon fui-user" htmlFor="login-name"></label>
                         </div>
 
                         <div className="control-group">
-                            <input type="text" className="login-field" placeholder="Email" id="login-pass" />
+                            <input type="text" className="login-field" placeholder="Email" id="login-pass" name="email" />
                             <label className="login-field-icon fui-lock" htmlFor="login-pass"></label>
                         </div>
 
                         <div className="control-group">
-                            <input type="text" className="login-field" placeholder="No Handphone" id="login-pass" />
+                            <input type="text" className="login-field" placeholder="No Handphone" id="login-pass" name="phone" />
                             <label className="login-field-icon fui-lock" htmlFor="login-pass"></label>
                         </div>
                         <br/>
@@ -91,12 +99,12 @@ class Register extends React.Component {
                         <br/>
                         <br />
                         <div className="control-group">
-                            <input type="text" className="login-field" placeholder="Lukabapak.com/username" id="login-pass" onBlur={this.checkUsername.bind(this)}/>
+                            <input type="text" className="login-field" placeholder="Lukabapak.com/username" id="login-pass" name="username" onBlur={this.checkUsername.bind(this)}/>
                             <label className="login-field-icon fui-lock" htmlFor="login-pass"></label>
                         </div>
 
                         <div className="control-group">
-                            <input type="password" className="login-field" placeholder="Password LukaBapak" id="login-pass" />
+                            <input type="password" className="login-field" placeholder="Password LukaBapak" id="login-pass" name="password"/>
                             <label className="login-field-icon fui-lock" htmlFor="login-pass"></label>
                         </div>
 

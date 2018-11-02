@@ -25,13 +25,14 @@ class AuthService {
                 }
             })
     }
-    register(username, name, password, email, gender) {
+    register(username, name, password, email, gender, phone) {
         var formData = new FormData();
         formData.append("password", password);
         formData.append("email", email);
         formData.append("name", name);
         formData.append("username", username);
         formData.append("gender", gender);
+        formData.append("phone", phone);
         // console.log(formData);
 
         return axios

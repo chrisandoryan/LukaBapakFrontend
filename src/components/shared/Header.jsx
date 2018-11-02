@@ -5,12 +5,14 @@ import {
 import Dropdown from '../misc/Dropdown';
 import AuthService from '../../services/AuthService';
 import Search from './Search';
+import PopularTagService from '../../services/PopularTagService';
 
 class Header extends React.Component {
     constructor(props) {
         super(props);
         this.showMenu = this.showMenu.bind(this);
         this.hideMenu = this.hideMenu.bind(this);
+        this.popularService = new PopularTagService();
         this.service = new AuthService();
         this.service.isLoggedIn()
             .then(res => {
@@ -26,6 +28,7 @@ class Header extends React.Component {
             isLoggedIn: this.service.isLoggedIn(),
             keyword: '',
             user: {},
+            populars: []
         }
         // console.log(props);
         this.handleKeywordChange = this.handleKeywordChange.bind(this);
@@ -34,6 +37,17 @@ class Header extends React.Component {
 
     componentWillMount() {
         this.forceUpdate();
+    }
+
+    componentDidMount() {
+        this.popularService.getPopularTags()
+            .then(res => {
+                console.log(res.data);
+                this.setState({populars: res.data})
+            })
+            .catch(err => {
+                alert(err.message);
+            })
     }
 
     showMenu(event) {
@@ -115,16 +129,14 @@ class Header extends React.Component {
                 </ul>
                 <ul className="suggestion-nav">
                     <div className="content">
-                        <li><a href="">#sepatumurah</a></li>
-                        <li><a href="">#sepatumurah</a></li>
-                        <li><a href="">#sepatumurah</a></li>
-                        <li><a href="">#sepatumurah</a></li>
-                        <li><a href="">#sepatumurah</a></li>
-                        <li><a href="">#sepatumurah</a></li>
-                        <li><a href="">#sepatumurah</a></li>
-                        <li><a href="">#sepatumurah</a></li>
-                        <li><a href="">#sepatumurah</a></li>
-                        <li><button>Lihat Semua</button></li>
+                        {
+                            this.state.populars.map(data => {
+                                return (
+                                    <li><a href="">#{data.tag_name}</a></li>
+                                )
+                            })
+                        }
+                        <li><button style={{float: "right"}}>Lihat Semua</button></li>
                     </div>
                 </ul>
             </div>

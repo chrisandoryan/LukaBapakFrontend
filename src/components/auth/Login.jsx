@@ -25,8 +25,9 @@ class Login extends React.Component {
         e.preventDefault();
         let email = e.target[0].value;
         let mode = "";
-        if ((/^\d$/g).test(email)) {
+        if ((/^\d+$/g).test(email)) {
             mode = "phone";
+            // alert('phone mode' + email)
         }
         else if((/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(email)) {
             mode = "email";

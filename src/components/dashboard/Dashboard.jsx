@@ -5,6 +5,7 @@ import {
 import Header from '../shared/Header';
 import Footer from '../shared/Footer';
 import DisplayPromotedProducts from '../products/DisplayPromotedProducts';
+import PopularTagService from '../../services/PopularTagService';
 // import '../../css/lapak.css';
 // import '../../css/helep.css';
 
@@ -12,6 +13,20 @@ class Dashboard extends Component {
     constructor(props) {
         super(props);
         console.log(props);
+        this.state = {
+            populars: []
+        }
+        this.popularService = new PopularTagService();
+    }
+
+    componentDidMount() {
+        this.popularService.getPopularTags()
+            .then(res => {
+                console.log(res.data);
+            })
+            .catch(err => {
+                alert(err.message);
+            })
     }
 
     render() {
