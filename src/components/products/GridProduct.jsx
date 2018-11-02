@@ -18,17 +18,21 @@ class GridProduct extends React.Component {
         // console.log('aa', this.state.product);
     }
 
+    handleOpenModal(idx) {
+        alert(idx);
+    }
+
     render() {
         return (
-            <div className="product-grid__product-wrapper">
-                <Link to={`/products/${this.props.product.uuid}`}>
+            <div className="product-grid__product-wrapper" onClick={() => this.props.openModal(this.props.idx)}>
+                {/* <Link to={`/products/${this.props.product.uuid}`}> */}
                     <div className="product-grid__product">
                         <div className="product-grid__img-wrapper">
-                            {/* <img src={this.state.image} alt="Img" className="product-grid__img" /> */}
+                            {/* <img src={this.state.image} alt="Img" className="product-grid__img loading" /> */}
                             <ImageLoader
                                 src={this.state.image}
-                                loading={() => <div>Fetching Image...</div>}
-                                error={() => <img src="https://via.placeholder.com/500x500" alt="Img" className="product-grid__img" />}
+                                loading={() => <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"></img>}
+                                error={() => <img src="https://via.placeholder.com/800x800" alt="Img" className="product-grid__img" />}
                             />
                         </div>
                         <span className="product-grid__title">{this.props.product.name}</span>
@@ -48,7 +52,7 @@ class GridProduct extends React.Component {
                                 )
                         }
                     </div>
-                </Link>
+                {/* </Link> */}
             </div>
         )
     }

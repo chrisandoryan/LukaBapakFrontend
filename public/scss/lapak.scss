@@ -623,6 +623,10 @@ body {
     background-color: #ddd;
 }
 
+.loading {
+    background: transparent url('http://thinkfuture.com/wp-content/uploads/2013/10/loading_spinner.gif') center no-repeat;
+}
+
 .show {
     display: block;
 }
@@ -1748,36 +1752,43 @@ footer {
 .breadcrumbs {
     float: left;
     margin: 20px;
+
     li {
-      display: inline-block;
-      a {
-        position: relative;
-        font-size: 19px;
-        color: #333;
-        text-transform: uppercase;
-        padding-right: 20px;
-        margin-right: 10px;
-        text-decoration: none;
-        &:after {
-          content: "";
-          width: 9px;
-          height: 8px;
-          border-top:2px solid #555;
-          border-right:2px solid #555;
-          position:absolute;
-          top: 6px;
-          right: 0;
-          transform:rotate(45deg);
-          display: block;
+        display: inline-block;
+
+        a {
+            position: relative;
+            font-size: 19px;
+            color: #333;
+            text-transform: uppercase;
+            padding-right: 20px;
+            margin-right: 10px;
+            text-decoration: none;
+
+            &:after {
+                content: "";
+                width: 9px;
+                height: 8px;
+                border-top: 2px solid #555;
+                border-right: 2px solid #555;
+                position: absolute;
+                top: 6px;
+                right: 0;
+                transform: rotate(45deg);
+                display: block;
+            }
         }
-      }
-      &:last-of-type a {
-        color: black;
-        font-weight: bold;
-        &:after { display: none; }
-      }
+
+        &:last-of-type a {
+            color: black;
+            font-weight: bold;
+
+            &:after {
+                display: none;
+            }
+        }
     }
-  }
+}
 
 
 /* helps */

@@ -18,11 +18,13 @@ import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 import Breadcrumb from '../misc/Breadcrumb';
 import CategoryService from '../../services/CategoryService';
+import Modal from 'react-modal';
 
 class ProductDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            modalIsOpen: false,
             product: {},
             user: {},
             category: {},
@@ -41,6 +43,11 @@ class ProductDetail extends React.Component {
             headImage: null,
             isOpen: false,
         }
+
+        this.openModal = this.openModal.bind(this);
+        this.afterOpenModal = this.afterOpenModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+
         // console.log(this.props.match.params.uuid);
         this.auth = new AuthService();
         this.service = new ProductService();
@@ -78,6 +85,19 @@ class ProductDetail extends React.Component {
         }).join(', ')
     }
 
+    openModal() {
+        this.setState({ modalIsOpen: true });
+    }
+
+    afterOpenModal() {
+        // references are now sync'd and can be accessed.
+        this.subtitle.style.color = '#f00';
+    }
+
+    closeModal() {
+        this.setState({ modalIsOpen: false });
+    }
+
     componentDidMount() {
         this.auth.isLoggedIn()
             .then(res => {
@@ -108,7 +128,7 @@ class ProductDetail extends React.Component {
                 console.log(user);
                 // alert(123)
                 const category = product.category;
-                
+
                 this.setState({ product, user, category, image });
                 // alert(123)
                 // alert(this.state.image);
@@ -351,9 +371,9 @@ class ProductDetail extends React.Component {
         // console.log(reputation);
         return (
             <div className="app">
-                {
+                {/* {
                     console.log('ANDO', kategori)
-                }
+                } */}
                 <Header {...this.props} />
                 <div className="content">
                     <div className="dummy dummy--header">

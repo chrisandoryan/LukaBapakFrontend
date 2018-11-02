@@ -8,7 +8,21 @@ import ProductService from '../../services/ProductService';
 import Header from '../shared/Header';
 import FilterSidebar from '../misc/FilterSidebar';
 import Pagination from "react-js-pagination";
+import Modal from 'react-modal';
 // require("bootstrap/less/bootstrap.less");
+
+
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)'
+    }
+};
+
 
 class ExploreProductsByCategory extends React.Component {
     constructor(props) {
@@ -21,15 +35,35 @@ class ExploreProductsByCategory extends React.Component {
             meta: {},
             page: 1,
             isList: false,
+            modalIsOpen: [false],
         }
         this.service = new ProductService();
         this.handleSortMode = this.handleSortMode.bind(this);
         this.handlePriceRangeUpdate = this.handlePriceRangeUpdate.bind(this);
         this.handleConditionUpdate = this.handleConditionUpdate.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.afterOpenModal = this.afterOpenModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+    }
+
+    openModal(idx) {
+        // alert(idx)
+        this.state.modalIsOpen[idx] = true;
+        this.forceUpdate()
+    }
+
+    afterOpenModal() {
+        // references are now sync'd and can be accessed.
+        this.subtitle.style.color = '#f00';
+    }
+
+    closeModal(idx) {
+        this.state.modalIsOpen[idx] = false;
+        this.forceUpdate()
     }
 
     handleDisplayMode() {
-        this.setState({isList: !this.state.isList});
+        this.setState({ isList: !this.state.isList });
     }
 
     handleConditionUpdate(e) {
@@ -44,7 +78,7 @@ class ExploreProductsByCategory extends React.Component {
                 return el.product_condition == "new";
             });
             // alert(filtered.length);
-            this.setState({products: filtered});
+            this.setState({ products: filtered });
         }
         else if (e.target._oldProductCheck.checked) {
             // alert("old checked");
@@ -53,7 +87,7 @@ class ExploreProductsByCategory extends React.Component {
                 return el.product_condition == "old";
             });
             // alert(filtered.length);
-            this.setState({products: filtered});
+            this.setState({ products: filtered });
         }
         // alert("something changed on filtersidebar component");
     }
@@ -66,6 +100,11 @@ class ExploreProductsByCategory extends React.Component {
                 const category = res.data.data[0].category;
                 // const productHits = res.data.hits.hits;
                 console.log(products);
+                let modalOpened = []
+                for (let i = 0; i < products.length; i++) {
+                    modalOpened[i] = false;
+                }
+                this.setState({ modalIsOpen: modalOpened })
                 this.setState({ products, category, links: res.data.links, meta: res.data.meta });
                 // alert(this.state.links.first);
             })
@@ -143,7 +182,7 @@ class ExploreProductsByCategory extends React.Component {
             const filtered = products.filter(function (el) {
                 return el.price < maxPrice;
             });
-            this.setState({products: filtered});
+            this.setState({ products: filtered });
         }
         else if (e.target._maxPrice.value == "" && e.target._minPrice.value != "") {
             //filter min price
@@ -153,7 +192,7 @@ class ExploreProductsByCategory extends React.Component {
             const filtered = products.filter(function (el) {
                 return el.price > minPrice;
             });
-            this.setState({products: filtered});
+            this.setState({ products: filtered });
         }
         else {
             //filter full rage
@@ -164,7 +203,7 @@ class ExploreProductsByCategory extends React.Component {
             const filtered = products.filter(function (el) {
                 return el.price < maxPrice && el.price > minPrice;
             });
-            this.setState({products: filtered});
+            this.setState({ products: filtered });
         }
     }
 
@@ -189,6 +228,18 @@ class ExploreProductsByCategory extends React.Component {
 
                 break;
         }
+    }
+
+    displayNextModal(currIdx) {
+        this.state.modalIsOpen[currIdx + 1] = true;
+        this.state.modalIsOpen[currIdx] = false;
+        this.forceUpdate()
+    }
+
+    displayPrevModal(currIdx) {
+        this.state.modalIsOpen[currIdx - 1] = true;
+        this.state.modalIsOpen[currIdx] = false;
+        this.forceUpdate()
     }
 
     render() {
@@ -221,8 +272,37 @@ class ExploreProductsByCategory extends React.Component {
                                 return (
                                     this.state.isList ? (
                                         <ListProduct product={data} />
-                                        ) : (
-                                        <GridProduct hoverable="true" product={data}/>     
+                                    ) : (
+                                            <React.Fragment>
+                                                <GridProduct hoverable="true" product={data} openModal={this.openModal} idx={index} />
+                                                <Modal
+                                                    isOpen={this.state.modalIsOpen[index]}
+                                                    onAfterOpen={this.afterOpenModal}
+                                                    onRequestClose={this.closeModal}
+                                                    style={customStyles}
+                                                    contentLabel="Quick View"
+                                                >
+                                                    <h1 ref={subtitle => this.subtitle = subtitle}></h1>
+                                                    <div className="dummy">
+                                                        <div className="perimeter">
+                                                            <img src="https://via.placeholder.com/200x200" alt="" />
+                                                            <input type="hidden" value={index} name="index" />
+                                                            <div className="copy"></div>
+                                                            <div className="product-desc">
+                                                            <br/>
+                                                            <h1>{data.name}</h1>
+                                                            <br />
+                                                            <hr />
+                                                            <br />
+                                                                <div><h2>Rp. {data.price}</h2></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <button onClick={() => this.closeModal(index)}>Close</button>
+                                                    <button onClick={() => this.displayNextModal(index)} style={{float: "right"}}>Next Product</button>
+                                                    <button onClick={() => this.displayPrevModal(index)} style={{float: "right"}}>Prev Product</button>
+                                                </Modal>
+                                            </React.Fragment>
                                         )
                                 )
                             })
@@ -230,11 +310,11 @@ class ExploreProductsByCategory extends React.Component {
                     </div>
                 </div>
                 <div class="pagination">
-                    <a onClick={() => {this.handlePageChange(1)}} class="page dark">first</a>
-                    <a onClick={() => {this.state.links.prev ? this.handlePageChange(this.state.links.prev.substr(this.state.links.prev.length - 1)) : this.handlePageChange(1)}} class="page dark">prev</a>
+                    <a onClick={() => { this.handlePageChange(1) }} class="page dark">first</a>
+                    <a onClick={() => { this.state.links.prev ? this.handlePageChange(this.state.links.prev.substr(this.state.links.prev.length - 1)) : this.handlePageChange(1) }} class="page dark">prev</a>
                     <span class="page active">{this.state.meta.current_page}</span>
-                    <a onClick={() => {this.state.links.next ? this.handlePageChange(this.state.links.next.substr(this.state.links.next.length - 1)) : this.handlePageChange(1)}} class="page dark">next</a>
-                    <a onClick={() => {this.setState({page: this.state.meta.last_page}); this.handlePageChange(this.state.meta.last_page);}} class="page dark">last</a>
+                    <a onClick={() => { this.state.links.next ? this.handlePageChange(this.state.links.next.substr(this.state.links.next.length - 1)) : this.handlePageChange(1) }} class="page dark">next</a>
+                    <a onClick={() => { this.setState({ page: this.state.meta.last_page }); this.handlePageChange(this.state.meta.last_page); }} class="page dark">last</a>
                 </div>
             </div>
         )
@@ -242,22 +322,3 @@ class ExploreProductsByCategory extends React.Component {
 }
 
 export default ExploreProductsByCategory;
-// <div className="content wrapper">
-//     <div className="content-box header">Hasil Pencarian "<b>Jam Tangan Fosil Dinosaurus</b>"</div>
-//     <div className="content-box product-options">
-//         <h6>Ubah Kriteria Pencarian</h6>
-//         <div>
-//             {/* TODO: sidebar panel kriteria pencarian */}
-//         </div>
-//     </div>
-//     <div className="content-box product-view-wrapper">
-//         <div className="filter-sort-dropdown">
-//             <span>Urutkan</span>
-//             <select>
-//                 <option value="volvo">Volvo</option>
-//                 <option value="saab">Saab</option>
-//                 <option value="mercedes">Mercedes</option>
-//                 <option value="audi">Audi</option>
-//             </select>
-//         </div>
-//     </div></div>
