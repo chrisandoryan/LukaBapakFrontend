@@ -1267,5 +1267,35 @@ footer {
   .footer-bottom-wrapper {
     font-size: 1.3em; } }
 
+.breadcrumbs {
+  float: left;
+  margin: 20px; }
+  .breadcrumbs li {
+    display: inline-block; }
+    .breadcrumbs li a {
+      position: relative;
+      font-size: 19px;
+      color: #333;
+      text-transform: uppercase;
+      padding-right: 20px;
+      margin-right: 10px;
+      text-decoration: none; }
+      .breadcrumbs li a:after {
+        content: "";
+        width: 9px;
+        height: 8px;
+        border-top: 2px solid #555;
+        border-right: 2px solid #555;
+        position: absolute;
+        top: 6px;
+        right: 0;
+        transform: rotate(45deg);
+        display: block; }
+    .breadcrumbs li:last-of-type a {
+      color: black;
+      font-weight: bold; }
+      .breadcrumbs li:last-of-type a:after {
+        display: none; }
+
 /* helps */
 /* https://codepen.io/albino/pen/xEowgO griding in scss */

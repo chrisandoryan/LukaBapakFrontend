@@ -13,9 +13,11 @@ import AuthService from '../../services/AuthService';
 import '../../css/comment.css';
 import ReviewService from '../../services/ReviewService';
 import DiscussionService from '../../services/DiscussionService';
-import { Breadcrumbs, BreadcrumbsItem } from 'react-breadcrumbs-dynamic'
+// import { Breadcrumbs, BreadcrumbsItem } from 'react-breadcrumbs-dynamic'
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
+import Breadcrumb from '../misc/Breadcrumb';
+import CategoryService from '../../services/CategoryService';
 
 class ProductDetail extends React.Component {
     constructor(props) {
@@ -47,6 +49,7 @@ class ProductDetail extends React.Component {
         this.fave = new FavoriteProductService();
         this.review = new ReviewService();
         this.discuss = new DiscussionService();
+        this.categoryService = new CategoryService();
 
         this.imageBaseUrl = 'https://s3-us-west-1.amazonaws.com/react-package-assets/images/';
         this.images = [
@@ -105,6 +108,7 @@ class ProductDetail extends React.Component {
                 console.log(user);
                 // alert(123)
                 const category = product.category;
+                
                 this.setState({ product, user, category, image });
                 // alert(123)
                 // alert(this.state.image);
@@ -335,49 +339,50 @@ class ProductDetail extends React.Component {
 
     displayFullSize() {
         // alert("YEY");
-        this.setState({isOpen: !this.state.isOpen})
+        this.setState({ isOpen: !this.state.isOpen })
     }
 
     render() {
         const total_feedback = this.state.user.positive_feedback + this.state.user.negative_feedback;
         var reputation = this.state.user.positive_feedback / total_feedback * 100;
+        const kategori = this.state.category;
         if (isNaN(reputation)) reputation = 0;
         reputation = reputation.toFixed(2);
         // console.log(reputation);
         return (
             <div className="app">
+                {
+                    console.log('ANDO', kategori)
+                }
                 <Header {...this.props} />
                 <div className="content">
-                    <BreadcrumbsItem to={`/`}>
-                        Home
-                    </BreadcrumbsItem>
                     <div className="dummy dummy--header">
-
+                        <Breadcrumb kategori={kategori}></Breadcrumb>
                     </div>
                     <div className="dummy">
                         <div className="perimeter">
                             <div className="image">
-                            {
-                                this.state.isOpen && (
-                                <Lightbox
-                                    mainSrc={this.state.image}
-                                    onClick={this.displayFullSize.bind(this)}
-                                    // nextSrc={images[(photoIndex + 1) % images.length]}
-                                    // prevSrc={images[(photoIndex + images.length - 1) % images.length]}
-                                    // onCloseRequest={() => this.setState({ isOpen: false })}
-                                    // onMovePrevRequest={() =>
-                                    //     this.setState({
-                                    //         photoIndex: (photoIndex + images.length - 1) % images.length,
-                                    //     })
-                                    // }
-                                    // onMoveNextRequest={() =>
-                                    //     this.setState({
-                                    //         photoIndex: (photoIndex + 1) % images.length,
-                                    //     })
-                                    // }
-                                />
-                                )
-                            }
+                                {
+                                    this.state.isOpen && (
+                                        <Lightbox
+                                            mainSrc={this.state.image}
+                                            onClick={this.displayFullSize.bind(this)}
+                                        // nextSrc={images[(photoIndex + 1) % images.length]}
+                                        // prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+                                        // onCloseRequest={() => this.setState({ isOpen: false })}
+                                        // onMovePrevRequest={() =>
+                                        //     this.setState({
+                                        //         photoIndex: (photoIndex + images.length - 1) % images.length,
+                                        //     })
+                                        // }
+                                        // onMoveNextRequest={() =>
+                                        //     this.setState({
+                                        //         photoIndex: (photoIndex + 1) % images.length,
+                                        //     })
+                                        // }
+                                        />
+                                    )
+                                }
                                 {/* <ReactImageMagnify {...{
                                     smallImage: {
                                         alt: 'Wristwatch by Ted Baker London',
@@ -395,7 +400,7 @@ class ProductDetail extends React.Component {
                                     isHintEnabled: false
                                 }}  */}
                                 {/* onClick={this.displayFullSize.bind(this)}/> */}
-                                <img src={this.state.image} alt="Product Image" onClick={this.displayFullSize.bind(this)}/>
+                                <img src={this.state.image} alt="Product Image" onClick={this.displayFullSize.bind(this)} />
                             </div>
                             <div className="copy">
                                 <h1>{this.state.product.name}</h1>

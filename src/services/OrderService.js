@@ -16,6 +16,14 @@ class OrderService {
     addResi(id, data) {
         return Request.makeToProtected("POST", `add-resi/${id}`, data);
     }
+
+    getOngoingTransactions() {
+        return Request.makeToProtected("GET", 'ongoing-orders');
+    }
+
+    getFinishedTransactions() {
+        return Request.makeToProtected("GET", 'finished-orders');
+    }
 }
 
 export default OrderService;

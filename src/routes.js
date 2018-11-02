@@ -13,6 +13,7 @@ import Profile from "./components/user/Profile";
 import AddProduct from "./components/products/AddProduct";
 import ExploreProductsByPromo from "./components/products/ExploreProductsByPromo";
 import Order from "./components/user/Order"
+import Transaction from "./components/user/Transaction";
 
 export default [
     { path: "/", component : Dashboard } ,
@@ -30,5 +31,6 @@ export default [
     { path: "/addproduct", component : AddProduct } ,
     { path: "/promo/:promoid", component : ExploreProductsByPromo } ,
     { path: "/order", component : Order } ,
+    { path: "/transaction", component : Transaction } ,
     // { path: "/products", component : ProductPage } ,
 ];

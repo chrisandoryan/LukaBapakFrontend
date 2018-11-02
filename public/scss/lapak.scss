@@ -599,6 +599,8 @@ body {
 }
 
 .dropdown-content-child {
+    // overflow-y: scroll;
+    // max-height: 500px;
     display: none;
     position: absolute;
     background-color: #d71149;
@@ -1742,6 +1744,41 @@ footer {
         font-size: 1.3em
     }
 }
+
+.breadcrumbs {
+    float: left;
+    margin: 20px;
+    li {
+      display: inline-block;
+      a {
+        position: relative;
+        font-size: 19px;
+        color: #333;
+        text-transform: uppercase;
+        padding-right: 20px;
+        margin-right: 10px;
+        text-decoration: none;
+        &:after {
+          content: "";
+          width: 9px;
+          height: 8px;
+          border-top:2px solid #555;
+          border-right:2px solid #555;
+          position:absolute;
+          top: 6px;
+          right: 0;
+          transform:rotate(45deg);
+          display: block;
+        }
+      }
+      &:last-of-type a {
+        color: black;
+        font-weight: bold;
+        &:after { display: none; }
+      }
+    }
+  }
+
 
 /* helps */
 /* https://codepen.io/albino/pen/xEowgO griding in scss */

@@ -11,6 +11,9 @@ class CategoryService {
     deleteCategory(_id) {
         return Request.makeToProtected("DELETE", `categories/${_id}`);
     }
+    getNestedCategories(_id) {
+        return Request.make("GET", `nestedCategory?leaf=${_id}`)
+    }
 }
 
 export default CategoryService;
