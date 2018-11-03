@@ -33,7 +33,7 @@ class Subdropdown extends React.Component {
         // var classname = this.props.child.child.length == 0 ? "dropdown-content-child show" : "dropdown-content show"
         // alert(classname);
         return (
-            <div className="dropdown-content-child show">
+            <div className="dropdown-content-child show" style={{top: 0}}>
                 {
                     this.props.child.map((subname, subindex) => {
                         console.log('subname.name')
@@ -116,7 +116,7 @@ class Dropdown extends React.Component {
                                     this.state.selectedChildren.length > 0 && this.state.hover[index] ? 
                                     (<Subdropdown child={this.state.selectedChildren}></Subdropdown>) : (null)
                                 }
-                                <Link key={index} to={`/products/category/${name.uuid}`} onMouseEnter={this.showSubMenu.bind(this, index)}>{name.name}</Link>
+                                <Link key={index} to={`/products/category/${name.uuid}`} onMouseEnter={this.showSubMenu.bind(this, index)}><i class={name.icon}></i>{name.name}</Link>
                             </div>
                         );
                     })}

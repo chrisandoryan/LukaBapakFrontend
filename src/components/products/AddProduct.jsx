@@ -84,10 +84,12 @@ class AddProduct extends React.Component {
         const weight = e.target._weight.value;
         const condition = e.target._condition.value;
         const description = e.target._description.value;
-        const city = e.target._city.value;
-        const province = e.target._province.value;
+        const city = '1';
+        const province = '1';
         const category = e.target._category.value;
         const image = this.state.image;
+        const tags = e.target.tags.value;
+        alert(tags);
 
         let d = new FormData();
 
@@ -101,6 +103,7 @@ class AddProduct extends React.Component {
         d.append('province', province);
         d.append('category_id', category);
         d.append('image', this.state.image);
+        d.append('tags', tags);
         // console.log(this.state.image);
         // console.log(name + stock + price + category);
         this.service.addProduct(d)
@@ -163,7 +166,9 @@ class AddProduct extends React.Component {
                     <textarea name="_description" id="" cols="30" rows="10" placeholder="Description"></textarea>
                     <br />
                     <br />
-                    <p>Province</p>
+                    <p>Product Tag</p>
+                    <input type="text" name="tags" placeholder="Separate with comma (,)"/>
+                    {/* <p>Province</p>
                     <select name="_province" id="" onChange={this.handleProvinceChange.bind(this)}>
                         {
                             this.state.provinces.map(p => {
@@ -185,7 +190,7 @@ class AddProduct extends React.Component {
                                 )
                             })
                         }
-                    </select>
+                    </select> */}
                     <br />
                     <br />
                     <button type="submit">Submit</button>

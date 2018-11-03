@@ -44,6 +44,7 @@ class ExploreProductsByCategory extends React.Component {
         this.openModal = this.openModal.bind(this);
         this.afterOpenModal = this.afterOpenModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.updateProductList = this.updateProductList.bind(this);
     }
 
     openModal(idx) {
@@ -242,6 +243,30 @@ class ExploreProductsByCategory extends React.Component {
         this.forceUpdate()
     }
 
+    updateProductList() {
+        // alert(1);
+        // componentDidMount();
+        this.service.getProductsByCategory(this.props.match.params.uuid, this.state.page)
+            .then(res => {
+                // alert(res.data.links);
+                const products = res.data.data;
+                const category = res.data.data[0].category;
+                // const productHits = res.data.hits.hits;
+                console.log(products);
+                let modalOpened = []
+                for (let i = 0; i < products.length; i++) {
+                    modalOpened[i] = false;
+                }
+                this.setState({ modalIsOpen: modalOpened })
+                this.setState({ products, category, links: res.data.links, meta: res.data.meta });
+                // alert(this.state.links.first);
+            })
+            .catch(err => {
+                alert(err);
+                console.log(err);
+            });
+    }
+
     render() {
         return (
             <div>
@@ -252,6 +277,8 @@ class ExploreProductsByCategory extends React.Component {
                         handleConditionUpdate={this.handleConditionUpdate}
                         handlePriceRangeUpdate={this.handlePriceRangeUpdate}
                         handeSortRating={this.handeSortRating}
+                        updateProducts={this.updateProductList}
+                        {...this.props}
                     />
                     <div className="content-box product-view-wrapper">
                         <button onClick={this.handleDisplayMode.bind(this)}><i class="fas fa-grip-horizontal"></i></button>
@@ -289,18 +316,18 @@ class ExploreProductsByCategory extends React.Component {
                                                             <input type="hidden" value={index} name="index" />
                                                             <div className="copy"></div>
                                                             <div className="product-desc">
-                                                            <br/>
-                                                            <h1>{data.name}</h1>
-                                                            <br />
-                                                            <hr />
-                                                            <br />
+                                                                <br />
+                                                                <h1>{data.name}</h1>
+                                                                <br />
+                                                                <hr />
+                                                                <br />
                                                                 <div><h2>Rp. {data.price}</h2></div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <button onClick={() => this.closeModal(index)}>Close</button>
-                                                    <button onClick={() => this.displayNextModal(index)} style={{float: "right"}}>Next Product</button>
-                                                    <button onClick={() => this.displayPrevModal(index)} style={{float: "right"}}>Prev Product</button>
+                                                    <button onClick={() => this.displayNextModal(index)} style={{ float: "right" }}>Next Product</button>
+                                                    <button onClick={() => this.displayPrevModal(index)} style={{ float: "right" }}>Prev Product</button>
                                                 </Modal>
                                             </React.Fragment>
                                         )

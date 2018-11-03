@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom'
 import axios from 'axios'
 
-const APIcategories = 'http://localhost:8000/api/categories';
+const APIcategories = 'http://localhost:8000/api/allcategories';
 
 class FilterSidebar extends React.Component {
     constructor(props) {
@@ -13,6 +13,7 @@ class FilterSidebar extends React.Component {
             parent_categories: [],
             hover: [],
         }
+        // this.categoryService = new CategoryService();
     }
 
     componentDidMount() {
@@ -23,13 +24,19 @@ class FilterSidebar extends React.Component {
             });
     }
 
+    filterCategory(uuid) {
+        this.props.updateProducts();
+        this.props.history.replace(`/products/category/${uuid}`);
+        this.forceUpdate();
+    }
+
     render() {
         return (
             <div class="content-box product-options">
                 <div>
                 <h4>Ubah Kriteria Pencarian</h4>
                 <br></br>
-                <div>
+                <div style={{overflowY: "scroll", height: 1000}}>
                     Kategori
                     <div id="accordion">
                     {
@@ -38,7 +45,7 @@ class FilterSidebar extends React.Component {
                             // console.log(data.subcategory)
                             return (
                                 <div key={index}>
-                                <div class="accordion-toggle">
+                                <div class="accordion-toggle" onClick={() => this.filterCategory(data.uuid)}>
                                     <p>{ data.name }</p>
                                     <span></span>
                                 </div>

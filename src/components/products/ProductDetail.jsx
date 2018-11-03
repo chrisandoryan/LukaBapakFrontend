@@ -19,6 +19,7 @@ import 'react-image-lightbox/style.css';
 import Breadcrumb from '../misc/Breadcrumb';
 import CategoryService from '../../services/CategoryService';
 import Modal from 'react-modal';
+import GridProduct from './GridProduct';
 
 class ProductDetail extends React.Component {
     constructor(props) {
@@ -42,6 +43,7 @@ class ProductDetail extends React.Component {
             image: {},
             headImage: null,
             isOpen: false,
+            similarProducts: [],
         }
 
         this.openModal = this.openModal.bind(this);
@@ -140,6 +142,13 @@ class ProductDetail extends React.Component {
                     })
                     .catch(err => {
                         // alert(err.message);
+                    })
+                this.service.getSimilarProducts(category.uuid)
+                    .then(res => {
+                        this.setState({similarProducts: res.data});
+                    })
+                    .catch(err => {
+                        alert(err.message);
                     })
                 this.discuss.getDiscussions(this.state.product.uuid)
                     .then(res => {
@@ -690,6 +699,22 @@ class ProductDetail extends React.Component {
                                 </div>
                             </div>
 
+                        </div>
+                        <div className="dummy">
+                            <div className="comment-container">
+                                <div className="product-description">
+                                    <h1>Produk Serupa</h1>
+                                    <div>
+                                        {
+                                            this.state.similarProducts.map((data, index) => {
+                                                return (
+                                                    <GridProduct product={data}></GridProduct>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         {/* <div class="dummy">More</div>
                         <div class="dummy">More</div>

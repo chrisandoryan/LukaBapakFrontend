@@ -23,6 +23,9 @@ class ProductService {
     getProductsByPromo(_promoId) {
         return Request.make("GET", `promotions/${_promoId}`);
     }
+    getSimilarProducts(uuid) {
+        return Request.make("GET", `similars?uuid=${uuid}`);
+    }
 }
 
 export default ProductService;

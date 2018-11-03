@@ -44,15 +44,16 @@ class Profile extends React.Component {
                             <br />
                             <h2>Catatan Pelapak</h2>
                             <br />
-                            <h3>Kepuasan pelanggan adalah kepuasan kami, kepuasan kami adalah peningkatan terhadap produk produk kami. Semangat TPA</h3>
+                            <h3>{this.state.user.lapak_note}</h3>
                         </div>
                         <br />
                         <br />
                     </div>
                     <div className="content-box product-view-wrapper">
-                        <img src="" alt="" />
+                        <img src={this.state.user.header_photo} alt="Header Photo" />
                         <div className="header">{this.state.user.name}</div>
-                        <h4>Menjual Berbagai Jenis barang yang bisa meledak</h4>
+                        {/* <h4>Menjual Berbagai Jenis barang yang bisa meledak</h4> */}
+                        <h4>{this.state.user.description}</h4>
                         {
                             this.state.products.map((data, index) => {
                                 console.log('d', data);

@@ -66,4 +66,26 @@ export default class Request {
             data: data
         });
     }
+
+    static authenticationBearerRequest(basepoint, endpoint, data = {}) {
+        const auth = axios.create({
+            method: "POST",
+            url: `${basepoint}${endpoint}`,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            data: data
+        });
+
+        auth.interceptors.request.use(
+            function (config) {
+                const token = localStorage.getItem('access_token');;
+                if (token) config.headers.Authorization = `Bearer ${token}`;
+                return config;
+            },
+            function (error) {
+                return Promise.reject(error);
+            }
+        );
+    }
 }

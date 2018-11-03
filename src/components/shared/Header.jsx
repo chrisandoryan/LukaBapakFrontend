@@ -136,7 +136,8 @@ class Header extends React.Component {
                                 )
                             })
                         }
-                        <li><button style={{float: "right"}}>Lihat Semua</button></li>
+                        <li></li>
+                        <button style={{float: "right", margin: 10}}>Lihat Semua</button>
                     </div>
                 </ul>
             </div>
