@@ -12,7 +12,8 @@ class EditProfile extends React.Component {
         super(props);
         this.state = {
             products: [],
-            user: {}
+            user: {},
+            image: {}
         }
         this.pelapakService = new PelapakService();
         this.authService = new AuthService();
@@ -47,13 +48,62 @@ class EditProfile extends React.Component {
         let gender = e.target.gender.value;
         let password = e.target.password.value;
 
+        let d = new FormData();
+        d.append("name", username);
+        d.append("birthdate", bdate);
+        d.append("gender", gender);
+        d.append("username", password);
+        d.append("mode", "user");
+
+        this.pelapakService.updateUserProfile(d, this.state.user.uuid)
+            .then(res => {
+                console.log(res);
+                this.componentDidMount();
+            })
+            .catch(err => {
+                alert(err.message);
+            })
         // alert(username+bdate+gender+password);
+    }
+
+    handleImageUpload(e) {
+        e.preventDefault();
+        let file = e.target.files[0];
+        // if (!file.length) return;
+        alert("Uploading");
+        this.createImage(file);
+    }
+
+    createImage(file) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+            this.setState({image: e.target.result});
+        }
+        reader.readAsDataURL(file);
     }
 
     changeLapakInformation(e) {
         e.preventDefault();
         let desc = e.target.description.value;
         let note = e.target.note.value;
+
+        let d = new FormData();
+        d.append("description", desc);
+        d.append("note", note);
+        d.append('image', this.state.image);
+        d.append("mode", "lapak");
+
+        this.pelapakService.updateLapakProfile(d, this.state.user.uuid)
+            .then(res => {
+                console.log(res);
+                this.props.history.replace(`/profile/${this.state.user.uuid}`)
+                this.componentDidMount();
+            })
+            .catch(err => {
+                alert(err.message);
+            })
+
+        // alert(desc+note);
 
     }
 
@@ -113,7 +163,7 @@ class EditProfile extends React.Component {
                         <br/>
                         <div>
                             <p>Header Photo</p>
-                            <input type="file" name="" id=""/>
+                            <input type="file" name="" id="" onChange={this.handleImageUpload.bind(this)}/>
                         </div>
                         <br/>
                         <div>

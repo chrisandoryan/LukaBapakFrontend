@@ -380,9 +380,9 @@ class ProductDetail extends React.Component {
         // console.log(reputation);
         return (
             <div className="app">
-                {/* {
-                    console.log('ANDO', kategori)
-                } */}
+                {
+                    // alert(this.state.product.name)
+                }
                 <Header {...this.props} />
                 <div className="content">
                     <div className="dummy dummy--header">
