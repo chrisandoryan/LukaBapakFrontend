@@ -464,7 +464,7 @@ class ProductDetail extends React.Component {
                                         Masukkan jumlah yang diinginkan:
                                         <br />
                                         <input type="number" min="1" max="20" name="_addCartAmount" onChange={this.updateInputAmountValue} defaultValue={this.state.toCartAmount} />
-                                        <span>Tersedia {this.state.toCartAmount} barang</span>
+                                        {/* <span>Tersedia {this.state.toCartAmount} barang</span> */}
                                         {/* <div className="js-numstepper">
                                             <input type="text" name="_addCartAmount" onChange={this.updateInputAmountValue} />
                                         </div> */}

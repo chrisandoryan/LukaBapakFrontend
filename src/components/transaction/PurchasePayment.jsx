@@ -213,11 +213,12 @@ class PurchasePayment extends React.Component {
 
     handleDownloadRequest(e) {
         e.preventDefault();
-        // window.open('http://localhost:8000/api/payment/download');
+        alert('generating invoice');
+        // window.open();
         this.cartService.downloadPurchaseTransaction()
             .then(res => {
-                console.log(res.data);
-                FileDownload(res.data, 'transaction.xlsx');
+                console.log('uhayyyu', res.data);
+                FileDownload(res.data, 'invoice.pdf');
             })
     }
 

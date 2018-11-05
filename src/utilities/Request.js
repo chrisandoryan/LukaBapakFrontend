@@ -78,10 +78,10 @@ export default class Request {
         });
 
         auth.interceptors.request.use(
-            function (config) {
+            function (c) {
                 const token = localStorage.getItem('access_token');;
-                if (token) config.headers.Authorization = `Bearer ${token}`;
-                return config;
+                if (token) c.headers.Authorization = `Bearer ${token}`;
+                return c;
             },
             function (error) {
                 return Promise.reject(error);

@@ -35,7 +35,7 @@ class CartService {
         // })
     }
     downloadPurchaseTransaction() {
-        return Request.makeToProtectedDownload("GET", "payment/download");
+        return Request.makeToProtectedDownload("GET", `invoice/download`);
     }
 
     createHeaderTransaction(seller_id) {

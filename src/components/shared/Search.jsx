@@ -30,10 +30,10 @@ class Search extends React.Component {
 
     renderSuggestion = suggestion => {
         return (
-            <Link to={`/products/${suggestion.uuid}`} style={{color: "black"}}>
-            <div className="result" style={{wordWrap: "break-word", maxWidth: 400}}>
-                {suggestion.name}
-            </div>
+            <Link to={`/products/${suggestion.uuid}`} style={{ color: "black" }}>
+                <div className="result" style={{ wordWrap: "break-word", maxWidth: 400 }}>
+                    {suggestion.name}
+                </div>
             </Link>
         )
     }
@@ -55,9 +55,25 @@ class Search extends React.Component {
                 sort: ['_score']
             })
             .then(res => {
-                const results = res.data.hits.hits.map(h => h._source)
-                this.setState({ suggestions: results })
-                console.log(results);
+                const results1 = res.data.hits.hits.map(h => h._source)
+                // this.setState({ suggestions: results })
+                axios
+                    .post('http://localhost:9200/products/products/_search', {
+                        // .post('http://localhost:9200/pelapak/new_users/_search', {
+                        query: {
+                            multi_match: {
+                                query: value,
+                                fields: ['name', 'description', 'product_condition']
+                            }
+                        },
+                        sort: ['_score']
+                    })
+                    .then(res => {
+                        const results2 = res.data.hits.hits.map(h => h._source)
+                        this.setState({ suggestions: this.state.suggestions.concat(results1.concat(results2)) })
+                        console.log(results2);
+                    })
+                console.log(results1);
             })
     }
 
@@ -90,9 +106,9 @@ class Search extends React.Component {
                     getSuggestionValue={suggestion => suggestion.fullName}
                     renderSuggestion={this.renderSuggestion}
                     inputProps={inputProps}
-                    style={{display: "inline-block"}}
+                    style={{ display: "inline-block" }}
                 />
-                <button type="submit" style={{width: 40, float: "right"}} onClick={this.doSearchRedirect}><i className="fa fa-search"></i></button>
+                <button type="submit" style={{ width: 40, float: "right" }} onClick={this.doSearchRedirect}><i className="fa fa-search"></i></button>
             </div>
         )
     }

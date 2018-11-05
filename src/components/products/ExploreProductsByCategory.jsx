@@ -322,6 +322,7 @@ class ExploreProductsByCategory extends React.Component {
                                                                 <hr />
                                                                 <br />
                                                                 <div><h2>Rp. {data.price}</h2></div>
+                                                                <div><h2>dijual oleh {data.user.name}</h2></div>
                                                             </div>
                                                         </div>
                                                     </div>
